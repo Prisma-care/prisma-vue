@@ -1,0 +1,23 @@
+# Dependencies
+node_modules
+package-lock.json
+
+# Logs
+*.log
+npm-debug.log*
+yarn-error.log*
+
+# Other
+.nuxt*
+.cache
+
+# Dist folder
+dist
+
+# Dist example generation
+examples/**/dist
+
+# OSX
+*.DS_Store
+.AppleDouble
+.LSOverride
