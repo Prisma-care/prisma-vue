@@ -302,26 +302,27 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 
-const MAX_INPUT_LENGTH=250;
+const MAX_INPUT_LENGTH = 250;
 
 export default {
-  data () {
+  middleware: "authenticated",
+  data() {
     return {
       albums: [],
       categories: [
-        { value: null, text: 'Kies album' },
-        { value: null, text: 'Familie en vrienden' },
-        { value: null, text: 'Gewoonten en tradities' },
-        { value: null, text: 'Muziek' },
-        { value: null, text: 'Vrije tijd' },
-        { value: null, text: 'School en werk' },
-        { value: null, text: 'Spel en hobbies' },
-        { value: null, text: 'Sport' }
+        { value: null, text: "Kies album" },
+        { value: null, text: "Familie en vrienden" },
+        { value: null, text: "Gewoonten en tradities" },
+        { value: null, text: "Muziek" },
+        { value: null, text: "Vrije tijd" },
+        { value: null, text: "School en werk" },
+        { value: null, text: "Spel en hobbies" },
+        { value: null, text: "Sport" }
       ],
       checkedStories: [],
-      editStory: '',
+      editStory: "",
       errored: false,
       form: {
         newAlbum: null
@@ -329,20 +330,20 @@ export default {
       image: null,
       index: null,
       loading: false,
-      newAlbum: '',
-      newStory: '',
+      newAlbum: "",
+      newStory: "",
       previewType: false,
       seen: true,
       stories: [],
-      text: '',
+      text: "",
       uploadError: null,
-      uploadFieldName: 'photos',
+      uploadFieldName: "photos",
       uploadedFile: null,
-      url: 'https://api.prisma.care/v1',
-      youtubeUrl: ''
+      url: "https://api.prisma.care/v1",
+      youtubeUrl: ""
     };
   },
-  mounted () {
+  mounted() {
     this.loadStories();
     this.reset();
   },
@@ -351,17 +352,21 @@ export default {
       return MAX_INPUT_LENGTH - this.newStory.length;
     },
     tweetIsOutOfRange: function() {
-      return this.charactersRemaining == MAX_INPUT_LENGTH
-	|| this.charactersRemaining < 0;
+      return (
+        this.charactersRemaining == MAX_INPUT_LENGTH ||
+        this.charactersRemaining < 0
+      );
     },
     selectAll: {
-      get: function () {
-        return this.stories ? this.checkedStories.length == this.albums.length : false;
+      get: function() {
+        return this.stories
+          ? this.checkedStories.length == this.albums.length
+          : false;
       },
-      set: function (value) {
+      set: function(value) {
         var checkedStories = [];
         if (value) {
-          this.stories.forEach((story) => {
+          this.stories.forEach(story => {
             checkedStories.push(story.id);
           });
         }
@@ -369,7 +374,7 @@ export default {
       }
     },
     isValid() {
-      return (this.newStory != '' && this.newAlbum != '') ? false : 'disabled';
+      return this.newStory != "" && this.newAlbum != "" ? false : "disabled";
     }
   },
   methods: {
@@ -380,7 +385,7 @@ export default {
       var image = new Image();
       var reader = new FileReader();
 
-      reader.onload = (e) => {
+      reader.onload = e => {
         this.image = e.target.result;
       };
 
@@ -389,16 +394,16 @@ export default {
     getYouTubeThumb(url) {
       const id = this.getYouTubeID(url);
       if (id) {
-	return `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
+        return `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
       } else {
-	return null;
+        return null;
       }
     },
-    hideAddModal () {
-      this.$refs.addModalRef.hide()
+    hideAddModal() {
+      this.$refs.addModalRef.hide();
     },
-    hideEditModal () {
-      this.$refs.editModalRef.hide()
+    hideEditModal() {
+      this.$refs.editModalRef.hide();
     },
     hideMedia() {
       this.reset();
@@ -407,13 +412,12 @@ export default {
     onFileChange(e) {
       var files = e.target.files || e.dataTransfer.files;
 
-      if (!files.length)
-        return;
+      if (!files.length) return;
 
       this.createImage(files[0]);
-      this.seen = false
+      this.seen = false;
     },
-    onSubmit (evt) {
+    onSubmit(evt) {
       evt.preventDefault();
       alert(JSON.stringify(this.form));
     },
@@ -423,10 +427,10 @@ export default {
       this.seen = true;
     },
     showAddModal() {
-      this.$refs.addModalRef.show()
+      this.$refs.addModalRef.show();
     },
     showEditModal() {
-      this.$refs.editModalRef.show()
+      this.$refs.editModalRef.show();
     },
     showMediaPreview(mediaType) {
       this.previewType = mediaType;
@@ -434,118 +438,135 @@ export default {
     getYouTubeID(url) {
       const match = /v=(\w*)$/.exec(url);
       if (match) {
-	return match[1];
+        return match[1];
       } else {
-	return null;
+        return null;
       }
     },
     loadStories() {
-      var appId = 'appzWizY3DXnCjpgh';
-      var appKey = 'keyuzHdBFw9QQKZCC';
+      var appId = "appzWizY3DXnCjpgh";
+      var appKey = "keyuzHdBFw9QQKZCC";
       var slug = this.$route.params.slug;
 
       if (slug == "georgetteveekmans") {
-        slug = "GeorgetteVeekmans"
+        slug = "GeorgetteVeekmans";
       } else if (slug == "rosemariedrouet") {
-        slug = "RoseMarieDrouet"
+        slug = "RoseMarieDrouet";
       } else if (slug == "mariejoseemertens") {
-        slug = "MarieJoséeMertens"
+        slug = "MarieJoséeMertens";
       } else if (slug == "rosaandries") {
-        slug = "RosaAndries"
+        slug = "RosaAndries";
       } else if (slug == "louisadevos") {
-        slug = "devos"
+        slug = "devos";
       } else if (slug == "magdawouters") {
-        slug = "Wouters"
+        slug = "Wouters";
       } else if (slug == "feron") {
-	slug = "Feron"
+        slug = "Feron";
       } else {
-	slug = "Lea"
+        slug = "Lea";
       }
 
-      axios.
-	post(`${this.url}/user/signin`, {
-	  "email": "thorgalle@gmail.com",
-	  "password": "flipflopflap"
-	}).then(response => {
-	  if (response.status === 200) {
-	    this.token = response.data.response.token;
-	    this.userId = response.data.response.id;
-	    this.patientId = response.data.response.patients.length ? response.data.response.patients[0].patient_id : undefined;
-	    return axios.get(
-	      `	${this.url}/patient/${this.patientId}/album`, {
-		headers: {
-		  Authorization: "Bearer " + this.token
-		}
-	      });
-	  } else {
-	    return Promise.reject("login fail");
-	  }
-	})
-	.then(response => {
-	  this.albums = response.data.response;
+      axios
+        .post(`${this.url}/user/signin`, {
+          email: "thorgalle@gmail.com",
+          password: "flipflopflap"
+        })
+        .then(response => {
+          if (response.status === 200) {
+            this.token = response.data.response.token;
+            this.userId = response.data.response.id;
+            this.patientId = response.data.response.patients.length
+              ? response.data.response.patients[0].patient_id
+              : undefined;
+            return axios.get(`	${this.url}/patient/${this.patientId}/album`, {
+              headers: {
+                Authorization: "Bearer " + this.token
+              }
+            });
+          } else {
+            return Promise.reject("login fail");
+          }
+        })
+        .then(response => {
+          this.albums = response.data.response;
 
-	  this.albums.forEach((album) => {
-	    album.stories.sort((story1, story2) => Date.parse(story1.createdAt.date) > Date.parse(story2.createdAt.date));
-	  });
+          this.albums.forEach(album => {
+            album.stories.sort(
+              (story1, story2) =>
+                Date.parse(story1.createdAt.date) >
+                Date.parse(story2.createdAt.date)
+            );
+          });
 
-	  this.albums.forEach((album, outerIndex) => {
-	    album.stories = album.stories.map((v, i) => {
-	      v.index = outerIndex + i;
-	      return v;
-	    })
-	  })
+          this.albums.forEach((album, outerIndex) => {
+            album.stories = album.stories.map((v, i) => {
+              v.index = outerIndex + i;
+              return v;
+            });
+          });
 
-	  this.albums.forEach(album => {
-	    album.stories.forEach((story) => {
-	      if (story) {
-		const slide = {
-		  title: story.description,
-		}
+          this.albums.forEach(album => {
+            album.stories.forEach(story => {
+              if (story) {
+                const slide = {
+                  title: story.description
+                };
 
-		if (story.type === 'youtube') {
-		  const ytid = this.getYouTubeID(story.source);
-		  slide.href = story.source;
-		  if (ytid) {
-		    slide.poster = this.getYouTubeThumb(story.source);
-		    slide.youtube = ytid;
-		  }
-		  slide.type = 'text/html';
-		} else if (story.type === 'image') {
-		  slide.href = story.source;
-		  slide.type = 'image/jpeg';
+                if (story.type === "youtube") {
+                  const ytid = this.getYouTubeID(story.source);
+                  slide.href = story.source;
+                  if (ytid) {
+                    slide.poster = this.getYouTubeThumb(story.source);
+                    slide.youtube = ytid;
+                  }
+                  slide.type = "text/html";
+                } else if (story.type === "image") {
+                  slide.href = story.source;
+                  slide.type = "image/jpeg";
 
-		  let getImg = new Promise((resolve, reject ) => {
-		    var oReq = new XMLHttpRequest();
-		    oReq.open("GET", story.source, true);
-		    oReq.setRequestHeader('Authorization', "Bearer " + this.token);
-		    oReq.responseType = "arraybuffer";
-		    oReq.onload = function (oEvent) {
-		      var arrayBuffer = oReq.response;
-		      resolve(oReq);
-		    };
-		    oReq.send(null);
-		  });
+                  let getImg = new Promise((resolve, reject) => {
+                    var oReq = new XMLHttpRequest();
+                    oReq.open("GET", story.source, true);
+                    oReq.setRequestHeader(
+                      "Authorization",
+                      "Bearer " + this.token
+                    );
+                    oReq.responseType = "arraybuffer";
+                    oReq.onload = function(oEvent) {
+                      var arrayBuffer = oReq.response;
+                      resolve(oReq);
+                    };
+                    oReq.send(null);
+                  });
 
-		  getImg.then((response) => {
-		    const type = response.getResponseHeader('content-type');
-		    document.querySelector(`#story-${story.id} > img`).src = arrayBufferToDataUrl(response.response, type);
-		  });
-		}
+                  getImg.then(response => {
+                    const type = response.getResponseHeader("content-type");
+                    document.querySelector(
+                      `#story-${story.id} > img`
+                    ).src = arrayBufferToDataUrl(response.response, type);
+                  });
+                }
 
-		function arrayBufferToDataUrl(buffer, type) {
-		  const base64 = btoa([].reduce.call(new Uint8Array(buffer), (p, c) => p + String.fromCharCode(c), ''));
-		  return `data:${type};base64,${base64}`;
-		};
-	      }
-	    })
-	  })
-	})
-	.catch(error => {
+                function arrayBufferToDataUrl(buffer, type) {
+                  const base64 = btoa(
+                    [].reduce.call(
+                      new Uint8Array(buffer),
+                      (p, c) => p + String.fromCharCode(c),
+                      ""
+                    )
+                  );
+                  return `data:${type};base64,${base64}`;
+                }
+              }
+            });
+          });
+        })
+        .catch(error => {
           console.log(error);
           this.errored = true;
-	})
-	.finally(() => this.loading = false);
-    },
+        })
+        .finally(() => (this.loading = false));
+    }
   }
 };
 </script>

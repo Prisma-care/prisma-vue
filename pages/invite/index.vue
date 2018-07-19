@@ -91,6 +91,7 @@
 
 <script>
 export default {
+  middleware: "authenticated",
   data() {
     return {
       step: 1,

@@ -59,91 +59,90 @@
 </template>
 
 <script>
-import Resident from '@/components/Resident'
+import Resident from "@/components/Resident";
 
 export default {
-  data () {
+  middleware: "authenticated",
+  data() {
     return {
-      cities: [
-        'Anderlecht', 'Brussels', 'Laken', 'Vorst'
-      ],
+      cities: ["Anderlecht", "Brussels", "Laken", "Vorst"],
       form: {
-        name: '',
+        name: "",
         email: null
       }
-    }
+    };
   },
   components: {
     Resident
   },
   methods: {
-    hideAddModal () {
-      this.$refs.addModalRef.hide()
+    hideAddModal() {
+      this.$refs.addModalRef.hide();
     },
-    onSubmit (evt) {
+    onSubmit(evt) {
       evt.preventDefault();
       alert(JSON.stringify(this.form));
     },
-    showAddModal () {
-      this.$refs.addModalRef.show()
+    showAddModal() {
+      this.$refs.addModalRef.show();
     }
   },
   asyncData() {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-	resolve({
-	  residents: [
-	    {
-	      id: "1",
-	      picture: "lea.jpg",
-	      name: "Lea",
-	      slug: "lea",
-	    },
-	    {
-	      id: "2",
-	      picture: "masure.jpg",
-	      name: "Mr. Masure",
-	      slug: "masure",
-	    },
-	    {
-	      id: "3",
-	      picture :"briard.jpg",
-	      name: "Mme. Briard",
-	      slug: "briard",
-	    },
-	    {
-	      id: "4",
-	      picture: "luc.jpg",
-	      name: "Luc",
-	      slug: "luc",
-	    },
-	    {
-	      id: "5",
-	      picture: "feron.jpg",
-	      name: "Mr. Feron",
-	      slug: "feron",
-	    },
-	    {
-	      id: "6",
-	      picture: "felix.jpg",
-	      name: "Felix",
-	      slug: "felix",
-	    },
-	    {
-	      id: "7",
-	      picture: "vooght.jpg",
-	      name: "Mme. De Vooght",
-	      slug: "vooght",
-	    },
-	    {
-	      id: "8",
-	      picture: "pelgrims.jpg",
-	      name: "Mme. Pelgrims",
-	      slug: "pelgrims",
-	    }
-	  ]
-	})
-      }, 0)
+        resolve({
+          residents: [
+            {
+              id: "1",
+              picture: "lea.jpg",
+              name: "Lea",
+              slug: "lea"
+            },
+            {
+              id: "2",
+              picture: "masure.jpg",
+              name: "Mr. Masure",
+              slug: "masure"
+            },
+            {
+              id: "3",
+              picture: "briard.jpg",
+              name: "Mme. Briard",
+              slug: "briard"
+            },
+            {
+              id: "4",
+              picture: "luc.jpg",
+              name: "Luc",
+              slug: "luc"
+            },
+            {
+              id: "5",
+              picture: "feron.jpg",
+              name: "Mr. Feron",
+              slug: "feron"
+            },
+            {
+              id: "6",
+              picture: "felix.jpg",
+              name: "Felix",
+              slug: "felix"
+            },
+            {
+              id: "7",
+              picture: "vooght.jpg",
+              name: "Mme. De Vooght",
+              slug: "vooght"
+            },
+            {
+              id: "8",
+              picture: "pelgrims.jpg",
+              name: "Mme. Pelgrims",
+              slug: "pelgrims"
+            }
+          ]
+        });
+      }, 0);
     });
   }
 };
