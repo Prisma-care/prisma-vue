@@ -12,6 +12,9 @@ yarn-error.log*
 .nuxt*
 .cache
 
+# Tern
+.tern-port
+
 # Dist folder
 dist
 
