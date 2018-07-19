@@ -22,7 +22,7 @@ Then, it is necessary to install dependencies:
 yarn install
 ```
 
-Finally, serve with hot reaload at ```localhost:3000```:
+Finally, serve with hot reload at ```localhost:3000```:
 
 ```
 yarn run dev
