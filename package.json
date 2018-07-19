@@ -1,0 +1,49 @@
+{
+  "name": "prisma",
+  "version": "1.0.0",
+  "description": "Helps caregivers connect with the residents of care homes through personal stories",
+  "contributors": [
+    {
+      "name": "Terencio Agozzino <terencio.agozzino@gmail.com>",
+      "url": "https://github.com/rememberYou"
+    },
+    {
+      "name": "Frederik Vincx <frederik.vincx@gmail.com>",
+      "url": "https://github.com/frits"
+    },
+    {
+      "name": "Yens Broothaers",
+      "url": "https://github.com/Yensbroo"
+    },
+    {
+      "name": "Thor Galle",
+      "url": "https://github.com/th0rgall"
+    },
+    {
+      "name": "Cedric Vleminckx",
+      "url": "https://github.com/CedricVleminckx"
+    }
+  ],
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@nuxtjs/axios": "^5.0.0",
+    "bootstrap": "4.1.1",
+    "bootstrap-vue": "^2.0.0-rc.11",
+    "nuxt": "^1.0.0",
+    "nuxt-material-design-icons": "^1.0.4",
+    "sass-loader": "^7.0.3",
+    "vee-validate": "^2.1.0-beta.6",
+    "vue-gallery": "^1.4.0",
+    "vue-material": "^1.0.0-beta-10.2"
+  },
+  "devDependencies": {
+    "cross-env": "^5.0.1",
+    "node-sass": "^4.9.2"
+  }
+}
