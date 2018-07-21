@@ -1,0 +1,12 @@
+.container-alert {
+  padding: 5px;
+  position: fixed;
+  top: 2em;
+  left: 35em;
+  z-index: 999;
+  opacity: 0.8;
+
+  strong { padding: 0 5px; }
+}
+
+.alert { margin: 10px; }

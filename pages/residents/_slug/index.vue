@@ -1,5 +1,15 @@
 <template>
   <div class="container">
+    <div class="container-alert">
+      <b-alert
+	:show="dismissCountDown"
+    	variant="success"
+	@dismiss-count-down="countDownChanged"
+	class="d-flex align-items-center mr-2">
+	<i class="material-icons mr-2">done</i> Geschiedenis met <strong>succes</strong> verwijderd!
+      </b-alert>
+    </div>
+
     <div class="resi-header d-print-none">
       <img v-if="$route.params.slug === 'feron'"
       	   :src="require(`@/assets/img/residents/feron.jpg`)" class="rounded-circle">
@@ -321,6 +331,8 @@ export default {
         { value: null, text: 'Sport' }
       ],
       checkedStories: [],
+      dismissSecs: 2,
+      dismissCountDown: 0,
       editStory: '',
       errored: false,
       form: {
@@ -376,6 +388,9 @@ export default {
     addYoutube() {
       this.videoAdded = true;
     },
+    countDownChanged (dismissCountDown) {
+      this.dismissCountDown = dismissCountDown;
+    },
     createImage(file) {
       var image = new Image();
       var reader = new FileReader();
@@ -424,6 +439,9 @@ export default {
     },
     showAddModal() {
       this.$refs.addModalRef.show()
+    },
+    showAlert () {
+      this.dismissCountDown = this.dismissSecs
     },
     showEditModal() {
       this.$refs.editModalRef.show()
