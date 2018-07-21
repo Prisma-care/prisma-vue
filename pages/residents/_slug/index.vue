@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+
     <div class="container-alert">
       <b-alert
 	:show="dismissCountDown"
@@ -191,6 +192,17 @@
 	  </div>
 	</b-modal>
 
+	<!-- Modal to delete a story -->
+	<b-modal ref="deleteModalRef" id="deleteStoryModal" hide-footer
+		 title="Bevestiging van de onderdrukking">
+	  <p>Weet je zeker dat je dit verhaal wilt verwijderen?</p>
+	  <div class="row">
+	    <div class="col-12">
+	      <b-btn variant="outline-danger" @click="deleteStory()" block>Verwijderen</b-btn>
+	    </div>
+	  </div>
+	</b-modal>
+
 	<div class="story-container">
 
 	  <b-btn
@@ -264,25 +276,39 @@
 		    </div>
 		  </div>
 
-		  <b-btn v-if="story['description'] && !story['source']"
-			 variant="outline-light" size="sm"
-			 class=" d-flex justify-content-center align-items-center mb-2"
-			 @click="showEditModal">
-		    <i class="material-icons md-18 mr-2">add_photo_alternate</i> Voeg beeld toe <em>TODO</em>
-		  </b-btn>
+		  <div class="row">
+		    <div class="col-12">
+		      <b-btn v-if="story['description'] && !story['source']"
+			     variant="outline-light" size="sm"
+			     class="btn-edit d-flex justify-content-center align-items-center mb-2"
+			     @click="showEditModal">
+			<i class="material-icons md-18 mr-2">add_photo_alternate</i> Voeg beeld toe <em>TODO</em>
+		      </b-btn>
+		    </div>
+		    <div class="col-6">
+		      <b-btn v-if="story['description']"
+			     variant="outline-light" size="sm"
+			     class="btn-edit d-flex justify-content-center align-items-center"
+			     @click="showEditModal">
+			<i class="material-icons md-18 mr-2">edit</i> Pas tekst aan
+		      </b-btn>
 
-		  <b-btn v-if="story['description']"
-			 variant="outline-light" size="sm"
-			 class="btn-edit d-flex justify-content-center align-items-center"
-			 @click="showEditModal">
-		    <i class="material-icons md-18 mr-2">edit</i> Pas tekst aan
-		  </b-btn>
-		  <b-btn v-if="!story['description']"
-			 variant="outline-light" size="sm"
-			 class="btn-add d-flex justify-content-center align-items-center"
-			 @click="showEditModal">
-		    <i class="material-icons md-18 mr-2">edit</i> Voeg tekst toe
-		  </b-btn>
+		      <b-btn v-if="!story['description']"
+			     variant="outline-light" size="sm"
+			     class="btn-add d-flex justify-content-center align-items-center"
+			     @click="showEditModal">
+			<i class="material-icons md-18 mr-2">edit</i> Voeg tekst toe
+		      </b-btn>
+		    </div>
+		    <div class="col-6">
+		      <b-btn variant="outline-danger" size="sm"
+			     class="d-flex justify-content-center
+				    align-items-center"
+			     @click="showDeleteModal(index, story.id)">
+			<i class="material-icons md-18 mr-2">clear</i> Deleten
+		      </b-btn>
+		    </div>
+		  </div>
 		</div> <!-- ./v-for="(album, index) in albums" -->
 	      </div> <!-- ./row -->
 	    </div> <!-- ./story-category -->
@@ -346,6 +372,8 @@ export default {
       previewType: false,
       seen: true,
       stories: [],
+      storyToDelete: '',
+      storyIndex: null,
       text: '',
       uploadError: null,
       uploadFieldName: 'photos',
@@ -401,6 +429,26 @@ export default {
 
       reader.readAsDataURL(file);
     },
+    deleteStory() {
+      var storyUrl = `${this.url}/patient/${this.patientId}/story/${this.storyToDelete}`;
+
+      var config = {
+        headers: {
+          Authorization: "Bearer " + this.token
+        }
+      };
+
+      axios.delete(storyUrl, config)
+	.then(response => {
+	  this.albums.splice(this.storyIndex, 1);
+       	  this.showAlert();
+        })
+        .catch(error => {
+          console.log(error);
+          this.errored = true;
+        });
+      this.hideDeleteModal();
+    },
     getYouTubeThumb(url) {
       const id = this.getYouTubeID(url);
       if (id) {
@@ -414,6 +462,9 @@ export default {
     },
     hideEditModal () {
       this.$refs.editModalRef.hide()
+    },
+    hideDeleteModal () {
+      this.$refs.deleteModalRef.hide()
     },
     hideMedia() {
       this.reset();
@@ -445,6 +496,11 @@ export default {
     },
     showEditModal() {
       this.$refs.editModalRef.show()
+    },
+    showDeleteModal (indexStory, currentStory) {
+      this.storyToDelete = currentStory;
+      this.storyIndex = indexStory;
+      this.$refs.deleteModalRef.show()
     },
     showMediaPreview(mediaType) {
       this.previewType = mediaType;
