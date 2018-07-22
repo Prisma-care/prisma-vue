@@ -6,7 +6,16 @@
   z-index: 999;
   opacity: 0.8;
 
-  strong { padding: 0 5px; }
-}
+  .alert { margin: 10px; }
 
-.alert { margin: 10px; }
+  .clear { clear: both; }
+
+  .slide-fade-enter-active { transition: all .3s ease; }
+
+  .slide-fade-leave-active { transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0); }
+
+  .slide-fade-enter, .slide-fade-leave-to {
+    transform: translateY(-60px);
+    opacity: 0;
+  }
+}
