@@ -1,15 +1,7 @@
 <template>
   <div class="container">
 
-    <div class="container-alert">
-      <b-alert
-	:show="dismissCountDown"
-    	variant="success"
-	@dismiss-count-down="countDownChanged"
-	class="d-flex align-items-center mr-2">
-	<i class="material-icons mr-2">done</i> Geschiedenis met <strong>succes</strong> verwijderd!
-      </b-alert>
-    </div>
+    <SuccessAlert ref="success-alert" message="Succesvol aangepast verhaal!" />
 
     <div class="resi-header d-print-none">
       <img v-if="$route.params.slug === 'feron'"
@@ -178,16 +170,16 @@
 	<!-- Modal to edit a story -->
 	<b-modal ref="editModalRef" id="editStoryModal" hide-footer
 		 title="Bewerk tekst">
+
 	  <b-form-textarea id="formEdit"
-			   v-model="editStory"
-			   placeholder="Vertel het verhaal"
-			   :rows="3"
-			   :max-rows="6">
+	  		   v-model="form.description"
+	  		   :rows="3"
+	  		   :max-rows="6">
 	  </b-form-textarea>
 	  <hr>
 	  <div class="row">
 	    <div class="col-12">
-	      <b-btn variant="outline-primary" block>Bewerk tekst</b-btn>
+	      <b-btn variant="outline-primary" @click="editStory()" block>Bewerk tekst</b-btn>
 	    </div>
 	  </div>
 	</b-modal>
@@ -289,7 +281,7 @@
 		      <b-btn v-if="story['description']"
 			     variant="outline-light" size="sm"
 			     class="btn-edit d-flex justify-content-center align-items-center"
-			     @click="showEditModal">
+			     @click="showEditModal(index, story)">
 			<i class="material-icons md-18 mr-2">edit</i> Pas tekst aan
 		      </b-btn>
 
@@ -338,6 +330,7 @@
 </template>
 
 <script>
+import SuccessAlert from '@/components/SuccessAlert';
 import axios from 'axios';
 
 const MAX_INPUT_LENGTH=250;
@@ -357,12 +350,11 @@ export default {
         { value: null, text: 'Sport' }
       ],
       checkedStories: [],
-      dismissSecs: 2,
-      dismissCountDown: 0,
-      editStory: '',
       errored: false,
+      focusStory: null,
       form: {
-        newAlbum: null
+        newAlbum: null,
+	description: null,
       },
       image: null,
       index: null,
@@ -372,6 +364,7 @@ export default {
       previewType: false,
       seen: true,
       stories: [],
+      storyToEdit: '',
       storyToDelete: '',
       storyIndex: null,
       text: '',
@@ -381,6 +374,9 @@ export default {
       url: 'https://api.prisma.care/v1',
       youtubeUrl: ''
     };
+  },
+  components: {
+    SuccessAlert
   },
   mounted () {
     this.loadStories();
@@ -416,9 +412,6 @@ export default {
     addYoutube() {
       this.videoAdded = true;
     },
-    countDownChanged (dismissCountDown) {
-      this.dismissCountDown = dismissCountDown;
-    },
     createImage(file) {
       var image = new Image();
       var reader = new FileReader();
@@ -448,6 +441,30 @@ export default {
           this.errored = true;
         });
       this.hideDeleteModal();
+    },
+    editStory() {
+      var storyUrl = `${this.url}/patient/${this.patientId}/story/${this.focusStory}`;
+
+      var body = {
+        description: this.form.description,
+        creatorId: this.userId
+      };
+
+      var config = {
+        headers: {
+          Authorization: "Bearer " + this.token
+        }
+      };
+
+      axios.patch(storyUrl, body, config)
+        .then(response => {
+	   SuccessAlert.methods.showAlert();
+        })
+        .catch(error => {
+	  console.log(error);
+	  this.errored = true;
+        });
+      this.hideEditModal();
     },
     getYouTubeThumb(url) {
       const id = this.getYouTubeID(url);
@@ -491,11 +508,11 @@ export default {
     showAddModal() {
       this.$refs.addModalRef.show()
     },
-    showAlert () {
-      this.dismissCountDown = this.dismissSecs
-    },
-    showEditModal() {
-      this.$refs.editModalRef.show()
+    showEditModal(indexStory, currentStory) {
+      this.form.description = currentStory.description;
+      this.focusStory = currentStory.id;
+      this.storyIndex = indexStory;
+      this.$refs.editModalRef.show();
     },
     showDeleteModal (indexStory, currentStory) {
       this.storyToDelete = currentStory;
