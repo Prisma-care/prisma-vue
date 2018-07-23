@@ -295,7 +295,6 @@
 import SuccessAlert from "@/components/SuccessAlert";
 import axios from "axios";
 import arrayBufferToDataUrl from '@/utils/image';
-//import { upload } from '@/assets/js/file-upload.service';
 
 const MAX_INPUT_LENGTH = 250;
 
