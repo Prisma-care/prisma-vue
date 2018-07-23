@@ -327,10 +327,7 @@ export default {
       storyIndex: null,
       text: "",
       storyId: "",
-      text: "",
-      uploadError: null,
       uploadFieldName: "photos",
-      uploadedFile: null,
       url: "https://api.prisma.care/v1",
       youtubeUrl: ""
     };
@@ -495,8 +492,6 @@ export default {
       this.hideAddModal();
     },
     reset() {
-      this.uploadError = null;
-      this.uploadedFiles = [];
       this.seen = true;
     },
     showAddModal() {
