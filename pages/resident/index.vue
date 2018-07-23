@@ -419,9 +419,6 @@ export default {
           this.errored = true;
         });
     },
-    // addStoryFile() {
-    //   console.log(this.storyId);
-    // },
     createImage(file) {
       var image = new Image();
       var reader = new FileReader();
