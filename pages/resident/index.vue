@@ -1,6 +1,5 @@
 <template>
-  <div class="container">
-
+  <div class="container-resident">
     <SuccessAlert ref="success-alert" message="Succesvol aangepast verhaal!" />
 
     <div class="resi-header d-print-none">
@@ -15,6 +14,8 @@
         </a>
       </nav>
     </div>
+
+    <div class="container">
 
     <!-- Modal to add a story -->
     <b-modal ref="addModalRef" class="story-add" id="addStoryModal" hide-footer title="Voeg verhaal toe">
@@ -284,7 +285,8 @@
 	</div>
       </div>
     </section>
-  </div>
+    </div>
+    </div>
   <!-- container -->
 </template>
 
