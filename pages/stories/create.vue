@@ -107,6 +107,7 @@
 </template>
 <script>
 export default {
+  middleware: "authentication",
   data() {
     return {
       newStory: "",
