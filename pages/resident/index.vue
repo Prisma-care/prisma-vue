@@ -4,7 +4,8 @@
 
     <div class="resi-header d-print-none">
       <img class="rounded-circle" :src="'TODO NULL'">
-      <h1 class="resi-header-displayname">{{ $route.params.slug }}</h1>
+      <h1 class="resi-header-displayname">Mr. {{this.$store.state.patient.lastName}}</h1>
+      <h2>{{`${this.$store.state.patient.firstName} ${this.$store.state.patient.lastName}`}}</h2>
     </div>
 
     <div class="resi-nav">
@@ -384,7 +385,7 @@ export default {
       this.image = e.target.files[0];
     },
     addStory() {
-      var storyUrl = `${this.url}/patient/${this.$store.state.patient}/story`;
+      var storyUrl = `${this.url}/patient/${this.$store.state.patient.id}/story`;
       var body = {
         albumId: this.newAlbum,
         description: this.newStory,
@@ -397,7 +398,7 @@ export default {
         .post(storyUrl, body)
         .then(response => {
           this.storyId = response.data.response.id;
-          const storyUrl = `${this.url}/patient/${this.$store.state.patient}/story/${
+          const storyUrl = `${this.url}/patient/${this.$store.state.patient.id}/story/${
             this.storyId
           }/asset`;
 
@@ -432,7 +433,7 @@ export default {
       reader.readAsDataURL(file);
     },
     deleteStory() {
-      var storyUrl = `${this.url}/patient/${this.$store.state.patient}/story/${
+      var storyUrl = `${this.url}/patient/${this.$store.state.patient.id}/story/${
         this.storyToDelete
       }`;
 
@@ -449,7 +450,7 @@ export default {
       this.hideDeleteModal();
     },
     editStory() {
-      var storyUrl = `${this.url}/patient/${this.$store.state.patient}/story/${
+      var storyUrl = `${this.url}/patient/${this.$store.state.patient.id}/story/${
         this.focusStory
       }`;
 
@@ -531,7 +532,7 @@ export default {
       // var appKey = "keyuzHdBFw9QQKZCC";
       // var slug = this.$route.params.slug;
 
-     axios.get(`${this.url}/patient/${this.$store.state.patient}/album`)
+     axios.get(`${this.url}/patient/${this.$store.state.patient.id}/album`)
         .then(response => {
           this.albums = response.data.response;
 

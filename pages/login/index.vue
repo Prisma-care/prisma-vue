@@ -49,9 +49,14 @@ export default {
           setAuthToken(`Bearer ${token}`);
 
           // set patient ID
-          let patientID = user.data.response.patients.length ? user.data.response.patients[0].patient_id : undefined;
-          this.$store.commit('setPatient', patientID);
-          Cookie.set("patient", patientID)
+          const patient = {};
+          if (user.data.response.patients.length) {
+            patient.id = user.data.response.patients[0].patient_id;
+            patient.firstName = user.data.response.patients[0].first_name; 
+            patient.lastName = user.data.response.patients[0].last_name;  
+          }
+          this.$store.commit('setPatient', patient);
+          Cookie.set("patient", patient.id)
           this.$store.commit('setUser', user.data.response.id);
           Cookie.set("user", user.data.response.id);
 
