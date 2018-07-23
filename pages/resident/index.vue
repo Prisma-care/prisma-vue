@@ -294,6 +294,7 @@
 <script>
 import SuccessAlert from "@/components/SuccessAlert";
 import axios from "axios";
+import arrayBufferToDataUrl from '@/utils/image';
 //import { upload } from '@/assets/js/file-upload.service';
 
 const MAX_INPUT_LENGTH = 250;
@@ -585,16 +586,6 @@ export default {
                     oReq.send(null);
                   });
 
-                  function arrayBufferToDataUrl(buffer, type) {
-                    const base64 = btoa(
-                      [].reduce.call(
-                        new Uint8Array(buffer),
-                        (p, c) => p + String.fromCharCode(c),
-                        ""
-                      )
-                    );
-                    return `data:${type};base64,${base64}`;
-                  }
                   getImg.then(response => {
                     const type = response.getResponseHeader("content-type");
                     document.querySelector(
