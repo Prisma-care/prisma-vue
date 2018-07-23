@@ -666,7 +666,7 @@ export default {
             this.patientId = response.data.response.patients.length
               ? response.data.response.patients[0].patient_id
               : undefined;
-            return axios.get(`	${this.url}/patient/${this.patientId}/album`, {
+            return axios.get(`${this.url}/patient/${this.patientId}/album`, {
               headers: {
                 Authorization: "Bearer " + this.token
               }
