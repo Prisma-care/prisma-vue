@@ -1,14 +1,23 @@
 import Vuex from 'vuex';
+import setAuthToken from '../utils/setAuthentication';
 
 const cookieparser = require('cookieparser');
 const createStore = () => {
   return new Vuex.Store({
     state: {
-      auth: null
+      auth: null,
+      patient: null,
+      user: null,
     },
     mutations: {
-      update(state, data) {
+      setAuth(state, data) {
         state.auth = data;
+      },
+      setPatient(state, data) {
+        state.patient = data;
+      },
+      setUser(state, data) {
+        state.user = data;
       }
     },
     actions: {
@@ -21,9 +30,12 @@ const createStore = () => {
         if (req.headers.cookie) {
           const parsed = cookieparser.parse(req.headers.cookie);
 
-          authToken = parsed.jwtToken;
+          commit('setAuth', parsed.jwtToken);
+          // set token for axios requests
+          setAuthToken(`Bearer ${parsed.jwtToken}`);
+          commit('setPatient', parsed.patient);
+          commit('setUser', parsed.user);
         }
-        commit('update', authToken)
       }
     }
   })

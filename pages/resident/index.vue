@@ -4,22 +4,7 @@
     <SuccessAlert ref="success-alert" message="Succesvol aangepast verhaal!" />
 
     <div class="resi-header d-print-none">
-      <img v-if="$route.params.slug === 'feron'" :src="require(`@/assets/img/residents/feron.jpg`)" class="rounded-circle">
-      <img v-if="$route.params.slug === 'briard'" :src="require(`@/assets/img/residents/briard.jpg`)" class="rounded-circle">
-      <img v-if="$route.params.slug === 'felix'" :src="require(`@/assets/img/residents/felix.jpg`)" class="rounded-circle">
-      <img v-if="$route.params.slug === 'lea'" :src="require(`@/assets/img/residents/lea.jpg`)" class="rounded-circle">
-      <img v-if="$route.params.slug === 'luc'" :src="require(`@/assets/img/residents/luc.jpg`)" class="rounded-circle">
-      <img v-if="$route.params.slug === 'masure'" :src="require(`@/assets/img/residents/masure.jpg`)" class="rounded-circle">
-      <img v-if="$route.params.slug === 'pelgrims'" :src="require(`@/assets/img/residents/pelgrims.jpg`)" class="rounded-circle">
-      <img v-if="$route.params.slug === 'vooght'" :src="require(`@/assets/img/residents/vooght.jpg`)" class="rounded-circle">
-      <img v-if="$route.params.slug !== 'feron' &&
-      		 $route.params.slug !== 'briard' &&
-		 $route.params.slug !== 'felix' &&
-      		 $route.params.slug !== 'lea' &&
-      		 $route.params.slug !== 'luc' &&
-      		 $route.params.slug !== 'masure' &&
-      		 $route.params.slug !== 'pelgrims' &&
-      		 $route.params.slug !== 'vooght'" class="rounded-circle" :src="require(`@/assets/img/residents/no-image.jpg`)">
+      <img class="rounded-circle" :src="'TODO NULL'">
       <h1 class="resi-header-displayname">{{ $route.params.slug }}</h1>
     </div>
 
@@ -35,7 +20,7 @@
     <b-modal ref="addModalRef" class="story-add" id="addStoryModal" hide-footer title="Voeg verhaal toe">
 
       <div class="media">
-        <img class="mr-3 rounded-circle" src="http://i.pravatar.cc/48" alt="Avatar Afbeelding">
+        <img class="mr-3 rounded-circle" src="'TODO NULL'" alt="Avatar Afbeelding">
         <div class="media-body">
           <b-form-textarea id="textarea1" v-model="newStory" :no-resize=true placeholder="Vertel het verhaal" :rows="3" maxlength="250"
             :max-rows="6">
@@ -311,44 +296,11 @@ import axios from "axios";
 const MAX_INPUT_LENGTH = 250;
 
 export default {
+	middleware: 'authentication',
   data() {
     return {
       albums: [],
       albumId: 2,
-      categories: [
-        {
-          value: null,
-          text: "Kies album"
-        },
-        {
-          value: null,
-          text: "Familie en vrienden"
-        },
-        {
-          value: null,
-          text: "Gewoonten en tradities"
-        },
-        {
-          value: null,
-          text: "Muziek"
-        },
-        {
-          value: null,
-          text: "Vrije tijd"
-        },
-        {
-          value: null,
-          text: "School en werk"
-        },
-        {
-          value: null,
-          text: "Spel en hobbies"
-        },
-        {
-          value: null,
-          text: "Sport"
-        }
-      ],
       checkedStories: [],
       editStory: "",
       errored: false,
@@ -430,41 +382,27 @@ export default {
       this.image = e.target.files[0];
     },
     addStory() {
-      var storyUrl = `${this.url}/patient/${this.patientId}/story`;
+      var storyUrl = `${this.url}/patient/${this.$store.state.patient}/story`;
       var body = {
         albumId: this.newAlbum,
         description: this.newStory,
         creatorId: this.userId
       };
 
-      var config = {
-        headers: {
-          Authorization: "Bearer " + this.token
-        }
-      };
+			// TODO AUTOMATICALLY
 
       axios
-        .post(storyUrl, body, config)
+        .post(storyUrl, body)
         .then(response => {
-          const token = {
-            headers: {
-              Authorization: "Bearer " + this.token
-            }
-          };
           this.storyId = response.data.response.id;
-          const storyUrl = `${this.url}/patient/${this.patientId}/story/${
+          const storyUrl = `${this.url}/patient/${this.$store.state.patient}/story/${
             this.storyId
           }/asset`;
 
           let formData = new FormData();
           formData.append("asset", this.image);
-          const config = {
-            headers: {
-              Authorization: "Bearer {token}"
-            }
-          };
           axios
-            .post(storyUrl, formData, token)
+            .post(storyUrl, formData)
             .then(response => {
               console.log(response);
             })
@@ -492,18 +430,12 @@ export default {
       reader.readAsDataURL(file);
     },
     deleteStory() {
-      var storyUrl = `${this.url}/patient/${this.patientId}/story/${
+      var storyUrl = `${this.url}/patient/${this.$store.state.patient}/story/${
         this.storyToDelete
       }`;
 
-      var config = {
-        headers: {
-          Authorization: "Bearer " + this.token
-        }
-      };
-
       axios
-        .delete(storyUrl, config)
+        .delete(storyUrl)
         .then(response => {
           this.albums.splice(this.storyIndex, 1);
           this.showAlert();
@@ -515,7 +447,7 @@ export default {
       this.hideDeleteModal();
     },
     editStory() {
-      var storyUrl = `${this.url}/patient/${this.patientId}/story/${
+      var storyUrl = `${this.url}/patient/${this.$store.state.patient}/story/${
         this.focusStory
       }`;
 
@@ -524,14 +456,8 @@ export default {
         creatorId: this.userId
       };
 
-      var config = {
-        headers: {
-          Authorization: "Bearer " + this.token
-        }
-      };
-
       axios
-        .patch(storyUrl, body, config)
+        .patch(storyUrl, body)
         .then(response => {
           SuccessAlert.methods.showAlert();
         })
@@ -599,82 +525,11 @@ export default {
       }
     },
     loadStories() {
-      var appId = "appzWizY3DXnCjpgh";
-      var appKey = "keyuzHdBFw9QQKZCC";
-      var slug = this.$route.params.slug;
+      // var appId = "appzWizY3DXnCjpgh";
+      // var appKey = "keyuzHdBFw9QQKZCC";
+      // var slug = this.$route.params.slug;
 
-      // if (slug == "georgetteveekmans") {
-      //   slug = "GeorgetteVeekmans";
-      // } else if (slug == "rosemariedrouet") {
-      //   slug = "RoseMarieDrouet";
-      // } else if (slug == "mariejoseemertens") {
-      //   slug = "MarieJoséeMertens";
-      // } else if (slug == "rosaandries") {
-      //   slug = "RosaAndries";
-      // } else if (slug == "louisadevos") {
-      //   slug = "devos";
-      // } else if (slug == "magdawouters") {
-      //   slug = "Wouters";
-      // } else if (slug == "feron") {
-      //   slug = "Feron";
-      // } else {
-      //   slug = "Lea";
-      // }
-
-      // axios
-      //   .post(`${this.url}/user/signin`, {
-      //     email: "thorgalle@gmail.com",
-      //     password: "flipflopflap"
-      //   })
-      //   .then(response => {
-      //     if (response.status === 200) {
-      //       this.token = response.data.response.token;
-      //       this.userId = response.data.response.id;
-      //       this.patientId = response.data.response.patients.length
-      //         ? response.data.response.patients[0].patient_id
-      //         : undefined;
-      //       return axios.get(`	${this.url}/patient/${this.patientId}/album`, {
-      //         headers: {
-      //           Authorization: "Bearer " + this.token
-      //         }
-      //       });
-      //     } else {
-      //       return Promise.reject("login fail");
-      //     }
-      //   })
-      //   .then(response => {
-      //     this.albums = response.data.response;
-
-      //     this.albums.forEach(album => {
-      //       album.stories.sort(
-      //         (story1, story2) =>
-      //           Date.parse(story1.createdAt.date) >
-      //           Date.parse(story2.createdAt.date)
-      //       );
-      //     });
-      //     });
-
-      axios
-        .post(`${this.url}/user/signin`, {
-          email: "thorgalle@gmail.com",
-          password: "flipflopflap"
-        })
-        .then(response => {
-          if (response.status === 200) {
-            this.token = response.data.response.token;
-            this.userId = response.data.response.id;
-            this.patientId = response.data.response.patients.length
-              ? response.data.response.patients[0].patient_id
-              : undefined;
-            return axios.get(`${this.url}/patient/${this.patientId}/album`, {
-              headers: {
-                Authorization: "Bearer " + this.token
-              }
-            });
-          } else {
-            return Promise.reject("login fail");
-          }
-        })
+     axios.get(`${this.url}/patient/${this.$store.state.patient}/album`)
         .then(response => {
           this.albums = response.data.response;
 
@@ -717,7 +572,7 @@ export default {
                     oReq.open("GET", story.source, true);
                     oReq.setRequestHeader(
                       "Authorization",
-                      "Bearer " + this.token
+                      "Bearer " + this.$store.state.auth
                     );
                     oReq.responseType = "arraybuffer";
                     oReq.onload = function(oEvent) {

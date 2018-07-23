@@ -20,9 +20,10 @@
 <script>
 import Cookie from "js-cookie";
 import axios from "axios";
+import setAuthToken from "../../utils/setAuthentication";
 
 export default {
-  middleware: "notAuthenticated",
+  middleware: "authentication",
   data() {
     return {
       email: "",
@@ -41,9 +42,20 @@ export default {
         .then(user => {
           console.log(user);
           const { token } = user.data.response;
-          this.$store.commit("update", token);
+          this.$store.commit("setAuth", token);
+          // set token for persistence over sessions
           Cookie.set("jwtToken", token);
-          this.$router.push(`/residents/lea`);
+          // set token for axios requests
+          setAuthToken(`Bearer ${token}`);
+
+          // set patient ID
+          let patientID = user.data.response.patients.length ? user.data.response.patients[0].patient_id : undefined;
+          this.$store.commit('setPatient', patientID);
+          Cookie.set("patient", patientID)
+          this.$store.commit('setUser', user.data.response.id);
+          Cookie.set("user", user.data.response.id);
+
+          this.$router.push('/resident');
         })
         .catch(err => {});
     }
