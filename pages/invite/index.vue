@@ -48,9 +48,7 @@
       <p>In de email komt automatisch meer info onder je bericht over hoe Prisma werk.
         <a href="#">Bekijk email voorvertoning</a>
       </p>
-
       <button class="btn btn-primary btn-right" @click="send" :disabled="isValidMessage">Verzend email</button>
-
     </div>
     <div class="col-md-5">
       <div class="card bg-light border-light">
