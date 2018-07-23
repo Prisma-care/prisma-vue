@@ -94,10 +94,9 @@
         <p>
           Help uw families {{ $route.params.slug }} te leren kennen door middel van verhalen over zijn leven.
         </p>
-        <b-btn variant="primary" class="btn-circle d-flex justify-content-center
-		      align-items-center mb-1 d-print-none mx-auto" @click="showAddModal">
+        <a href="/stories/create" class="btn btn-primary d-flex justify-content-center align-items-center mb-1 d-print-none mx-auto">
           <i class="material-icons">add</i>Verhaal toevoegen
-        </b-btn>
+        </a>
         <a href="https://prisma.care/levensverhaal-posters/">
           <b-img thumbnail src="https://prisma.care/wp-content/uploads/2018/05/prisma-poster-maken-pelgrims.jpg" alt="Poster maken"
           />
@@ -156,14 +155,14 @@
 
 	<div class="story-container">
 
-	  <b-btn
+	  <a
+    href="/stories/create"
 	    v-if="this.albums.length > 0"
 	    variant="primary" size="sm"
 	    id="addStoryBtn"
-	    class="btn btn-primary btn-sm d-flex justify-content-center align-items-center mb-1 d-print-none"
-	    @click="showAddModal">
+	    class="btn btn-primary btn-sm d-flex justify-content-center align-items-center mb-1 d-print-none">
 	    <i class="material-icons">add</i>Verhaal toevoegen
-	  </b-btn>
+	  </a>
 
 	  <div v-for="(album, imageIndex) in albums"
 	       v-bind:key="album.id + 'stories'">
@@ -298,7 +297,7 @@ import axios from "axios";
 const MAX_INPUT_LENGTH = 250;
 
 export default {
-	middleware: 'authentication',
+  middleware: "authentication",
   data() {
     return {
       albums: [],
@@ -391,15 +390,15 @@ export default {
         creatorId: this.userId
       };
 
-			// TODO AUTOMATICALLY
+      // TODO AUTOMATICALLY
 
       axios
         .post(storyUrl, body)
         .then(response => {
           this.storyId = response.data.response.id;
-          const storyUrl = `${this.url}/patient/${this.$store.state.patient}/story/${
-            this.storyId
-          }/asset`;
+          const storyUrl = `${this.url}/patient/${
+            this.$store.state.patient
+          }/story/${this.storyId}/asset`;
 
           let formData = new FormData();
           formData.append("asset", this.image);
@@ -531,7 +530,8 @@ export default {
       // var appKey = "keyuzHdBFw9QQKZCC";
       // var slug = this.$route.params.slug;
 
-     axios.get(`${this.url}/patient/${this.$store.state.patient}/album`)
+      axios
+        .get(`${this.url}/patient/${this.$store.state.patient}/album`)
         .then(response => {
           this.albums = response.data.response;
 
