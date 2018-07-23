@@ -167,6 +167,13 @@
       <div v-if="loading">Loading...</div>
       <div v-else>
 
+      <gallery
+        :images="gallery"
+        :index="index"
+        :options="{youTubePlayerVars: { showinfo: 0, rel: 0, autoplay: 1, modestbranding: 1 }, youTubeClickToPlay: false}"
+        @close="index = null">
+      </gallery>
+
 	<!-- Modal to edit a story -->
 	<b-modal ref="editModalRef" id="editStoryModal" hide-footer
 		 title="Bewerk tekst">
@@ -206,7 +213,7 @@
 	    <i class="material-icons">add</i>Verhaal toevoegen
 	  </b-btn>
 
-	  <div v-for="(album, index) in albums"
+	  <div v-for="(album, imageIndex) in albums"
 	       v-bind:key="album.id + 'stories'">
 	    <div class="story-category" :id="album.title">
 	      <div class="story-category-header">
@@ -332,6 +339,7 @@
 <script>
 import SuccessAlert from '@/components/SuccessAlert';
 import axios from 'axios';
+//import { upload } from '@/assets/js/file-upload.service';
 
 const MAX_INPUT_LENGTH=250;
 
@@ -356,6 +364,7 @@ export default {
         newAlbum: null,
 	description: null,
       },
+      gallery: [],
       image: null,
       index: null,
       loading: false,
@@ -627,6 +636,7 @@ export default {
 		  const base64 = btoa([].reduce.call(new Uint8Array(buffer), (p, c) => p + String.fromCharCode(c), ''));
 		  return `data:${type};base64,${base64}`;
 		};
+    this.gallery.push(slide);
 	      }
 	    })
 	  })

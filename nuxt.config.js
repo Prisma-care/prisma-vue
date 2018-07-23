@@ -54,7 +54,8 @@ module.exports = {
   plugins: [
     {
     src: '~plugins/vee-validate.js',
-    ssr: true
+    src: '~/plugins/vue-gallery.js',
+    ssr: false
     }
   ],
 
