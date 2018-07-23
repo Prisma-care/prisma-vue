@@ -3,7 +3,7 @@
     <SuccessAlert ref="success-alert" message="Succesvol aangepast verhaal!" />
 
     <div class="resi-header d-print-none">
-      <img class="rounded-circle" :src="'TODO NULL'">
+      <img class="rounded-circle" :src="require(`@/assets/img/residents/avatar.png`)">
       <h1 class="resi-header-displayname">Mr. {{this.$store.state.patient.lastName}}</h1>
       <h2>{{`${this.$store.state.patient.firstName} ${this.$store.state.patient.lastName}`}}</h2>
     </div>
