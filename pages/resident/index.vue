@@ -115,27 +115,27 @@
 
       <section v-else>
 	<div v-if="loadingStories">Loading...</div>
-      <div v-else>
+	<div v-else>
 
-      <gallery
-        :images="gallery"
-        :index="index"
-        :options="{youTubePlayerVars: { showinfo: 0, rel: 0, autoplay: 1, modestbranding: 1 }, youTubeClickToPlay: false}"
-        @close="index = null">
-      </gallery>
+	  <gallery
+            :images="galleryImages"
+            :index="galleryIndex"
+            :options="{youTubePlayerVars: { showinfo: 0, rel: 0, autoplay: 1, modestbranding: 1 }, youTubeClickToPlay: false}"
+            @close="galleryIndex = null">
+	  </gallery>
 
-	<!-- Modal to edit a story -->
-	<b-modal ref="editModalRef" id="editStoryModal" hide-footer
-		 title="Bewerk tekst">
+	  <!-- Modal to edit a story -->
+	  <b-modal ref="editModalRef" id="editStoryModal" hide-footer
+		   title="Bewerk tekst">
 
-	  <b-form-textarea id="formEdit"
-	  		   v-model="formEdit.description"
-	  		   :rows="3"
-	  		   :max-rows="6">
-	  </b-form-textarea>
+	    <b-form-textarea id="formEdit"
+	  		     v-model="formEdit.description"
+	  		     :rows="3"
+	  		     :max-rows="6">
+	    </b-form-textarea>
 
-	  <b-form-group id="editCategoryInputGroup" label-for="categoryInput">
-            <b-form-select id="categoryInput" v-model="formEdit.category" :options="this.albums.map(a => ({
+	    <b-form-group id="editCategoryInputGroup" label-for="categoryInput">
+              <b-form-select id="categoryInput" v-model="formEdit.category" :options="this.albums.map(a => ({
 	  									value: a.id,
 	  									text: a.title
 	  									}))" required>
@@ -169,7 +169,7 @@
 	    <i class="material-icons">add</i>Verhaal toevoegen
 	  </b-btn>
 
-	  <div v-for="(album, index) in albums"
+	  <div v-for="(album, albumIndex) in albums"
 	       v-bind:key="album.id + 'stories'">
 	    <div class="story-category" :id="album.title">
 	      <div class="story-category-header">
@@ -199,13 +199,13 @@
 			{{ story['Year'] }}
 		      </b-badge>
 
-		      <b-btn variant="primary" @click="index = story['index']"
+		      <b-btn variant="primary" @click="galleryIndex = story.index"
 			     v-if="story['type'] == 'youtube'"
 			     class="btn-play d-flex justify-content-center align-items-center">
 			<i class="material-icons md-32 mx-auto">play_arrow</i>
 		      </b-btn>
 
-		      <b-btn variant="primary" @click="index = story['index']"
+		      <b-btn variant="primary" @click="galleryIndex = story.index"
 			     v-if="story['type'] == 'image'"
 			     class="btn-zoom d-flex justify-content-center align-items-center">
 			<i class="material-icons md-32 mx-auto">zoom_out_map</i>
@@ -299,10 +299,11 @@
 </template>
 
 <script>
-import storyService from "@/services/story";
-import videoUtils from "@/utils/video";
-import arrayBufferToDataUrl from "@/utils/image";
-import VueGallery from "vue-gallery";
+import storyService from '@/services/story';
+import videoUtils from '@/utils/video';
+import arrayBufferToDataUrl from '@/utils/image';
+
+import VueGallery from 'vue-gallery';
 
 export default {
   middleware: "authentication",
@@ -322,7 +323,8 @@ export default {
       errored: false,
       focusIndex: null,
       focusStory: null,
-      gallery: [],
+      galleryImages: [],
+      galleryIndex: null,
       image: null,
       imagePreview: null,
       index: null,
@@ -511,7 +513,7 @@ export default {
                   });
                 }
 
-                this.gallery.push(slide);
+                this.galleryImages.push(slide);
               }
             });
           });
