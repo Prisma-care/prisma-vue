@@ -62,8 +62,8 @@ const StoryService = {
    * @param {number} patientId
    * @returns {object}
    */
-  getStories(patientId) {
-    return axios.get(`${URL}/${patientId}/album`);
+  async getStories(patientId) {
+    return await axios.get(`${URL}/${patientId}/album`);
   },
 };
 
