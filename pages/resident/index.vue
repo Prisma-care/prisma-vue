@@ -17,106 +17,104 @@
 
     <div class="container">
 
-    <!-- Modal to add a story -->
-    <b-modal ref="addModalRef" class="story-add" id="addStoryModal" hide-footer title="Voeg verhaal toe">
+      <!-- Modal to add a story -->
+      <b-modal ref="addModalRef" class="story-add" id="addStoryModal" hide-footer title="Voeg verhaal toe">
 
-      <div class="media">
-        <img class="mr-3 rounded-circle" src="'TODO NULL'" alt="Avatar Afbeelding">
-        <div class="media-body">
-          <b-form-textarea id="textarea1" v-model="newStory" :no-resize=true placeholder="Vertel het verhaal" :rows="3" maxlength="250"
-            :max-rows="6">
-          </b-form-textarea>
-          <p>
-            <strong>{{ charactersRemaining }}</strong> resterende tekens</p>
-        </div>
-      </div>
+	<div class="media">
+          <img class="mr-3 rounded-circle" src="'TODO NULL'" alt="Avatar Afbeelding">
+          <div class="media-body">
+            <b-form-textarea id="textarea1" v-model="formAdd.description" :no-resize=true placeholder="Het verhaal moet kort zijn." :rows="3" maxlength="250"
+			     :max-rows="6">
+            </b-form-textarea>
+          </div>
+	</div>
 
-      <b-form>
+	<b-form>
 
-        <div class="story-add-media d-flex justify-content-start mb-4">
-          <b-btn variant="light" size="sm" class="d-flex align-items-center mr-2" @click="showMediaPreview('photo')">
-            <i class="material-icons mr-2">camera_alt</i> Foto
-          </b-btn>
+          <div class="story-add-media d-flex justify-content-start mb-4">
+            <b-btn variant="light" size="sm" class="d-flex align-items-center mr-2" @click="showMediaPreview('photo')">
+              <i class="material-icons mr-2">camera_alt</i> Foto
+            </b-btn>
 
-          <b-btn variant="light" size="sm" class="d-flex align-items-center" @click="showMediaPreview('video')">
-            <i class="material-icons mr-2">movie</i> Video
-          </b-btn>
-        </div>
+            <b-btn variant="light" size="sm" class="d-flex align-items-center" @click="showMediaPreview('video')">
+              <i class="material-icons mr-2">movie</i> Video
+            </b-btn>
+          </div>
 
-        <div class="story-add-photopreview" v-if="image && seen == false">
-          <div class="card">
-            <img :src="imagePreview" class="img-responsive" width="125" height="125">
-            <div class="card-img-overlay text-right p-1">
-              <a href="#" @click="hideMedia" class="close text-white">×</a>
+          <div class="story-add-photopreview" v-if="image && seen == false">
+            <div class="card">
+              <img :src="imagePreview" class="img-responsive" width="125" height="125">
+              <div class="card-img-overlay text-right p-1">
+		<a href="#" @click="hideMedia" class="close text-white">×</a>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div v-if="previewType == 'photo' && seen" class="dropbox">
-          <input type="file" :name="uploadFieldName" @change="onFileChange" accept="image/*" class="input-file">
-          <p>
-            <i class="material-icons">arrow_upward</i>
-            <br> Sleep uw bestand hier of klik om te bladeren.
-          </p>
-        </div>
-
-        <div class="mt-4" v-if="previewType == 'video'">
-          {{ this.reset() }}
-
-          <b-form-group id="" label="" label-for="">
-
-            <label for="youtubeUrl">YouTube Link:</label>
-
-            <b-form-input id="youtubeUrl" type="text" placeholder="https://www.youtube.com/watch?v=ffSnk4v3aeg" @input="addYoutube" v-model="youtubeUrl">
-            </b-form-input>
-          </b-form-group>
-        </div>
-
-        <b-form-group id="CategoryInputGroup" label-for="categoryInput">
-          <b-form-select id="categoryInput" v-model="newAlbum" :options="this.albums.map(a => ({
-				   value: a.id,
-				   text: a.title
-				   }))" required>
-          </b-form-select>
-        </b-form-group>
-        <hr>
-        <div class="row">
-          <div class="col-12">
-            <b-btn type="submit" variant="outline-primary" @click="addStory" block>Voeg Toe</b-btn>
+          <div v-if="previewType == 'photo' && seen" class="dropbox">
+            <input type="file" :name="uploadFieldName" @change="onFileChange" accept="image/*" class="input-file">
+            <p>
+              <i class="material-icons">arrow_upward</i>
+              <br> Sleep uw bestand hier of klik om te bladeren.
+            </p>
           </div>
-        </div>
-      </b-form>
-    </b-modal>
 
-    <section v-if="errored || this.albums.length == 0" v-cloak class="text-center d-print-none row">
-      <div class="col-md-8 mx-auto">
-        <p class="lead lead-lg">Wie is {{ $route.params.slug }}?</p>
-        <p>
-          Help uw families {{ $route.params.slug }} te leren kennen door middel van verhalen over zijn leven.
-        </p>
-        <b-btn variant="primary" class="btn-circle d-flex justify-content-center
-		      align-items-center mb-1 d-print-none mx-auto" @click="showAddModal">
-          <i class="material-icons">add</i>Verhaal toevoegen
-        </b-btn>
-        <a href="https://prisma.care/levensverhaal-posters/">
-          <b-img thumbnail src="https://prisma.care/wp-content/uploads/2018/05/prisma-poster-maken-pelgrims.jpg" alt="Poster maken"
-          />
-        </a>
-        <a href="https://prisma.care/levensverhaal-posters/">Hoe maak je een poster?</a>
-        <hr class="mt-4">
-        <h2 class="mb-3">Hulp van je familie</h2>
-        <p>Wie heeft er nog foto's van
-          <strong>{{ $route.params.slug }}
-          </strong>, en kan de verhalen aanvullen?</p>
-        <b-btn href="/invite" variant="outline-primary" class="btn-add">
-          <i class="material-icons md-18 mr-2">email</i>Nodig familie uit
-        </b-btn>
-      </div>
-      <!-- ./col-md-8 -->
-    </section>
+          <div class="mt-4" v-if="previewType == 'video'">
+            {{ this.reset() }}
 
-    <section v-else>
-      <div v-if="loading">Loading...</div>
+            <b-form-group id="" label="" label-for="">
+
+              <label for="youtubeUrl">YouTube Link:</label>
+
+              <b-form-input id="youtubeUrl" type="text"
+			    placeholder="https://www.youtube.com/watch?v=ffSnk4v3aeg" @input="addYoutube" v-model="formAdd.youtubeUrl">
+              </b-form-input>
+            </b-form-group>
+          </div>
+
+          <b-form-group id="AddCategoryInputGroup" label-for="categoryInput">
+            <b-form-select id="categoryInput" v-model="formAdd.category" :options="this.albums.map(a => ({
+										value: a.id,
+										text: a.title
+										}))" required>
+            </b-form-select>
+          </b-form-group>
+          <hr>
+          <div class="row">
+            <div class="col-12">
+              <b-btn type="submit" variant="outline-primary" @click="addStory" block>Voeg Toe</b-btn>
+            </div>
+          </div>
+	</b-form>
+      </b-modal>
+
+      <section v-if="errored || this.albums.length == 0" v-cloak class="text-center d-print-none row">
+	<div class="col-md-8 mx-auto">
+          <p class="lead lead-lg">Wie is {{ $route.params.slug }}?</p>
+          <p>
+            Help uw families {{ $route.params.slug }} te leren kennen door middel van verhalen over zijn leven.
+          </p>
+          <b-btn variant="primary" class="btn-circle d-flex justify-content-center
+					  align-items-center mb-1 d-print-none mx-auto" @click="showAddModal">
+            <i class="material-icons">add</i>Verhaal toevoegen
+          </b-btn>
+          <a href="https://prisma.care/levensverhaal-posters/">
+            <b-img thumbnail src="https://prisma.care/wp-content/uploads/2018/05/prisma-poster-maken-pelgrims.jpg" alt="Poster maken"
+		   />
+          </a>
+          <a href="https://prisma.care/levensverhaal-posters/">Hoe maak je een poster?</a>
+          <hr class="mt-4">
+          <h2 class="mb-3">Hulp van je familie</h2>
+          <p>Wie heeft er nog foto's van
+            <strong>{{ $route.params.slug }}
+            </strong>, en kan de verhalen aanvullen?</p>
+          <b-btn href="/invite" variant="outline-primary" class="btn-add">
+            <i class="material-icons md-18 mr-2">email</i>Nodig familie uit
+          </b-btn>
+	</div> <!-- ./col-md-8 -->
+      </section>
+
+      <section v-else>
+	<div v-if="loadingStories">Loading...</div>
       <div v-else>
 
       <gallery
@@ -131,10 +129,18 @@
 		 title="Bewerk tekst">
 
 	  <b-form-textarea id="formEdit"
-	  		   v-model="form.description"
+	  		   v-model="formEdit.description"
 	  		   :rows="3"
 	  		   :max-rows="6">
 	  </b-form-textarea>
+
+	  <b-form-group id="editCategoryInputGroup" label-for="categoryInput">
+            <b-form-select id="categoryInput" v-model="formEdit.category" :options="this.albums.map(a => ({
+	  									value: a.id,
+	  									text: a.title
+	  									}))" required>
+            </b-form-select>
+          </b-form-group>
 	  <hr>
 	  <div class="row">
 	    <div class="col-12">
@@ -156,8 +162,7 @@
 
 	<div class="story-container">
 
-	  <b-btn
-	    v-if="this.albums.length > 0"
+	  <b-btn v-if="this.albums.length > 0"
 	    variant="primary" size="sm"
 	    id="addStoryBtn"
 	    class="btn btn-primary btn-sm d-flex justify-content-center align-items-center mb-1 d-print-none"
@@ -165,7 +170,7 @@
 	    <i class="material-icons">add</i>Verhaal toevoegen
 	  </b-btn>
 
-	  <div v-for="(album, imageIndex) in albums"
+	  <div v-for="(album, index) in albums"
 	       v-bind:key="album.id + 'stories'">
 	    <div class="story-category" :id="album.title">
 	      <div class="story-category-header">
@@ -228,6 +233,7 @@
 		  </div>
 
 		  <div class="row">
+
 		    <div class="col-12">
 		      <b-btn v-if="story['description'] && !story['source']"
 			     variant="outline-light" size="sm"
@@ -236,6 +242,7 @@
 			<i class="material-icons md-18 mr-2">add_photo_alternate</i> Voeg beeld toe <em>TODO</em>
 		      </b-btn>
 		    </div>
+
 		    <div class="col-6">
 		      <b-btn v-if="story['description']"
 			     variant="outline-light" size="sm"
@@ -251,11 +258,12 @@
 			<i class="material-icons md-18 mr-2">edit</i> Voeg tekst toe
 		      </b-btn>
 		    </div>
+
 		    <div class="col-6">
 		      <b-btn variant="outline-danger" size="sm"
 			     class="d-flex justify-content-center
 				    align-items-center"
-			     @click="showDeleteModal(index, story.id)">
+			     @click="showDeleteModal(index, story)">
 			<i class="material-icons md-18 mr-2">clear</i> Deleten
 		      </b-btn>
 		    </div>
@@ -280,75 +288,65 @@
 		geselecteerd
 	      </span>
 	    </div>
-	    <a href="javascript:window.print()" class="btn btn-sm btn-primary d-flex align-items-center" :disabled="checkedStories.length > 0"><i class="material-icons mr-2">print</i> Print</a>
+	    <a href="javascript:window.print()" class="btn btn-sm
+						       btn-primary d-flex align-items-center"
+	       :disabled="checkedStories.length > 0"><i class="material-icons mr-2">print</i> Print</a>
 	  </div>
 	</div>
       </div>
     </section>
-    </div>
-    </div>
-  <!-- container -->
+    </div>  <!-- ./container -->
+  </div>  <!-- ./container-resident -->
 </template>
 
 <script>
-import axios from "axios";
+import storyService from '@/services/story';
+import videoUtils from '@/utils/video';
 import arrayBufferToDataUrl from '@/utils/image';
-
-const MAX_INPUT_LENGTH = 250;
+import VueGallery from 'vue-gallery';
 
 export default {
-	middleware: 'authentication',
+  middleware: 'authentication',
   data() {
     return {
       albums: [],
-      albumId: 2,
       checkedStories: [],
-      editStory: "",
-      errored: false,
-      focusStory: null,
-      form: {
-        newAlbum: null,
-        description: null
+      formAdd: {
+        category: null,
+        description: null,
+        youtubeUrl: null,
       },
+      formEdit: {
+        category: null,
+        description: null,
+      },
+      errored: false,
+      focusIndex: null,
+      focusStory: null,
       gallery: [],
-      imagePreview: null,
       image: null,
+      imagePreview: null,
       index: null,
-      loading: false,
-      newAlbum: "",
-      newStory: "",
+      loadingStories: false,
       previewType: false,
       seen: true,
       stories: [],
-      storyToEdit: "",
-      storyToDelete: "",
-      storyIndex: null,
-      text: "",
-      storyId: "",
-      uploadFieldName: "photos",
-      url: "https://api.prisma.care/v1",
-      youtubeUrl: ""
+      text: '',
+      uploadFieldName: 'photos',
+      videoAdded: false,
     };
   },
+  components: {
+    gallery: VueGallery,
+  },
   mounted() {
-    this.loadStories();
+    this.getStories();
     this.reset();
   },
   computed: {
-    charactersRemaining: function() {
-      return MAX_INPUT_LENGTH - this.newStory.length;
-    },
-    tweetIsOutOfRange: function() {
-      return (
-        this.charactersRemaining == MAX_INPUT_LENGTH ||
-        this.charactersRemaining < 0
-      );
-    },
     selectAll: {
       get: function() {
-        return this.stories
-          ? this.checkedStories.length == this.albums.length
-          : false;
+        return this.stories ? this.checkedStories.length == this.albums.length : false;
       },
       set: function(value) {
         var checkedStories = [];
@@ -358,55 +356,44 @@ export default {
           });
         }
         this.checkedStories = checkedStories;
-      }
+      },
     },
   },
   methods: {
-    addYoutube() {
-      this.videoAdded = true;
-    },
-    onFileChange(e) {
-      var files = e.target.files || e.dataTransfer.files;
-
-      if (!files.length) return;
-      this.createImage(files[0]);
-      this.seen = false;
-      this.image = e.target.files[0];
-    },
     addStory() {
-      var storyUrl = `${this.url}/patient/${this.$store.state.patient.id}/story`;
       var body = {
-        albumId: this.newAlbum,
-        description: this.newStory,
-        creatorId: this.userId
+        albumId: this.formAdd.category,
+        description: this.formAdd.description,
+        creatorId: this.$store.state.user,
       };
 
-			// TODO AUTOMATICALLY
+      var patientId = this.$store.state.patient.id;
 
-      axios
-        .post(storyUrl, body)
+      storyService
+        .addStory(patientId, body)
         .then(response => {
-          this.storyId = response.data.response.id;
-          const storyUrl = `${this.url}/patient/${this.$store.state.patient.id}/story/${
-            this.storyId
-          }/asset`;
+          let storyId = response.data.response.id;
 
-          let formData = new FormData();
-          formData.append("asset", this.image);
-          axios
-            .post(storyUrl, formData)
-            .then(response => {
-              console.log(response);
-            })
-            .catch(error => {
-              console.log(error);
-              this.errored = true;
-            });
+          if (this.image != null) {
+            storyService
+              .addImageToStory(patientId, storyId, new FormData().append('asset', this.image))
+              .then(response => {
+                console.log(response);
+              })
+              .catch(error => {
+                console.log(error);
+                this.errored = true;
+              });
+          }
         })
         .catch(error => {
           console.log(error);
           this.errored = true;
-        });
+        })
+        .finally(() => (this.image = null));
+    },
+    addYoutube() {
+      this.videoAdded = true;
     },
     createImage(file) {
       var image = new Image();
@@ -418,16 +405,15 @@ export default {
 
       reader.readAsDataURL(file);
     },
+    getYouTubeThumb(url) {
+      videoUtils.getYouTubeThumb(url);
+    },
     deleteStory() {
-      var storyUrl = `${this.url}/patient/${this.$store.state.patient.id}/story/${
-        this.storyToDelete
-      }`;
-
-      axios
-        .delete(storyUrl)
+      var patientId = this.$store.state.patient.id;
+      storyService
+        .deleteStory(patientId, this.focusStory)
         .then(response => {
-          this.albums.splice(this.storyIndex, 1);
-          this.showAlert();
+          this.albums.splice(this.focusIndex, 1);
         })
         .catch(error => {
           console.log(error);
@@ -436,17 +422,16 @@ export default {
       this.hideDeleteModal();
     },
     editStory() {
-      var storyUrl = `${this.url}/patient/${this.$store.state.patient.id}/story/${
-        this.focusStory
-      }`;
-
       var body = {
-        description: this.form.description,
-        creatorId: this.userId
+        // category: this.formEdit.category,
+        description: this.formEdit.description,
+        creatorId: this.$store.state.user,
       };
 
-      axios
-        .patch(storyUrl, body)
+      var patientId = this.$store.state.patient.id;
+
+      storyService
+        .editStory(patientId, this.focusStory, body)
         .then(response => {
           console.log(response);
         })
@@ -456,75 +441,18 @@ export default {
         });
       this.hideEditModal();
     },
-    getYouTubeThumb(url) {
-      const id = this.getYouTubeID(url);
-      if (id) {
-        return `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
-      } else {
-        return null;
-      }
-    },
-    hideAddModal() {
-      this.$refs.addModalRef.hide();
-    },
-    hideEditModal() {
-      this.$refs.editModalRef.hide();
-    },
-    hideDeleteModal() {
-      this.$refs.deleteModalRef.hide();
-    },
-    hideMedia() {
-      this.reset();
-      this.previewType = false;
-    },
+    getStories() {
+      var patientId = this.$store.state.patient.id;
 
-    onSubmit(evt) {
-      this.addStory();
-
-      this.hideAddModal();
-    },
-    reset() {
-      this.seen = true;
-    },
-    showAddModal() {
-      this.$refs.addModalRef.show();
-    },
-    showEditModal(indexStory, currentStory) {
-      this.form.description = currentStory.description;
-      this.focusStory = currentStory.id;
-      this.storyIndex = indexStory;
-      this.$refs.editModalRef.show();
-    },
-    showDeleteModal(indexStory, currentStory) {
-      this.storyToDelete = currentStory;
-      this.storyIndex = indexStory;
-      this.$refs.deleteModalRef.show();
-    },
-    showMediaPreview(mediaType) {
-      this.previewType = mediaType;
-    },
-    getYouTubeID(url) {
-      const match = /v=(\w*)$/.exec(url);
-      if (match) {
-        return match[1];
-      } else {
-        return null;
-      }
-    },
-    loadStories() {
-      // var appId = "appzWizY3DXnCjpgh";
-      // var appKey = "keyuzHdBFw9QQKZCC";
-      // var slug = this.$route.params.slug;
-
-     axios.get(`${this.url}/patient/${this.$store.state.patient.id}/album`)
+      storyService
+        .getStories(patientId)
         .then(response => {
           this.albums = response.data.response;
 
           this.albums.forEach(album => {
             album.stories.sort(
               (story1, story2) =>
-                Date.parse(story1.createdAt.date) >
-                Date.parse(story2.createdAt.date)
+                Date.parse(story1.createdAt.date) > Date.parse(story2.createdAt.date)
             );
           });
 
@@ -539,29 +467,26 @@ export default {
             album.stories.forEach(story => {
               if (story) {
                 const slide = {
-                  title: story.description
+                  title: story.description,
                 };
 
-                if (story.type === "youtube") {
-                  const ytid = this.getYouTubeID(story.source);
+                if (story.type === 'youtube') {
+                  const youtubeId = videoUtils.getYouTubeID(story.source);
                   slide.href = story.source;
-                  if (ytid) {
-                    slide.poster = this.getYouTubeThumb(story.source);
-                    slide.youtube = ytid;
+                  if (youtubeId) {
+                    slide.poster = videoUtils.getYouTubeThumb(story.source);
+                    slide.youtube = youtubeId;
                   }
-                  slide.type = "text/html";
-                } else if (story.type === "image") {
+                  slide.type = 'text/html';
+                } else if (story.type === 'image') {
                   slide.href = story.source;
-                  slide.type = "image/jpeg";
+                  slide.type = 'image/jpeg';
 
                   let getImg = new Promise((resolve, reject) => {
                     var oReq = new XMLHttpRequest();
-                    oReq.open("GET", story.source, true);
-                    oReq.setRequestHeader(
-                      "Authorization",
-                      "Bearer " + this.$store.state.auth
-                    );
-                    oReq.responseType = "arraybuffer";
+                    oReq.open('GET', story.source, true);
+                    oReq.setRequestHeader('Authorization', 'Bearer ' + this.$store.state.auth);
+                    oReq.responseType = 'arraybuffer';
                     oReq.onload = function(oEvent) {
                       var arrayBuffer = oReq.response;
                       resolve(oReq);
@@ -570,10 +495,11 @@ export default {
                   });
 
                   getImg.then(response => {
-                    const type = response.getResponseHeader("content-type");
-                    document.querySelector(
-                      `#story-${story.id} > img`
-                    ).src = arrayBufferToDataUrl(response.response, type);
+                    const type = response.getResponseHeader('content-type');
+                    document.querySelector(`#story-${story.id} > img`).src = arrayBufferToDataUrl(
+                      response.response,
+                      type
+                    );
                   });
                 }
 
@@ -586,8 +512,54 @@ export default {
           console.log(error);
           this.errored = true;
         })
-        .finally(() => (this.loading = false));
-    }
-  }
+        .finally(() => (this.loadingStories = false));
+    },
+    hideAddModal() {
+      this.$refs.addModalRef.hide();
+    },
+    hideEditModal() {
+      this.$refs.editModalRef.hide();
+    },
+    hideDeleteModal() {
+      this.$refs.deleteModalRef.hide();
+    },
+    hideMedia() {
+      this.reset();
+      this.previewType = false;
+    },
+    onFileChange(e) {
+      var files = e.target.files || e.dataTransfer.files;
+
+      if (!files.length) return;
+
+      this.createImage(files[0]);
+      this.seen = false;
+      this.image = e.target.files[0];
+    },
+    onSubmit(evt) {
+      this.addStory();
+      this.hideAddModal();
+    },
+    reset() {
+      this.seen = true;
+    },
+    showAddModal() {
+      this.$refs.addModalRef.show();
+    },
+    showDeleteModal(index, story) {
+      this.focusStory = story.id;
+      this.focusIndex = index;
+      this.$refs.deleteModalRef.show();
+    },
+    showEditModal(index, story) {
+      this.focusStory = story.id;
+      this.formEdit.description = story.description;
+      this.$refs.editModalRef.show();
+      this.focusIndex = index;
+    },
+    showMediaPreview(mediaType) {
+      this.previewType = mediaType;
+    },
+  },
 };
 </script>
