@@ -16,35 +16,37 @@
     <div class="form-row">
       <div class="col-2 col-md-3">
         <div class="form-group firstname">
-          <input type="text" v-model="form.firstname" class="form-control" placeholder="">
+          <input type="text" v-model="form.firstname" class="form-control" placeholder="Kies voornaam">
           <label for="firstname">Voornaam</label>
         </div>
       </div>
       <div class="col-2 col-md-3">
         <div class="form-group lastname">
-          <input type="text" v-model="form.lastname" class="form-control" placeholder="">
+          <input type="text" v-model="form.lastname" class="form-control" placeholder="Kies familienaam">
           <label for="lastname">Familienaam</label>
         </div>
       </div>
       <div class="col-md-6">
         <div class="form-group">
-          <input type="email" v-model="form.email" class="form-control" placeholder="">
+          <input type="email" v-model="form.email" class="form-control" placeholder="Kies email adres">
           <label for="email">Email adres</label>
         </div>
       </div>
     </div>
 
     <div class="form-group">
-      <input type="text" class="form-control" placeholder="Onderwerp" value="Verzamelen van herinneringen in foto en tekst">
-      <label for="lastname">Onderwerp van de email</label>
+      <input type="text" class="form-control" placeholder="Kies onderwerp" value="Verzamelen van herinneringen in foto en tekst">
+      <label for="lastname">Email onderwerp</label>
     </div>
 
   </form>
 
   <div class="row">
     <div class="col-md-7">
-      <textarea placeholder="Schrijf hier je persoonlijke boodschap" class="mb-3 form-control" rows="8" v-model="message">@{{message}}</textarea>
-
+      <div class="form-group">
+      <textarea placeholder="Schrijf hier je persoonlijke boodschap" class="mb-3 form-control" rows="8" v-model="message">{{message}}</textarea>
+      <label for="message">Persoonlijke boodschap in email</label>
+</div>
       <p>In de email komt automatisch meer info onder je bericht over hoe Prisma werk.
         <a href="#">Bekijk email voorvertoning</a>
       </p>
@@ -58,7 +60,7 @@
 
         <div class="card-body">
           <div class="example-text" v-html="example">
-            @{{example}}
+          {{example}}
           </div>
           <p class="card-text mt-2">
             <button class="btn btn-sm btn-light" @click="fillMessage" :disabled="isMessageFilled">Gebruik deze tekst in je email</button>
