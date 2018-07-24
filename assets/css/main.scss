@@ -35,19 +35,18 @@ h2 {
 }
 
 label {
-  font-size: .9rem;
+  font-size: .85rem;
   margin-top: 1.25rem;
-  color: $gray-800;
+  color: #828A99;
 }
 
 .form-group {
   position: relative;
-  input.form-control {
-    padding-top: 3rem;
-    padding-bottom: 1rem;
+  input.form-control,
+  textarea.form-control {
+    padding-top: 2rem;
+    padding-bottom: 0.5rem;
     position: relative;
-    padding-top: 1.75rem;
-    padding-bottom: .5rem;
   }
   label {
     z-index: 100;
@@ -59,9 +58,11 @@ label {
     font-weight: 800;
     font-size: .8rem;
   }
-  textarea {
-    padding-top: 2rem;
-  }
+}
+
+.form-group input.form-control:focus+label,
+.form-group textarea.form-control:focus+label {
+  color: #637DC8;
 }
 
 a:hover {
