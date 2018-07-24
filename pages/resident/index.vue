@@ -1,6 +1,5 @@
 <template>
   <div class="container-resident">
-    <SuccessAlert ref="success-alert" message="Succesvol aangepast verhaal!" />
 
     <div class="resi-header d-print-none">
       <img class="rounded-circle" :src="require(`@/assets/img/residents/avatar.png`)">
@@ -292,7 +291,6 @@
 </template>
 
 <script>
-import SuccessAlert from "@/components/SuccessAlert";
 import axios from "axios";
 import arrayBufferToDataUrl from '@/utils/image';
 
@@ -331,9 +329,6 @@ export default {
       url: "https://api.prisma.care/v1",
       youtubeUrl: ""
     };
-  },
-  components: {
-    SuccessAlert
   },
   mounted() {
     this.loadStories();
@@ -456,7 +451,7 @@ export default {
       axios
         .patch(storyUrl, body)
         .then(response => {
-          SuccessAlert.methods.showAlert();
+          console.log(response);
         })
         .catch(error => {
           console.log(error);
