@@ -360,9 +360,6 @@ export default {
         this.checkedStories = checkedStories;
       }
     },
-    isValid() {
-      return this.newStory != "" && this.newAlbum != "" ? false : "disabled";
-    }
   },
   methods: {
     addYoutube() {
