@@ -1,4 +1,5 @@
-const pkg = require('./package')
+const pkg = require('./package');
+const webpack = require('webpack')
 
 module.exports = {
   mode: 'universal',
@@ -62,7 +63,7 @@ module.exports = {
     },
     {
       src: 'https://unpkg.com/blueimp-gallery@2.27.0/js/blueimp-gallery-video.js'
-    }
+    },
   ],
 
   /*
@@ -71,7 +72,7 @@ module.exports = {
   plugins: [{
     src: '~plugins/vee-validate.js',
     ssr: false
-  }],
+  }, ],
 
   /*
    ** Nuxt.js modules
@@ -98,5 +99,7 @@ module.exports = {
     extend(config, ctx) {
 
     },
-  }
+
+  },
+
 }

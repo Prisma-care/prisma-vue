@@ -6,9 +6,9 @@
   <transition name="fade">
   <div class="alert alert-success" role="alert" v-if="alert === true">
     <h4 class="alert-heading">Je email is verzonden!</h4>
-    <p>Ken je nog iemand die...? </p>
+    <p>Ken je nog iemand die je hiermee kan helpen? Dan kan je het formulier nog een keer invullen! </p>
     <hr>
-    <a href="/residents/1/family" class="btn btn-primary">Terug naar overzicht</a>
+    <a href="/residents/1/family" class="btn btn-light">of keer terug naar het overzicht</a>
   </div>
   </transition>
   
@@ -44,7 +44,7 @@
   <div class="row">
     <div class="col-md-7">
       <div class="form-group">
-      <textarea placeholder="Schrijf hier je persoonlijke boodschap" class="mb-3 form-control" rows="8" v-model="message">{{message}}</textarea>
+      <textarea placeholder="Schrijf hier je persoonlijke boodschap" class="mb-3 form-control" rows="8" v-model="message"></textarea>
       <label for="message">Persoonlijke boodschap in email</label>
 </div>
       <p>In de email komt automatisch meer info onder je bericht over hoe Prisma werk.
@@ -121,7 +121,7 @@ export default {
       this.alert = true;
       setTimeout(() => {
         this.alert = false;
-      }, 5000);
+      }, 10000);
     }
   }
 };

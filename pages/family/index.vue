@@ -9,7 +9,7 @@
 
       </div>
       <div class="col-md-4 text-right pt-5">
-        <a href="" class="btn btn-primary">Vraag hulp aan een familielid</a>
+        <a href="family/invite" class="btn btn-primary">Vraag hulp aan een familielid</a>
       </div>
     </div>
 
@@ -23,7 +23,7 @@
         <h4>Wie zal de familiefoto's digitaliseren?</h4>
         <p>Zoek in jullie foto albums naar belangrijke beelden in het leven van Lea. Wie in de familie heeft de albums en kan foto's inscannen met computer of smartphone? </p>
 
-        <a href="" class="btn btn-light">Vraag hulp</a>
+        <a href="family/invite" class="btn btn-light">Vraag hulp</a>
       </div>
     </div>
 
@@ -42,3 +42,8 @@
 
 </div>
 </template>
+<script>
+export default {
+  middleware: "authentication"
+};
+</script>
