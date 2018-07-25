@@ -1,7 +1,5 @@
 import axios from 'axios';
-import {
-  baseURL
-} from '~/config';
+import { baseURL } from '~/config';
 
 /**
  * Main URL for API access.
@@ -11,7 +9,7 @@ const URL = `${baseURL}/patient`;
 /**
  * Service for interaction with stories.
  */
-const StoryService = {
+const storyService = {
 
   /**
    * Adds an image to an existing story.
@@ -22,7 +20,10 @@ const StoryService = {
    * @returns {number}
    */
   addImageToStory(patientId, storyId, image) {
-    return axios.post(`${URL}/${patientId}/story/${storyId}/asset`, new FormData().append('asset', image));
+    return axios.post(
+      `${URL}/${patientId}/story/${storyId}/asset`,
+      new FormData().append('asset', image)
+    );
   },
 
   /**
@@ -70,4 +71,4 @@ const StoryService = {
   },
 };
 
-export default StoryService;
+export default storyService;
