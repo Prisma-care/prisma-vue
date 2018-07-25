@@ -75,7 +75,7 @@
 
 <script>
 export default {
-  middleware: "authentication",
+  middleware: "notAuthenticated",
   data() {
     return {
       form: {

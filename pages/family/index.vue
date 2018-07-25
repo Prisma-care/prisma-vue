@@ -44,6 +44,6 @@
 </template>
 <script>
 export default {
-  middleware: "authentication"
+  middleware: "notAuthenticated"
 };
 </script>

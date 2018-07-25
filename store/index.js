@@ -1,44 +1,30 @@
-import Vuex from 'vuex';
-import setAuthToken from '../utils/setAuthentication';
+import cookie from 'cookie'
+import {
+  resolve
+} from 'uri-js';
+import authToken from '../utils/setAuthentication'
 
-const cookieparser = require('cookieparser');
-const createStore = () => {
-  return new Vuex.Store({
-    state: {
-      auth: null,
-      patient: null,
-      user: null,
-    },
-    mutations: {
-      setAuth(state, data) {
-        state.auth = data;
-      },
-      setPatient(state, data) {
-        state.patient = data;
-      },
-      setUser(state, data) {
-        state.user = data;
+export const actions = {
+  nuxtServerInit({
+    dispatch
+  }, context) {
+    return new Promise((resolve, reject) => {
+      const cookies = cookie.parse(context.req.headers.cookie || '')
+      if (cookies.hasOwnProperty('authToken')) {
+        authToken(cookies['authToken'])
+        dispatch('auth/fetch')
+          .then(result => {
+            resolve(true)
+          })
+          .catch(error => {
+            console.log('Token is invalid')
+            authToken()
+            resolve(false)
+          })
+      } else {
+        authToken()
+        resolve(false)
       }
-    },
-    actions: {
-      nuxtServerInit({
-        commit
-      }, {
-        req
-      }) {
-        let authToken = null;
-        if (req.headers.cookie) {
-          const parsed = cookieparser.parse(req.headers.cookie);
-
-          commit('setAuth', parsed.jwtToken);
-          // set token for axios requests
-          setAuthToken(`Bearer ${parsed.jwtToken}`);
-          commit('setPatient', parsed.patient);
-          commit('setUser', parsed.user);
-        }
-      }
-    }
-  })
+    })
+  }
 }
-
-export default createStore;

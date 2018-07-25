@@ -299,14 +299,14 @@
 </template>
 
 <script>
-import storyService from '@/services/story';
-import videoUtils from '@/utils/video';
-import arrayBufferToDataUrl from '@/utils/image';
+import storyService from "@/services/story";
+import videoUtils from "@/utils/video";
+import arrayBufferToDataUrl from "@/utils/image";
 
-import VueGallery from 'vue-gallery';
+import VueGallery from "vue-gallery";
 
 export default {
-  middleware: "authentication",
+  middleware: "notAuthenticated",
   data() {
     return {
       albums: [],

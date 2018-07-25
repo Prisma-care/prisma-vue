@@ -15,7 +15,7 @@
 	</a>
 
 	<ul class="navbar-nav">
-          <li><nuxt-link class="nav-link verhalen nav-item" to="/login">Verhalen</nuxt-link></li>
+          <li><nuxt-link class="nav-link verhalen nav-item" to="/resident">Verhalen</nuxt-link></li>
 	  <li><nuxt-link class="nav-link nav-item" to="/family">Familie uitnodigen</nuxt-link></li>
 	</ul>
 

@@ -23,7 +23,7 @@ import axios from "axios";
 import setAuthToken from "../../utils/setAuthentication";
 
 export default {
-  middleware: "authentication",
+  middleware: "authenticated",
   data() {
     return {
       email: "",
@@ -52,15 +52,15 @@ export default {
           const patient = {};
           if (user.data.response.patients.length) {
             patient.id = user.data.response.patients[0].patient_id;
-            patient.firstName = user.data.response.patients[0].first_name; 
-            patient.lastName = user.data.response.patients[0].last_name;  
+            patient.firstName = user.data.response.patients[0].first_name;
+            patient.lastName = user.data.response.patients[0].last_name;
           }
-          this.$store.commit('setPatient', patient);
-          Cookie.set("patient", patient.id)
-          this.$store.commit('setUser', user.data.response.id);
+          this.$store.commit("setPatient", patient);
+          Cookie.set("patient", patient.id);
+          this.$store.commit("setUser", user.data.response.id);
           Cookie.set("user", user.data.response.id);
 
-          this.$router.push('/resident');
+          this.$router.push("/resident");
         })
         .catch(err => {});
     }
