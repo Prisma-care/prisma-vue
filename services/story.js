@@ -60,7 +60,7 @@ const StoryService = {
   },
 
   /**
-   * Get storyes from the user's story list.
+   * Get stories from the user's story list.
    *
    * @param {number} patientId
    * @returns {object}
