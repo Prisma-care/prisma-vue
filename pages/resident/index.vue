@@ -498,7 +498,7 @@ export default {
                     oReq.open("GET", story.source, true);
                     oReq.setRequestHeader(
                       "Authorization",
-                      "Bearer " + this.$store.state.auth
+                      "Bearer " + this.$store.state.auth.user.response.token
                     );
                     oReq.responseType = "arraybuffer";
                     oReq.onload = function(oEvent) {
