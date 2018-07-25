@@ -117,9 +117,16 @@ export default {
       this.message = plainMessage;
     },
     send() {
+<<<<<<< HEAD
       const emailData = {
         firstName: this.form.lastname,
         lastName: this.form.firstname,
+=======
+      console.log(axios.defaults.header);
+      axios.post('https://api2.prisma.care/v1/sendPictureInvite', {
+        firstName: this.form.firstname,
+        lastName: this.form.lastname,
+>>>>>>> ac3083df3d9a726b3b1e9ad9b32c8460d74846a9
         email: this.form.email,
         subject: this.form.subject,
         message: this.message,
