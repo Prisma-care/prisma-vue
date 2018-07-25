@@ -29,6 +29,23 @@ const storyService = {
   },
 
   /**
+   * Adds an image to an existing story.
+   *
+   * @param {number} patientId
+   * @param {number} storyId
+   * @param {string} url
+   * @returns {number}
+   */
+  addYoutubeToStory(patientId, storyId, url) {
+    return axios.post(
+      `${URL}/${patientId}/story/${storyId}/asset`, {
+	asset: url,
+        assetType: 'youtube'
+      }
+    );
+  },
+
+  /**
    * Adds a story to the user's story list.
    *
    * @param {number} patientId
