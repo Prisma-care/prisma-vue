@@ -70,7 +70,14 @@
 
             <!-- Youtube tab -->
             <b-tab title="Video van Youtube kiezen">
-              Test
+
+	      <label>YouTube Link</label><br>
+	      <input v-model="form.youtubeUrl" v-validate="{ required: true, regex: '^(https?\:\/\/)?((www\.)?youtube\.com|youtu\.?be)\/.+$'}"
+		     name="regex" type="text"
+		     placeholder="https://www.youtube.com/watch?v=ffSnk4v3aeg">
+	      <div><br>
+		<img :src="getYouTubeThumb(this.form.youtubeUrl)" width="125" height="125">
+	      </div>
 
             </b-tab>
 
@@ -174,6 +181,22 @@ export default {
         .catch(err => {
           console.log(err);
         });
+    },
+    getYouTubeID(url) {
+      const match = /v=(\w*)$/.exec(url);
+      if (match) {
+        return match[1];
+      } else {
+        return null;
+      }
+    },
+    getYouTubeThumb(url) {
+      const youtubeId = this.getYouTubeID(url);
+      if (youtubeId) {
+        return `https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`;
+      } else {
+        return null;
+      }
     },
     hideMedia() {
       this.reset();
