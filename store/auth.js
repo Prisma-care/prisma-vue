@@ -21,8 +21,10 @@ export const actions = {
   }) {
     return api.auth.me()
       .then(response => {
+
         commit('set_user', response.data.result)
         return response
+
       })
       .catch(err => {
         commit('reset_user')

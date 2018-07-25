@@ -31,6 +31,7 @@ const VideoUtils = {
     const youtubeId = this.getYouTubeID(url);
     if (youtubeId) {
       return `https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`;
+
     } else {
       return null;
     }

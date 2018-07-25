@@ -1,10 +1,12 @@
 import axios from 'axios';
-import { baseURL } from '~/config';
+import {
+  baseURL
+} from '~/config';
 
 /**
  * Main URL for API access.
  */
-const URL = `${baseURL}/album`;
+const URL = `${baseURL}/patient`;
 
 /**
  * Service for interaction with albums.
@@ -16,8 +18,8 @@ const albumService = {
    *
    * @returns {object}
    */
-  getAlbums() {
-    return axios.get(URL);
+  getAlbums(patientId) {
+    return axios.get(`${URL}/${patientId}/album`);
   },
 };
 

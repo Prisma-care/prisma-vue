@@ -1,5 +1,7 @@
 import axios from 'axios';
-import { baseURL } from '~/config';
+import {
+  baseURL
+} from '~/config';
 
 /**
  * Main URL for API access.
@@ -22,7 +24,7 @@ const storyService = {
   addImageToStory(patientId, storyId, image) {
     return axios.post(
       `${URL}/${patientId}/story/${storyId}/asset`,
-      new FormData().append('asset', image)
+      image
     );
   },
 

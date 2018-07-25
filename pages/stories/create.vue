@@ -120,7 +120,6 @@ export default {
   },
   mounted() {
     this.getAlbums();
-    console.log(axios.defaults.headers);
   },
   methods: {
     onFileChange(e) {
@@ -130,6 +129,7 @@ export default {
       this.createImage(files[0]);
       this.seen = false;
       this.image = e.target.files[0];
+      console.log(this.image);
     },
     createImage(file) {
       var image = new Image();
@@ -142,7 +142,9 @@ export default {
       reader.readAsDataURL(file);
     },
     getAlbums() {
-      albumService.getAlbums().then(albums => {
+      const patientId = this.$store.state.auth.user.response.patients[0]
+        .patient_id;
+      albumService.getAlbums(patientId).then(albums => {
         this.albums = albums.data.response;
         console.log(this.albums);
       });
@@ -162,18 +164,19 @@ export default {
       storyService
         .addStory(patientId, body)
         .then(response => {
-          console.log(response);
-          const storyId = this.response.data.id;
+          const storyId = response.data.response.id;
+
           let formData = new FormData();
           formData.append("asset", this.image);
-          if (this.image != null) {
+          if (this.image !== null) {
+            console.log("lol");
             storyService
               .addImageToStory(patientId, storyId, formData)
               .then(response => {
                 console.log("Image added");
               })
               .catch(err => {
-                console.log(err);
+                console.log("image werkt niet");
               });
           }
           console.log(response);

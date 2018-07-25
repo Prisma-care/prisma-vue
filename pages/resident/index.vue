@@ -20,16 +20,16 @@
       <!-- Modal to add a story -->
       <b-modal ref="addModalRef" class="story-add" id="addStoryModal" hide-footer title="Voeg verhaal toe">
 
-	<div class="media">
+        <div class="media">
           <img class="mr-3 rounded-circle" src="'TODO NULL'" alt="Avatar Afbeelding">
           <div class="media-body">
-            <b-form-textarea id="textarea1" v-model="formAdd.description" :no-resize=true placeholder="Het verhaal moet kort zijn." :rows="3" maxlength="250"
-			     :max-rows="6">
+            <b-form-textarea id="textarea1" v-model="formAdd.description" :no-resize=true placeholder="Het verhaal moet kort zijn." :rows="3"
+              maxlength="250" :max-rows="6">
             </b-form-textarea>
           </div>
-	</div>
+        </div>
 
-	<b-form>
+        <b-form>
 
           <div class="story-add-media d-flex justify-content-start mb-4">
             <b-btn variant="light" size="sm" class="d-flex align-items-center mr-2" @click="showMediaPreview('photo')">
@@ -45,7 +45,7 @@
             <div class="card">
               <img :src="imagePreview" class="img-responsive" width="125" height="125">
               <div class="card-img-overlay text-right p-1">
-		<a href="#" @click="hideMedia" class="close text-white">×</a>
+                <a href="#" @click="hideMedia" class="close text-white">×</a>
               </div>
             </div>
           </div>
@@ -65,8 +65,7 @@
 
               <label for="youtubeUrl">YouTube Link:</label>
 
-              <b-form-input id="youtubeUrl" type="text"
-			    placeholder="https://www.youtube.com/watch?v=ffSnk4v3aeg" @input="addYoutube" v-model="formAdd.youtubeUrl">
+              <b-form-input id="youtubeUrl" type="text" placeholder="https://www.youtube.com/watch?v=ffSnk4v3aeg" @input="addYoutube" v-model="formAdd.youtubeUrl">
               </b-form-input>
             </b-form-group>
           </div>
@@ -84,11 +83,11 @@
               <b-btn type="submit" variant="outline-primary" @click="addStory" block>Voeg Toe</b-btn>
             </div>
           </div>
-	</b-form>
+        </b-form>
       </b-modal>
 
       <section v-if="errored || this.albums.length == 0" v-cloak class="text-center d-print-none row">
-	<div class="col-md-8 mx-auto">
+        <div class="col-md-8 mx-auto">
           <p class="lead lead-lg">Wie is {{ $route.params.slug }}?</p>
           <p>
             Help uw families {{ $route.params.slug }} te leren kennen door middel van verhalen over zijn leven.
@@ -99,7 +98,7 @@
           </b-btn>
           <a href="https://prisma.care/levensverhaal-posters/">
             <b-img thumbnail src="https://prisma.care/wp-content/uploads/2018/05/prisma-poster-maken-pelgrims.jpg" alt="Poster maken"
-		   />
+            />
           </a>
           <a href="https://prisma.care/levensverhaal-posters/">Hoe maak je een poster?</a>
           <hr class="mt-4">
@@ -110,192 +109,165 @@
           <b-btn href="/invite" variant="outline-primary" class="btn-add">
             <i class="material-icons md-18 mr-2">email</i>Nodig familie uit
           </b-btn>
-	</div> <!-- ./col-md-8 -->
+        </div>
+        <!-- ./col-md-8 -->
       </section>
 
       <section v-else>
-	<div v-if="loadingStories">Loading...</div>
-	<div v-else>
+        <div v-if="loadingStories">Loading...</div>
+        <div v-else>
 
-	  <gallery
-            :images="galleryImages"
-            :index="galleryIndex"
-            :options="{youTubePlayerVars: { showinfo: 0, rel: 0, autoplay: 1, modestbranding: 1 }, youTubeClickToPlay: false}"
+          <gallery :images="galleryImages" :index="galleryIndex" :options="{youTubePlayerVars: { showinfo: 0, rel: 0, autoplay: 1, modestbranding: 1 }, youTubeClickToPlay: false}"
             @close="galleryIndex = null">
-	  </gallery>
+          </gallery>
 
-	  <!-- Modal to edit a story -->
-	  <b-modal ref="editModalRef" id="editStoryModal" hide-footer
-		   title="Bewerk tekst">
+          <!-- Modal to edit a story -->
+          <b-modal ref="editModalRef" id="editStoryModal" hide-footer title="Bewerk tekst">
 
-	    <b-form-textarea id="formEdit"
-	  		     v-model="formEdit.description"
-	  		     :rows="3"
-	  		     :max-rows="6">
-	    </b-form-textarea>
+            <b-form-textarea id="formEdit" v-model="formEdit.description" :rows="3" :max-rows="6">
+            </b-form-textarea>
 
-	    <b-form-group id="editCategoryInputGroup" label-for="categoryInput">
+            <b-form-group id="editCategoryInputGroup" label-for="categoryInput">
               <b-form-select id="categoryInput" v-model="formEdit.category" :options="this.albums.map(a => ({
 	  									value: a.id,
 	  									text: a.title
 	  									}))" required>
-            </b-form-select>
-          </b-form-group>
-	  <hr>
-	  <div class="row">
-	    <div class="col-12">
-	      <b-btn variant="outline-primary" @click="editStory()" block>Bewerk tekst</b-btn>
-	    </div>
-	  </div>
-	</b-modal>
+              </b-form-select>
+            </b-form-group>
+            <hr>
+            <div class="row">
+              <div class="col-12">
+                <b-btn variant="outline-primary" @click="editStory()" block>Bewerk tekst</b-btn>
+              </div>
+            </div>
+          </b-modal>
 
-	<!-- Modal to delete a story -->
-	<b-modal ref="deleteModalRef" id="deleteStoryModal" hide-footer
-		 title="Bevestiging van de onderdrukking">
-	  <p>Weet je zeker dat je dit verhaal wilt verwijderen?</p>
-	  <div class="row">
-	    <div class="col-12">
-	      <b-btn variant="outline-danger" @click="deleteStory()" block>Verwijderen</b-btn>
-	    </div>
-	  </div>
-	</b-modal>
+          <!-- Modal to delete a story -->
+          <b-modal ref="deleteModalRef" id="deleteStoryModal" hide-footer title="Bevestiging van de onderdrukking">
+            <p>Weet je zeker dat je dit verhaal wilt verwijderen?</p>
+            <div class="row">
+              <div class="col-12">
+                <b-btn variant="outline-danger" @click="deleteStory()" block>Verwijderen</b-btn>
+              </div>
+            </div>
+          </b-modal>
 
-	<div class="story-container">
+          <div class="story-container">
 
-	  <nuxt-link v-if="this.albums.length > 0"
-	    id="addStoryBtn"
-	    class="btn btn-primary btn-sm d-flex justify-content-center align-items-center mb-1 d-print-none"
-      to="/stories/create">
-	    <i class="material-icons">add</i>Verhaal toevoegen
-	  </nuxt-link>
+            <nuxt-link v-if="this.albums.length > 0" id="addStoryBtn" class="btn btn-primary btn-sm d-flex justify-content-center align-items-center mb-1 d-print-none"
+              to="/stories/create">
+              <i class="material-icons">add</i>Verhaal toevoegen
+            </nuxt-link>
 
-	  <div v-for="(album, albumIndex) in albums"
-	       v-bind:key="album.id + 'stories'">
-	    <div class="story-category" :id="album.title">
-	      <div class="story-category-header">
-		<h2>{{ album.title }}</h2>
-	      </div>
-	      <div class="row">
-		<div v-for="story in album.stories"
-		     class="story col-md-6 col-lg-4 d-print-none"
-		     v-bind:key="story.id"
-		     v-bind:class="{checked: checkedStories.includes(story.id),
+            <div v-for="(album, albumIndex) in albums" v-bind:key="album.id + 'stories'">
+              <div class="story-category" :id="album.title">
+                <div class="story-category-header">
+                  <h2>{{ album.title }}</h2>
+                </div>
+                <div class="row">
+                  <div v-for="story in album.stories" class="story col-md-6 col-lg-4 d-print-none" v-bind:key="story.id" v-bind:class="{checked: checkedStories.includes(story.id),
 				   'd-print-block':
 				   checkedStories.includes(story.id)}">
 
-		  <div v-if="story['type'] == 'image' || story['type'] == 'youtube'">
+                    <div v-if="story.type == 'image' || story.type == 'youtube'">
 
-		    <b-card title="Card Title"
-			    :img-src="story.type === 'youtube' ? getYouTubeThumb(story.source) : 'undefined'"
-			    img-alt="Image"
-			    img-top
-			    :id="'story-' + story.id"
-			    :key="story.id"
-			    :ref="story.id"
-			    no-body
-			    class="d-flex align-self-center">
+                      <b-card title="Card Title" :img-src="story.type === 'youtube' ? getYouTubeThumb(story.source) : 'undefined'" img-alt="Image"
+                        img-top :id="'story-' + story.id" :key="story.id" :ref="story.id" no-body class="d-flex align-self-center">
 
-		      <b-badge v-if="story['Year']" variant="dark" class="story-year">
-			{{ story['Year'] }}
-		      </b-badge>
+                        <b-badge v-if="story['Year']" variant="dark" class="story-year">
+                          {{ story['Year'] }}
+                        </b-badge>
 
-		      <b-btn variant="primary" @click="galleryIndex = story.index"
-			     v-if="story['type'] == 'youtube'"
-			     class="btn-play d-flex justify-content-center align-items-center">
-			<i class="material-icons md-32 mx-auto">play_arrow</i>
-		      </b-btn>
+                        <b-btn variant="primary" @click="galleryIndex = story.index" v-if="story['type'] == 'youtube'" class="btn-play d-flex justify-content-center align-items-center">
+                          <i class="material-icons md-32 mx-auto">play_arrow</i>
+                        </b-btn>
 
-		      <b-btn variant="primary" @click="galleryIndex = story.index"
-			     v-if="story['type'] == 'image'"
-			     class="btn-zoom d-flex justify-content-center align-items-center">
-			<i class="material-icons md-32 mx-auto">zoom_out_map</i>
-		      </b-btn>
+                        <b-btn variant="primary" @click="galleryIndex = story.index" v-if="story['type'] == 'image'" class="btn-zoom d-flex justify-content-center align-items-center">
+                          <i class="material-icons md-32 mx-auto">zoom_out_map</i>
+                        </b-btn>
 
-		      <div class="card-img-overlay">
-			<div class="d-flex align-items-center">
-			  <input type="checkbox" :id="story.id" :value="story.id" v-model="checkedStories" class="checkbox" number>
-			  <label class="form-check-label" :for="story.id">Selecteer</label>
-			</div>
-		      </div>
-		    </b-card>
-		  </div>
+                        <div class="card-img-overlay">
+                          <div class="d-flex align-items-center">
+                            <input type="checkbox" :id="story.id" :value="story.id" v-model="checkedStories" class="checkbox" number>
+                            <label class="form-check-label" :for="story.id">Selecteer</label>
+                          </div>
+                        </div>
+                      </b-card>
+                    </div>
 
-		  <p v-if="story['type'] == 'image' ||
-			   story['type'] == 'youtube'"
-		     class="mt-3">{{ story['description'] }}</p>
+                    <p v-if="story['type'] == 'image' ||
+			   story['type'] == 'youtube'" class="mt-3">{{ story['description'] }}</p>
 
-		  <div class="card card_text"
-		       v-if="!story['type']">
-		    <div class="card-body">
-		      {{ story['description'] }}
-		    </div>
-		  </div>
+                    <div class="card card_text" v-if="!story['type']">
+                      <div class="card-body">
+                        {{ story['description'] }}
+                      </div>
+                    </div>
 
-		  <div class="row">
+                    <div class="row">
 
-		    <div class="col-12">
-		      <b-btn v-if="story['description'] && !story['source']"
-			     variant="outline-light" size="sm"
-			     class="btn-edit d-flex justify-content-center align-items-center mb-2"
-			     @click="showEditModal">
-			<i class="material-icons md-18 mr-2">add_photo_alternate</i> Voeg beeld toe <em>TODO</em>
-		      </b-btn>
-		    </div>
+                      <div class="col-12">
+                        <b-btn v-if="story['description'] && !story['source']" variant="outline-light" size="sm" class="btn-edit d-flex justify-content-center align-items-center mb-2"
+                          @click="showEditModal">
+                          <i class="material-icons md-18 mr-2">add_photo_alternate</i> Voeg beeld toe
+                          <em>TODO</em>
+                        </b-btn>
+                      </div>
 
-		    <div class="col-6">
-		      <b-btn v-if="story['description']"
-			     variant="outline-light" size="sm"
-			     class="btn-edit d-flex justify-content-center align-items-center"
-			     @click="showEditModal(index, story)">
-			<i class="material-icons md-18 mr-2">edit</i> Pas tekst aan
-		      </b-btn>
+                      <div class="col-6">
+                        <b-btn v-if="story['description']" variant="outline-light" size="sm" class="btn-edit d-flex justify-content-center align-items-center"
+                          @click="showEditModal(index, story)">
+                          <i class="material-icons md-18 mr-2">edit</i> Pas tekst aan
+                        </b-btn>
 
-		      <b-btn v-if="!story['description']"
-			     variant="outline-light" size="sm"
-			     class="btn-add d-flex justify-content-center align-items-center"
-			     @click="showEditModal">
-			<i class="material-icons md-18 mr-2">edit</i> Voeg tekst toe
-		      </b-btn>
-		    </div>
+                        <b-btn v-if="!story['description']" variant="outline-light" size="sm" class="btn-add d-flex justify-content-center align-items-center"
+                          @click="showEditModal">
+                          <i class="material-icons md-18 mr-2">edit</i> Voeg tekst toe
+                        </b-btn>
+                      </div>
 
-		    <div class="col-6">
-		      <b-btn variant="outline-danger" size="sm"
-			     class="d-flex justify-content-center
-				    align-items-center"
-			     @click="showDeleteModal(index, story)">
-			<i class="material-icons md-18 mr-2">clear</i> Deleten
-		      </b-btn>
-		    </div>
-		  </div>
-		</div> <!-- ./v-for="(album, index) in albums" -->
-	      </div> <!-- ./row -->
-	    </div> <!-- ./story-category -->
-	  </div> <!-- ./story-container -->
+                      <div class="col-6">
+                        <b-btn variant="outline-danger" size="sm" class="d-flex justify-content-center
+				    align-items-center" @click="showDeleteModal(index, story)">
+                          <i class="material-icons md-18 mr-2">clear</i> Deleten
+                        </b-btn>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- ./v-for="(album, index) in albums" -->
+                </div>
+                <!-- ./row -->
+              </div>
+              <!-- ./story-category -->
+            </div>
+            <!-- ./story-container -->
 
-	  <div class="container d-flex text-muted">
-	    <div class="mr-auto d-flex align-items-center">
-	      <input type="checkbox" id="selectAllCheckbox" v-model="selectAll" class="mr-1">
-	      <span v-if="checkedStories.length == 0">
-		Selecteer de verhalen die je wilt printen
-	      </span>
+            <div class="container d-flex text-muted">
+              <div class="mr-auto d-flex align-items-center">
+                <input type="checkbox" id="selectAllCheckbox" v-model="selectAll" class="mr-1">
+                <span v-if="checkedStories.length == 0">
+                  Selecteer de verhalen die je wilt printen
+                </span>
 
-	      <span>
-		<b-badge v-if="checkedStories.length > 0" pill variant="primary">
-		  {{ checkedStories.length }}
-		</b-badge>
+                <span>
+                  <b-badge v-if="checkedStories.length > 0" pill variant="primary">
+                    {{ checkedStories.length }}
+                  </b-badge>
 
-		geselecteerd
-	      </span>
-	    </div>
-	    <a href="javascript:window.print()" class="btn btn-sm
-						       btn-primary d-flex align-items-center"
-	       :disabled="checkedStories.length > 0"><i class="material-icons mr-2">print</i> Print</a>
-	  </div>
-	</div>
-      </div>
-    </section>
-    </div>  <!-- ./container -->
-  </div>  <!-- ./container-resident -->
+                  geselecteerd
+                </span>
+              </div>
+              <a href="javascript:window.print()" class="btn btn-sm
+						       btn-primary d-flex align-items-center" :disabled="checkedStories.length > 0">
+                <i class="material-icons mr-2">print</i> Print</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <!-- ./container -->
+  </div>
+  <!-- ./container-resident -->
 </template>
 
 <script>
@@ -343,7 +315,7 @@ export default {
   },
   mounted() {
     this.getStories();
-    console.log(axios.defaults.headers);
+
     this.reset();
   },
   computed: {
@@ -458,6 +430,7 @@ export default {
         .getStories(patientId)
         .then(response => {
           this.albums = response.data.response;
+          console.log(this.albums);
 
           this.albums.forEach(album => {
             album.stories.sort(
