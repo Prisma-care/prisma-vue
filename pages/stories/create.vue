@@ -98,7 +98,7 @@
 <script>
 import storyService from "@/services/story";
 export default {
-  middleware: "notAuthenticated",
+  //middleware: "notAuthenticated",
   data() {
     return {
       newStory: "",
@@ -143,8 +143,8 @@ export default {
         creatorId: this.$store.state.user
       };
 
-      const patientId = this.$store.state.patient;
-      console.log(patientId);
+      const patientId = this.$store.state.auth.user.response.patients[0]
+        .patient_id;
       storyService
         .addStory(patientId, body)
         .then(response => {

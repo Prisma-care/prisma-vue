@@ -162,12 +162,12 @@
 
 	<div class="story-container">
 
-	  <b-btn v-if="this.albums.length > 0"
-	    variant="primary" size="sm"
+	  <nuxt-link v-if="this.albums.length > 0"
 	    id="addStoryBtn"
-	    class="btn btn-primary btn-sm d-flex justify-content-center align-items-center mb-1 d-print-none">
+	    class="btn btn-primary btn-sm d-flex justify-content-center align-items-center mb-1 d-print-none"
+      to="/stories/create">
 	    <i class="material-icons">add</i>Verhaal toevoegen
-	  </b-btn>
+	  </nuxt-link>
 
 	  <div v-for="(album, albumIndex) in albums"
 	       v-bind:key="album.id + 'stories'">
