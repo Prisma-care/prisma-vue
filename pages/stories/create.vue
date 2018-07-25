@@ -102,7 +102,7 @@ import storyService from "@/services/story";
 import albumService from "@/services/album";
 import axios from "axios";
 export default {
-  //middleware: "notAuthenticated",
+  middleware: "notAuthenticated",
   data() {
     return {
       albums: [],
@@ -179,7 +179,7 @@ export default {
                 console.log("image werkt niet");
               });
           }
-          console.log(response);
+          this.$router.push("/resident");
         })
         .catch(err => {
           console.log(err);
