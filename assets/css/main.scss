@@ -1,18 +1,13 @@
-@import "~bootstrap/scss/bootstrap";
-
 @import "abstracts/variables";
 @import "base/typography";
-
+@import "~bootstrap/scss/bootstrap";
 @import 'components/dropbox';
-
 @import "layouts/header";
-
 @import "pages/home";
 @import "pages/invite";
 @import "pages/login";
 @import "pages/resident";
 @import "pages/story";
-
 [v-cloak] {
   display: none
 }

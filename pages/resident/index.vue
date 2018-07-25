@@ -3,8 +3,8 @@
 
     <div class="resi-header d-print-none">
       <img class="rounded-circle" :src="require(`@/assets/img/residents/avatar.png`)">
-      <h1 class="resi-header-displayname">Mr. {{this.$store.state.patient.lastName}}</h1>
-      <h2>{{`${this.$store.state.patient.firstName} ${this.$store.state.patient.lastName}`}}</h2>
+      <h1 class="resi-header-displayname">Mr. {{this.$store.state.auth.user.response.patients[0].last_name}}</h1>
+      <h2>{{`${this.$store.state.auth.user.response.patients[0].first_name} ${this.$store.state.auth.user.response.patients[0].last_name}`}}</h2>
     </div>
 
     <div class="resi-nav">
@@ -302,6 +302,7 @@
 import storyService from "@/services/story";
 import videoUtils from "@/utils/video";
 import arrayBufferToDataUrl from "@/utils/image";
+import axios from "axios";
 
 import VueGallery from "vue-gallery";
 
@@ -342,6 +343,7 @@ export default {
   },
   mounted() {
     this.getStories();
+    console.log(axios.defaults.headers);
     this.reset();
   },
   computed: {
@@ -449,7 +451,8 @@ export default {
       this.hideEditModal();
     },
     getStories() {
-      var patientId = this.$store.state.patient.id;
+      const patientId = this.$store.state.auth.user.response.patients[0]
+        .patient_id;
 
       storyService
         .getStories(patientId)

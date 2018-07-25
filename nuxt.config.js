@@ -72,7 +72,7 @@ module.exports = {
   plugins: [{
     src: '~plugins/vee-validate.js',
     ssr: false
-  }, ],
+  }, '~/api/init.js'],
 
   /*
    ** Nuxt.js modules
