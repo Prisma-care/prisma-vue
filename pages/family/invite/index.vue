@@ -118,12 +118,12 @@ export default {
     },
     send() {
       const emailData = {
-        firstName: this.form.lastname,
-        lastName: this.form.firstname,
+        firstName: this.form.firstname,
+        lastName: this.form.lastname,
         email: this.form.email,
         subject: this.form.subject,
         message: this.message,
-        patientId: 1
+        patientId: 2
       };
       emailService
         .sendEmail(emailData)

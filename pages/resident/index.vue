@@ -418,7 +418,7 @@ export default {
       videoUtils.getYouTubeThumb(url);
     },
     deleteStory() {
-      var patientId = this.$store.state.patient.id;
+      var patientId = this.$store.state.auth.user.response.id;
       storyService
         .deleteStory(patientId, this.focusStory)
         .then(response => {
