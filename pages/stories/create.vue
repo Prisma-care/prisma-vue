@@ -142,8 +142,7 @@ export default {
       reader.readAsDataURL(file);
     },
     getAlbums() {
-      const patientId = this.$store.state.auth.user.response.patients[0]
-        .patient_id;
+      const patientId = this.$store.state.auth.user.response.patients[0].patient_id;
       albumService.getAlbums(patientId).then(albums => {
         this.albums = albums.data.response;
         console.log(this.albums);
@@ -155,23 +154,27 @@ export default {
       const body = {
         albumId: this.form.category,
         description: this.form.description,
-        creatorId: this.$store.state.auth.user.response.id
+        creatorId: this.$store.state.auth.user.response.id,
       };
-      console.log(body);
 
-      const patientId = this.$store.state.auth.user.response.patients[0]
-        .patient_id;
+      const patientId = this.$store.state.auth.user.response.patients[0].patient_id;
       storyService
         .addStory(patientId, body)
         .then(response => {
           const storyId = response.data.response.id;
 
-          let formData = new FormData();
-          formData.append("asset", this.image);
           if (this.image !== null) {
-            console.log("lol");
             storyService
-              .addImageToStory(patientId, storyId, formData)
+              .addImageToStory(patientId, storyId, new FormData().append('asset', this.image))
+              .then(response => {
+                console.log(response);
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          } else if (this.form.youtubeUrl !== null) {
+            storyService
+              .addYoutubeToStory(patientId, storyId, this.form.youtubeUrl)
               .then(response => {
                 console.log(response);
               })
