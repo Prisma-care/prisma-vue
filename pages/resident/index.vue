@@ -17,6 +17,7 @@
 
     <div class="container">
 
+<<<<<<< HEAD
       <!-- Modal to add a story -->
       <b-modal ref="addModalRef" class="story-add" id="addStoryModal" hide-footer title="Voeg verhaal toe">
 
@@ -86,6 +87,8 @@
         </b-form>
       </b-modal>
 
+=======
+>>>>>>> 217c967e801fe563fc35bd0cebcbe33dcfffc052
       <section v-if="errored || this.albums.length == 0" v-cloak class="text-center d-print-none row">
         <div class="col-md-8 mx-auto">
           <p class="lead lead-lg">Wie is {{ $route.params.slug }}?</p>
@@ -271,59 +274,52 @@
 </template>
 
 <script>
-import storyService from "@/services/story";
-import videoUtils from "@/utils/video";
-import arrayBufferToDataUrl from "@/utils/image";
-import axios from "axios";
+import storyService from '@/services/story';
+import videoUtils from '@/utils/video';
+import arrayBufferToDataUrl from '@/utils/image';
+import axios from 'axios';
 
-import VueGallery from "vue-gallery";
+import VueGallery from 'vue-gallery';
 
 export default {
-  middleware: "notAuthenticated",
+  middleware: 'notAuthenticated',
   data() {
     return {
       albums: [],
       checkedStories: [],
-      formAdd: {
-        category: null,
-        description: null,
-        youtubeUrl: null
-      },
       formEdit: {
         category: null,
-        description: null
+        description: null,
       },
       errored: false,
       focusIndex: null,
       focusStory: null,
       galleryImages: [],
       galleryIndex: null,
-      image: null,
-      imagePreview: null,
       index: null,
       loadingStories: false,
       previewType: false,
-      seen: true,
       stories: [],
-      text: "",
-      uploadFieldName: "photos",
-      videoAdded: false
+      text: '',
+      uploadFieldName: 'photos',
+      videoAdded: false,
     };
   },
   components: {
-    gallery: VueGallery
+    // gallery: VueGallery
   },
   mounted() {
     this.getStories();
+<<<<<<< HEAD
 
     this.reset();
+=======
+>>>>>>> 217c967e801fe563fc35bd0cebcbe33dcfffc052
   },
   computed: {
     selectAll: {
       get: function() {
-        return this.stories
-          ? this.checkedStories.length == this.albums.length
-          : false;
+        return this.stories ? this.checkedStories.length == this.albums.length : false;
       },
       set: function(value) {
         var checkedStories = [];
@@ -333,64 +329,12 @@ export default {
           });
         }
         this.checkedStories = checkedStories;
-      }
-    }
+      },
+    },
   },
   methods: {
-    addStory() {
-      var body = {
-        albumId: this.formAdd.category,
-        description: this.formAdd.description,
-        creatorId: this.$store.state.user
-      };
-
-      var patientId = this.$store.state.patient.id;
-
-      storyService
-        .addStory(patientId, body)
-        .then(response => {
-          let storyId = response.data.response.id;
-
-          if (this.image != null) {
-            storyService
-              .addImageToStory(
-                patientId,
-                storyId,
-                new FormData().append("asset", this.image)
-              )
-              .then(response => {
-                console.log(response);
-              })
-              .catch(error => {
-                console.log(error);
-                this.errored = true;
-              });
-          }
-        })
-        .catch(error => {
-          console.log(error);
-          this.errored = true;
-        })
-        .finally(() => (this.image = null));
-    },
-    addYoutube() {
-      this.videoAdded = true;
-    },
-    createImage(file) {
-      var image = new Image();
-      var reader = new FileReader();
-
-      reader.onload = e => {
-        this.imagePreview = e.target.result;
-      };
-
-      reader.readAsDataURL(file);
-    },
-    getYouTubeThumb(url) {
-      videoUtils.getYouTubeThumb(url);
-    },
     deleteStory() {
-      var patientId = this.$store.state.patient.id;
+      var patientId = this.$store.state.auth.user.response.id;
       storyService
         .deleteStory(patientId, this.focusStory)
         .then(response => {
@@ -406,7 +350,7 @@ export default {
       var body = {
         // category: this.formEdit.category,
         description: this.formEdit.description,
-        creatorId: this.$store.state.user
+        creatorId: this.$store.state.user,
       };
 
       var patientId = this.$store.state.patient.id;
@@ -423,8 +367,7 @@ export default {
       this.hideEditModal();
     },
     getStories() {
-      const patientId = this.$store.state.auth.user.response.patients[0]
-        .patient_id;
+      const patientId = this.$store.state.auth.user.response.patients[0].patient_id;
 
       storyService
         .getStories(patientId)
@@ -435,8 +378,7 @@ export default {
           this.albums.forEach(album => {
             album.stories.sort(
               (story1, story2) =>
-                Date.parse(story1.createdAt.date) >
-                Date.parse(story2.createdAt.date)
+                Date.parse(story1.createdAt.date) > Date.parse(story2.createdAt.date)
             );
           });
 
@@ -451,29 +393,29 @@ export default {
             album.stories.forEach(story => {
               if (story) {
                 const slide = {
-                  title: story.description
+                  title: story.description,
                 };
 
-                if (story.type === "youtube") {
+                if (story.type === 'youtube') {
                   const youtubeId = videoUtils.getYouTubeID(story.source);
                   slide.href = story.source;
                   if (youtubeId) {
                     slide.poster = videoUtils.getYouTubeThumb(story.source);
                     slide.youtube = youtubeId;
                   }
-                  slide.type = "text/html";
-                } else if (story.type === "image") {
+                  slide.type = 'text/html';
+                } else if (story.type === 'image') {
                   slide.href = story.source;
-                  slide.type = "image/jpeg";
+                  slide.type = 'image/jpeg';
 
                   let getImg = new Promise((resolve, reject) => {
                     var oReq = new XMLHttpRequest();
-                    oReq.open("GET", story.source, true);
+                    oReq.open('GET', story.source, true);
                     oReq.setRequestHeader(
-                      "Authorization",
-                      "Bearer " + this.$store.state.auth.user.response.token
+                      'Authorization',
+                      'Bearer ' + this.$store.state.auth.user.response.token
                     );
-                    oReq.responseType = "arraybuffer";
+                    oReq.responseType = 'arraybuffer';
                     oReq.onload = function(oEvent) {
                       var arrayBuffer = oReq.response;
                       resolve(oReq);
@@ -482,10 +424,11 @@ export default {
                   });
 
                   getImg.then(response => {
-                    const type = response.getResponseHeader("content-type");
-                    document.querySelector(
-                      `#story-${story.id} > img`
-                    ).src = arrayBufferToDataUrl(response.response, type);
+                    const type = response.getResponseHeader('content-type');
+                    document.querySelector(`#story-${story.id} > img`).src = arrayBufferToDataUrl(
+                      response.response,
+                      type
+                    );
                   });
                 }
 
@@ -500,8 +443,8 @@ export default {
         })
         .finally(() => (this.loadingStories = false));
     },
-    hideAddModal() {
-      this.$refs.addModalRef.hide();
+    getYouTubeThumb(url) {
+      videoUtils.getYouTubeThumb(url);
     },
     hideEditModal() {
       this.$refs.editModalRef.hide();
@@ -510,7 +453,6 @@ export default {
       this.$refs.deleteModalRef.hide();
     },
     hideMedia() {
-      this.reset();
       this.previewType = false;
     },
     onFileChange(e) {
@@ -526,12 +468,6 @@ export default {
       this.addStory();
       this.hideAddModal();
     },
-    reset() {
-      this.seen = true;
-    },
-    showAddModal() {
-      this.$refs.addModalRef.show();
-    },
     showDeleteModal(index, story) {
       this.focusStory = story.id;
       this.focusIndex = index;
@@ -545,7 +481,7 @@ export default {
     },
     showMediaPreview(mediaType) {
       this.previewType = mediaType;
-    }
-  }
+    },
+  },
 };
 </script>
