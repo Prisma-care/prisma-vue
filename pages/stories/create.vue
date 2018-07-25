@@ -11,18 +11,13 @@
 
           <div class="form-row">
             <div class="col-6">
-              <div class="form-group">
-                <select class="form-control" v-model="newAlbum">
-                  <option value="">Kies het onderwerp</option>
-                  <option>Familie en vrienden</option>
-                  <option>Gewoonten en tradities</option>
-                  <option>Muziek</option>
-                  <option>Vrije tijd</option>
-                  <option>School en werk</option>
-                  <option>Spel en hobbies</option>
-                  <option>Sport</option>
-                </select>
-              </div>
+              <b-form-group id="editCategoryInputGroup" label-for="categoryInput">
+                <b-form-select id="categoryInput" v-model="form.category" :options="this.albums.map(a => ({
+									  value: a.id,
+									  text: a.title
+									  }))" required>
+                </b-form-select>
+              </b-form-group>
             </div>
             <div class="col-6">
               <a href="#" class="mt-2 small d-flex align-items-center">
@@ -31,7 +26,7 @@
           </div>
 
 
-         <!-- <div class="form-row">
+          <!-- <div class="form-row">
             <div class="col-4 col-lg-2">
               <b-form-group label="Jaartal" label-for="year">
                 <b-form-input type="text" class="form-control" placeholder="jjjj"></b-form-input>
@@ -44,7 +39,7 @@
 
 
           <b-form-group label="Beschrijving" label-for="description">
-            <b-form-textarea v-model="newStory" id="description" class="form-control" type="text" ref="storytext" placeholder="Vertel het verhaal beknopt"
+            <b-form-textarea v-model="form.description" id="description" class="form-control" type="text" ref="storytext" placeholder="Vertel het verhaal beknopt"
               rows="3" autofocus></b-form-textarea>
           </b-form-group>
 
@@ -64,7 +59,7 @@
                 </div>
               </div>
 
-              <div >
+              <div>
                 <input type="file" :name="uploadFieldName" @change="onFileChange" accept="image/*" class="input-file">
                 <p>
                   <i class="material-icons">arrow_upward</i>
@@ -97,23 +92,28 @@
 </template>
 <script>
 import storyService from "@/services/story";
+import albumService from "@/services/album";
+import axios from "axios";
 export default {
   //middleware: "notAuthenticated",
   data() {
     return {
-      newStory: "",
+      albums: [],
       image: null,
       seen: true,
       previewType: false,
-      newAlbum: "",
       imagePreview: "",
       uploadFieldName: "photos",
-      formAdd: {
+      form: {
         category: null,
         description: null,
         youtubeUrl: null
       }
     };
+  },
+  mounted() {
+    this.getAlbums();
+    console.log(axios.defaults.headers);
   },
   methods: {
     onFileChange(e) {
@@ -134,20 +134,28 @@ export default {
 
       reader.readAsDataURL(file);
     },
+    getAlbums() {
+      albumService.getAlbums().then(albums => {
+        this.albums = albums.data.response;
+        console.log(this.albums);
+      });
+    },
     addStory(e) {
       e.preventDefault();
 
       const body = {
-        albumId: this.formAdd.category,
-        description: this.formAdd.description,
-        creatorId: this.$store.state.user
+        albumId: this.form.category,
+        description: this.form.description,
+        creatorId: this.$store.state.auth.user.response.id
       };
+      console.log(body);
 
       const patientId = this.$store.state.auth.user.response.patients[0]
         .patient_id;
       storyService
         .addStory(patientId, body)
         .then(response => {
+          console.log(response);
           const storyId = this.response.data.id;
           let formData = new FormData();
           formData.append("asset", this.image);
