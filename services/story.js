@@ -35,8 +35,8 @@ const storyService = {
    * @param {object} body
    * @returns {object}
    */
-  addStory(patientId, body) {
-    return axios.post(`${URL}/${patientId}/story`, body);
+  async addStory(patientId, body) {
+    return await axios.post(`${URL}/${patientId}/story`, body);
   },
 
   /**
@@ -46,8 +46,8 @@ const storyService = {
    * @param {number} storyId
    * @returns {object}
    */
-  deleteStory(patientId, storyId) {
-    return axios.delete(`${URL}/${patientId}/story/${storyId}`);
+  async deleteStory(patientId, storyId) {
+    return await axios.delete(`${URL}/${patientId}/story/${storyId}`);
   },
 
   /**
@@ -58,8 +58,8 @@ const storyService = {
    * @param {object} body
    * @returns {object}
    */
-  editStory(patientId, storyId, body) {
-    return axios.patch(`${URL}/${patientId}/story/${storyId}`, body);
+  async editStory(patientId, storyId, body) {
+    return await axios.patch(`${URL}/${patientId}/story/${storyId}`, body);
   },
 
   /**
