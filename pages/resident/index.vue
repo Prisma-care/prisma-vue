@@ -17,78 +17,6 @@
 
     <div class="container">
 
-<<<<<<< HEAD
-      <!-- Modal to add a story -->
-      <b-modal ref="addModalRef" class="story-add" id="addStoryModal" hide-footer title="Voeg verhaal toe">
-
-        <div class="media">
-          <img class="mr-3 rounded-circle" src="'TODO NULL'" alt="Avatar Afbeelding">
-          <div class="media-body">
-            <b-form-textarea id="textarea1" v-model="formAdd.description" :no-resize=true placeholder="Het verhaal moet kort zijn." :rows="3"
-              maxlength="250" :max-rows="6">
-            </b-form-textarea>
-          </div>
-        </div>
-
-        <b-form>
-
-          <div class="story-add-media d-flex justify-content-start mb-4">
-            <b-btn variant="light" size="sm" class="d-flex align-items-center mr-2" @click="showMediaPreview('photo')">
-              <i class="material-icons mr-2">camera_alt</i> Foto
-            </b-btn>
-
-            <b-btn variant="light" size="sm" class="d-flex align-items-center" @click="showMediaPreview('video')">
-              <i class="material-icons mr-2">movie</i> Video
-            </b-btn>
-          </div>
-
-          <div class="story-add-photopreview" v-if="image && seen == false">
-            <div class="card">
-              <img :src="imagePreview" class="img-responsive" width="125" height="125">
-              <div class="card-img-overlay text-right p-1">
-                <a href="#" @click="hideMedia" class="close text-white">×</a>
-              </div>
-            </div>
-          </div>
-
-          <div v-if="previewType == 'photo' && seen" class="dropbox">
-            <input type="file" :name="uploadFieldName" @change="onFileChange" accept="image/*" class="input-file">
-            <p>
-              <i class="material-icons">arrow_upward</i>
-              <br> Sleep uw bestand hier of klik om te bladeren.
-            </p>
-          </div>
-
-          <div class="mt-4" v-if="previewType == 'video'">
-            {{ this.reset() }}
-
-            <b-form-group id="" label="" label-for="">
-
-              <label for="youtubeUrl">YouTube Link:</label>
-
-              <b-form-input id="youtubeUrl" type="text" placeholder="https://www.youtube.com/watch?v=ffSnk4v3aeg" @input="addYoutube" v-model="formAdd.youtubeUrl">
-              </b-form-input>
-            </b-form-group>
-          </div>
-
-          <b-form-group id="AddCategoryInputGroup" label-for="categoryInput">
-            <b-form-select id="categoryInput" v-model="formAdd.category" :options="this.albums.map(a => ({
-										value: a.id,
-										text: a.title
-										}))" required>
-            </b-form-select>
-          </b-form-group>
-          <hr>
-          <div class="row">
-            <div class="col-12">
-              <b-btn type="submit" variant="outline-primary" @click="addStory" block>Voeg Toe</b-btn>
-            </div>
-          </div>
-        </b-form>
-      </b-modal>
-
-=======
->>>>>>> 217c967e801fe563fc35bd0cebcbe33dcfffc052
       <section v-if="errored || this.albums.length == 0" v-cloak class="text-center d-print-none row">
         <div class="col-md-8 mx-auto">
           <p class="lead lead-lg">Wie is {{ $route.params.slug }}?</p>
@@ -274,22 +202,22 @@
 </template>
 
 <script>
-import storyService from '@/services/story';
-import videoUtils from '@/utils/video';
-import arrayBufferToDataUrl from '@/utils/image';
-import axios from 'axios';
+import storyService from "@/services/story";
+import videoUtils from "@/utils/video";
+import arrayBufferToDataUrl from "@/utils/image";
+import axios from "axios";
 
-import VueGallery from 'vue-gallery';
+import VueGallery from "vue-gallery";
 
 export default {
-  middleware: 'notAuthenticated',
+  middleware: "notAuthenticated",
   data() {
     return {
       albums: [],
       checkedStories: [],
       formEdit: {
         category: null,
-        description: null,
+        description: null
       },
       errored: false,
       focusIndex: null,
@@ -300,9 +228,9 @@ export default {
       loadingStories: false,
       previewType: false,
       stories: [],
-      text: '',
-      uploadFieldName: 'photos',
-      videoAdded: false,
+      text: "",
+      uploadFieldName: "photos",
+      videoAdded: false
     };
   },
   components: {
@@ -310,16 +238,13 @@ export default {
   },
   mounted() {
     this.getStories();
-<<<<<<< HEAD
-
-    this.reset();
-=======
->>>>>>> 217c967e801fe563fc35bd0cebcbe33dcfffc052
   },
   computed: {
     selectAll: {
       get: function() {
-        return this.stories ? this.checkedStories.length == this.albums.length : false;
+        return this.stories
+          ? this.checkedStories.length == this.albums.length
+          : false;
       },
       set: function(value) {
         var checkedStories = [];
@@ -329,12 +254,13 @@ export default {
           });
         }
         this.checkedStories = checkedStories;
-      },
-    },
+      }
+    }
   },
   methods: {
     deleteStory() {
-      var patientId = this.$store.state.auth.user.response.id;
+      const patientId = this.$store.state.auth.user.response.patients[0]
+        .patient_id;
       storyService
         .deleteStory(patientId, this.focusStory)
         .then(response => {
@@ -350,10 +276,11 @@ export default {
       var body = {
         // category: this.formEdit.category,
         description: this.formEdit.description,
-        creatorId: this.$store.state.user,
+        creatorId: this.$store.state.user
       };
 
-      var patientId = this.$store.state.patient.id;
+      const patientId = this.$store.state.auth.user.response.patients[0]
+        .patient_id;
 
       storyService
         .editStory(patientId, this.focusStory, body)
@@ -367,7 +294,8 @@ export default {
       this.hideEditModal();
     },
     getStories() {
-      const patientId = this.$store.state.auth.user.response.patients[0].patient_id;
+      const patientId = this.$store.state.auth.user.response.patients[0]
+        .patient_id;
 
       storyService
         .getStories(patientId)
@@ -378,7 +306,8 @@ export default {
           this.albums.forEach(album => {
             album.stories.sort(
               (story1, story2) =>
-                Date.parse(story1.createdAt.date) > Date.parse(story2.createdAt.date)
+                Date.parse(story1.createdAt.date) >
+                Date.parse(story2.createdAt.date)
             );
           });
 
@@ -393,29 +322,29 @@ export default {
             album.stories.forEach(story => {
               if (story) {
                 const slide = {
-                  title: story.description,
+                  title: story.description
                 };
 
-                if (story.type === 'youtube') {
+                if (story.type === "youtube") {
                   const youtubeId = videoUtils.getYouTubeID(story.source);
                   slide.href = story.source;
                   if (youtubeId) {
                     slide.poster = videoUtils.getYouTubeThumb(story.source);
                     slide.youtube = youtubeId;
                   }
-                  slide.type = 'text/html';
-                } else if (story.type === 'image') {
+                  slide.type = "text/html";
+                } else if (story.type === "image") {
                   slide.href = story.source;
-                  slide.type = 'image/jpeg';
+                  slide.type = "image/jpeg";
 
                   let getImg = new Promise((resolve, reject) => {
                     var oReq = new XMLHttpRequest();
-                    oReq.open('GET', story.source, true);
+                    oReq.open("GET", story.source, true);
                     oReq.setRequestHeader(
-                      'Authorization',
-                      'Bearer ' + this.$store.state.auth.user.response.token
+                      "Authorization",
+                      "Bearer " + this.$store.state.auth.user.response.token
                     );
-                    oReq.responseType = 'arraybuffer';
+                    oReq.responseType = "arraybuffer";
                     oReq.onload = function(oEvent) {
                       var arrayBuffer = oReq.response;
                       resolve(oReq);
@@ -424,11 +353,10 @@ export default {
                   });
 
                   getImg.then(response => {
-                    const type = response.getResponseHeader('content-type');
-                    document.querySelector(`#story-${story.id} > img`).src = arrayBufferToDataUrl(
-                      response.response,
-                      type
-                    );
+                    const type = response.getResponseHeader("content-type");
+                    document.querySelector(
+                      `#story-${story.id} > img`
+                    ).src = arrayBufferToDataUrl(response.response, type);
                   });
                 }
 
@@ -481,7 +409,7 @@ export default {
     },
     showMediaPreview(mediaType) {
       this.previewType = mediaType;
-    },
-  },
+    }
+  }
 };
 </script>
