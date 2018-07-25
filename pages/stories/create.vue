@@ -173,10 +173,10 @@ export default {
             storyService
               .addImageToStory(patientId, storyId, formData)
               .then(response => {
-                console.log("Image added");
+                console.log(response);
               })
               .catch(err => {
-                console.log("image werkt niet");
+                console.log(err);
               });
           }
           this.$router.push("/resident");

@@ -312,7 +312,6 @@ export default {
         .getStories(patientId)
         .then(response => {
           this.albums = response.data.response;
-          console.log(this.albums);
 
           this.albums.forEach(album => {
             album.stories.sort(
