@@ -31,7 +31,7 @@
           </div>
 
 
-          <div class="form-row">
+         <!-- <div class="form-row">
             <div class="col-4 col-lg-2">
               <b-form-group label="Jaartal" label-for="year">
                 <b-form-input type="text" class="form-control" placeholder="jjjj"></b-form-input>
@@ -40,23 +40,13 @@
             <div class="col-6">
               <small>Optioneel</small>
             </div>
-          </div>
+          </div> -->
 
 
           <b-form-group label="Beschrijving" label-for="description">
             <b-form-textarea v-model="newStory" id="description" class="form-control" type="text" ref="storytext" placeholder="Vertel het verhaal beknopt"
               rows="3" autofocus></b-form-textarea>
           </b-form-group>
-
-
-          <!-- <ul class="nav nav-tabs" role="tablist">
-          <li class="nav-item">
-            <a class="nav-link d-flex align-items-center active" id="photoupload-tab" data-toggle="tab" href="#photoupload" role="tab" aria-controls="photoupload" aria-selected="true"><i class="material-icons mr-2">camera_alt</i> Foto opladen</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link d-flex align-items-center" id="youtubeadd-tab" data-toggle="tab" href="#youtubeadd" role="tab" aria-controls="youtubeadd" aria-selected="false"><i class="material-icons mr-2">movie</i> Video van Youtube kiezen</a>
-          </li>
-        </ul> -->
 
           <b-tabs>
 
@@ -92,7 +82,7 @@
           </b-tabs>
 
 
-          <button class="btn btn-primary">Opslaan</button>
+          <button class="btn btn-primary mt-5" @click="addStory">Opslaan</button>
         </b-form>
       </div>
 
@@ -106,6 +96,7 @@
   </div>
 </template>
 <script>
+import storyService from "@/services/story";
 export default {
   middleware: "notAuthenticated",
   data() {
@@ -116,7 +107,12 @@ export default {
       previewType: false,
       newAlbum: "",
       imagePreview: "",
-      uploadFieldName: "photos"
+      uploadFieldName: "photos",
+      formAdd: {
+        category: null,
+        description: null,
+        youtubeUrl: null
+      }
     };
   },
   methods: {
@@ -137,6 +133,39 @@ export default {
       };
 
       reader.readAsDataURL(file);
+    },
+    addStory(e) {
+      e.preventDefault();
+
+      const body = {
+        albumId: this.formAdd.category,
+        description: this.formAdd.description,
+        creatorId: this.$store.state.user
+      };
+
+      const patientId = this.$store.state.patient;
+      console.log(patientId);
+      storyService
+        .addStory(patientId, body)
+        .then(response => {
+          const storyId = this.response.data.id;
+          let formData = new FormData();
+          formData.append("asset", this.image);
+          if (this.image != null) {
+            storyService
+              .addImageToStory(patientId, storyId, formData)
+              .then(response => {
+                console.log("Image added");
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          }
+          console.log(response);
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     hideMedia() {
       this.reset();
