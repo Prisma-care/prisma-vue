@@ -1,6 +1,6 @@
 <template>
   <div id="root" class="container mt-4">
-  
+
   <h1 class="mb-2">Vraag om hulp via email</h1>
   <p class="lead">Wie helpt je met het verzamelen van verhalen?</p>
   <transition name="fade">
@@ -11,7 +11,7 @@
     <a href="/residents/1/family" class="btn btn-light">of keer terug naar het overzicht</a>
   </div>
   </transition>
-  
+
   <form action="">
     <div class="form-row">
       <div class="col-2 col-md-3">
@@ -74,6 +74,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   middleware: "notAuthenticated",
   data() {
@@ -106,7 +107,7 @@ export default {
       return this.message !== "" && this.message.length >= 5
         ? false
         : "disabled";
-    }
+    },
   },
   methods: {
     fillMessage() {
@@ -115,9 +116,20 @@ export default {
       this.message = plainMessage;
     },
     send() {
-      this.form.lastname = "";
-      this.form.firstname = "";
-      this.form.email = "";
+      axios.post('https://api2.prisma.care/v1/sendPictureInvite', {
+        firstName: this.form.lastname,
+        lastName: this.form.firstname,
+        email: this.form.email,
+        subject: this.form.subject,
+        message: this.message,
+        patientId: 1
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
       this.alert = true;
       setTimeout(() => {
         this.alert = false;
