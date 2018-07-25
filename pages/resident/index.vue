@@ -190,7 +190,7 @@
 
 		    <div class="col-6">
 		      <b-btn variant="outline-danger" size="sm"
-			     class="d-flex justify-content-center
+			     class="d-none justify-content-center
 				    align-items-center"
 			     @click="showDeleteModal(index, story)">
 			<i class="material-icons md-18 mr-2">clear</i> Deleten
@@ -234,7 +234,7 @@ import videoUtils from '@/utils/video';
 import arrayBufferToDataUrl from '@/utils/image';
 import axios from 'axios';
 
-import VueGallery from 'vue-gallery';
+// import VueGallery from 'vue-gallery';
 
 export default {
   middleware: 'notAuthenticated',
