@@ -1,9 +1,12 @@
 import axios from 'axios';
+import {
+  baseURL
+} from '~/config';
 
 /**
  * Main URL for API access.
  */
-const URL = 'https://api.prisma.care/v1/patient';
+const URL = `${baseURL}/patient`;
 
 /**
  * Service for interaction with stories.

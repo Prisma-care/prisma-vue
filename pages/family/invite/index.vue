@@ -35,7 +35,7 @@
     </div>
 
     <div class="form-group">
-      <input type="text" class="form-control" placeholder="Kies onderwerp" value="Verzamelen van herinneringen in foto en tekst">
+      <input type="text" class="form-control" placeholder="Kies onderwerp" v-model="form.subject">
       <label for="lastname">Email onderwerp</label>
     </div>
 
@@ -74,7 +74,8 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
+import emailService from "@/services/email";
 export default {
   middleware: "notAuthenticated",
   data() {
@@ -83,7 +84,7 @@ export default {
         firstname: "",
         lastname: "",
         email: "",
-        subject: ""
+        subject: "Verzamelen van herinneringen in foto en tekst"
       },
       message: "",
       alert: false,
@@ -107,7 +108,7 @@ export default {
       return this.message !== "" && this.message.length >= 5
         ? false
         : "disabled";
-    },
+    }
   },
   methods: {
     fillMessage() {
@@ -116,20 +117,22 @@ export default {
       this.message = plainMessage;
     },
     send() {
-      axios.post('https://api2.prisma.care/v1/sendPictureInvite', {
+      const emailData = {
         firstName: this.form.lastname,
         lastName: this.form.firstname,
         email: this.form.email,
         subject: this.form.subject,
         message: this.message,
         patientId: 1
-      })
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+      };
+      emailService
+        .sendEmail(emailData)
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
       this.alert = true;
       setTimeout(() => {
         this.alert = false;

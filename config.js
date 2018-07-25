@@ -1,1 +1,1 @@
-export const baseURL = 'https://api.prisma.care/v1';
+export const baseURL = 'https://api2.prisma.care/v1';

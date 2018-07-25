@@ -40,7 +40,7 @@ export default {
       this.$store
         .dispatch("auth/login", user)
         .then(result => {
-          this.$router.push("/");
+          this.$router.push("/resident");
         })
         .catch(err => {
           console.log(err);
