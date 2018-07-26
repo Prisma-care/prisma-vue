@@ -9,7 +9,7 @@
 
     <div class="resi-nav">
       <nav id="navbar-albums" class="nav d-print-none justify-content-center">
-        <a v-for="album in albums" v-bind:key="album.id" :href="'#' + album.title" class="nav-link">
+        <a v-for="album in albums" v-bind:key="album.id" :href="'#' + album.title" class="nav-link" v-if="album.stories.length > 0">
           {{ album.title }}
         </a>
       </nav>
@@ -90,7 +90,7 @@
               <i class="material-icons">add</i>Verhaal toevoegen
             </nuxt-link>
 
-            <div v-for="(album, albumIndex) in albums" v-bind:key="album.id + 'stories'">
+            <div v-for="(album, albumIndex) in albums" v-bind:key="album.id + 'stories'" v-if="album.stories.length > 0">
               <div class="story-category" :id="album.title">
                 <div class="story-category-header">
                   <h2>{{ album.title }}</h2>
