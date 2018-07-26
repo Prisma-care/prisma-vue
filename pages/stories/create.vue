@@ -164,14 +164,12 @@ export default {
         .addStory(patientId, body)
         .then(response => {
           const storyId = response.data.response.id;
+          let formData = new FormData();
+          formData.append("asset", this.image);
 
           if (this.image !== null) {
             storyService
-              .addImageToStory(
-                patientId,
-                storyId,
-                new FormData().append("asset", this.image)
-              )
+              .addImageToStory(patientId, storyId, formData)
               .then(response => {
                 console.log(response);
               })
