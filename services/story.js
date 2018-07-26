@@ -29,14 +29,31 @@ const storyService = {
   },
 
   /**
+   * Adds an image to an existing story.
+   *
+   * @param {number} patientId
+   * @param {number} storyId
+   * @param {string} url
+   * @returns {number}
+   */
+  addYoutubeToStory(patientId, storyId, url) {
+    return axios.post(
+      `${URL}/${patientId}/story/${storyId}/asset`, {
+	asset: url,
+        assetType: 'youtube'
+      }
+    );
+  },
+
+  /**
    * Adds a story to the user's story list.
    *
    * @param {number} patientId
    * @param {object} body
    * @returns {object}
    */
-  addStory(patientId, body) {
-    return axios.post(`${URL}/${patientId}/story`, body);
+  async addStory(patientId, body) {
+    return await axios.post(`${URL}/${patientId}/story`, body);
   },
 
   /**
@@ -46,8 +63,8 @@ const storyService = {
    * @param {number} storyId
    * @returns {object}
    */
-  deleteStory(patientId, storyId) {
-    return axios.delete(`${URL}/${patientId}/story/${storyId}`);
+  async deleteStory(patientId, storyId) {
+    return await axios.delete(`${URL}/${patientId}/story/${storyId}`);
   },
 
   /**
@@ -58,8 +75,8 @@ const storyService = {
    * @param {object} body
    * @returns {object}
    */
-  editStory(patientId, storyId, body) {
-    return axios.patch(`${URL}/${patientId}/story/${storyId}`, body);
+  async editStory(patientId, storyId, body) {
+    return await axios.patch(`${URL}/${patientId}/story/${storyId}`, body);
   },
 
   /**

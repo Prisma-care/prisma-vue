@@ -157,7 +157,6 @@ export default {
         description: this.form.description,
         creatorId: this.$store.state.auth.user.response.id
       };
-      console.log(body);
 
       const patientId = this.$store.state.auth.user.response.patients[0]
         .patient_id;
@@ -165,23 +164,28 @@ export default {
         .addStory(patientId, body)
         .then(response => {
           const storyId = response.data.response.id;
-          let formData = new FormData();
+
           if (this.image !== null) {
-            formData.append("asset", this.image);
-          } else if (this.form.youtubeUrl !== null) {
-            formData.append("asset", this.form.youtubeUrl);
-          }
-          // let formData = new FormData();
-          // formData.append("asset", this.image);
-          if (this.image !== null || this.form.youtubeUrl !== null) {
             storyService
-              .addImageToStory(patientId, storyId, formData)
+              .addImageToStory(
+                patientId,
+                storyId,
+                new FormData().append("asset", this.image)
+              )
               .then(response => {
-                console.log("Asset added");
+                console.log(response);
               })
               .catch(err => {
                 console.log(err);
-                console.log(formData);
+              });
+          } else if (this.form.youtubeUrl !== null) {
+            storyService
+              .addYoutubeToStory(patientId, storyId, this.form.youtubeUrl)
+              .then(response => {
+                console.log(response);
+              })
+              .catch(err => {
+                console.log(err);
               });
           }
           this.$router.push("/resident");

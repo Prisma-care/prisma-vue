@@ -183,9 +183,10 @@
 
 <script>
 import storyService from "@/services/story";
-import videoUtils from "@/utils/video";
-import arrayBufferToDataUrl from "@/utils/image";
 import axios from "axios";
+
+// import VueGallery from 'vue-gallery';
+
 export default {
   middleware: "notAuthenticated",
   data() {
@@ -278,7 +279,6 @@ export default {
         .getStories(patientId)
         .then(response => {
           this.albums = response.data.response;
-          console.log(this.albums);
 
           this.albums.forEach(album => {
             album.stories.sort(
@@ -303,10 +303,10 @@ export default {
                 };
 
                 if (story.type === "youtube") {
-                  const youtubeId = videoUtils.getYouTubeID(story.source);
+                  const youtubeId = this.getYouTubeID(story.source);
                   slide.href = story.source;
                   if (youtubeId) {
-                    slide.poster = videoUtils.getYouTubeThumb(story.source);
+                    slide.poster = this.getYouTubeThumb(story.source);
                     slide.youtube = youtubeId;
                   }
                   slide.type = "text/html";
@@ -329,6 +329,16 @@ export default {
                     oReq.send(null);
                   });
 
+                  function arrayBufferToDataUrl(buffer, type) {
+                    const base64 = btoa(
+                      [].reduce.call(
+                        new Uint8Array(buffer),
+                        (p, c) => p + String.fromCharCode(c),
+                        ""
+                      )
+                    );
+                    return `data:${type};base64,${base64}`;
+                  }
                   getImg.then(response => {
                     const type = response.getResponseHeader("content-type");
                     document.querySelector(
@@ -348,8 +358,21 @@ export default {
         })
         .finally(() => (this.loadingStories = false));
     },
+    getYouTubeID(url) {
+      const match = /v=(\w*)$/.exec(url);
+      if (match) {
+        return match[1];
+      } else {
+        return null;
+      }
+    },
     getYouTubeThumb(url) {
-      return videoUtils.getYouTubeThumb(url);
+      const youtubeId = this.getYouTubeID(url);
+      if (youtubeId) {
+        return `https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`;
+      } else {
+        return null;
+      }
     },
     hideEditModal() {
       this.$refs.editModalRef.hide();
