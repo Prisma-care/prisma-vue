@@ -8,7 +8,7 @@
             <b-form-input name="email" type="email" v-model="email" placeholder="john.doe@gmail.com"></b-form-input>
           </b-form-group>
           <b-form-group label="Password" label-for="password">
-            <b-form-input type="password" v-model="password"></b-form-input>
+            <b-form-input type="password" v-model="password" placeholder="mijngeheimwachtwoord"></b-form-input>
           </b-form-group>
           <b-btn variant="primary" @click="submit">Aanmelden</b-btn>
         </b-form>
