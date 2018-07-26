@@ -100,119 +100,85 @@
 				   'd-print-block':
 				   checkedStories.includes(story.id)}">
 
-		  <div v-if="story['type'] == 'image' || story['type'] == 'youtube'">
+                    <div v-if="story['type'] == 'image' || story['type'] == 'youtube'">
 
-		    <b-card title="Card Title"
-			    :img-src="story.type === 'youtube' ? getYouTubeThumb(story.source) : 'undefined'"
-			    img-alt="Image"
-			    img-top
-			    :id="'story-' + story.id"
-			    :key="story.id"
-			    :ref="story.id"
-			    no-body
-			    class="d-flex align-self-center">
+                      <b-card title="Card Title" :img-src="story.type === 'youtube' ? getYouTubeThumb(story.source) : 'undefined'" img-alt="Image"
+                        img-top :id="'story-' + story.id" :key="story.id" :ref="story.id" no-body class="d-flex align-self-center">
 
-		      <b-badge v-if="story['Year']" variant="dark" class="story-year">
-			{{ story['Year'] }}
-		      </b-badge>
+                        <b-badge v-if="story['Year']" variant="dark" class="story-year">
+                          {{ story['Year'] }}
+                        </b-badge>
 
-		      <b-btn variant="primary" @click="galleryIndex = story.index"
-			     v-if="story['type'] == 'youtube'"
-			     class="btn-play d-flex justify-content-center align-items-center">
-			<i class="material-icons md-32 mx-auto">play_arrow</i>
-		      </b-btn>
+                        <b-btn variant="primary" @click="galleryIndex = story.index" v-if="story['type'] == 'youtube'" class="btn-play d-flex justify-content-center align-items-center">
+                          <i class="material-icons md-32 mx-auto">play_arrow</i>
+                        </b-btn>
 
-		      <b-btn variant="primary" @click="galleryIndex = story.index"
-			     v-if="story['type'] == 'image'"
-			     class="btn-zoom d-flex justify-content-center align-items-center">
-			<i class="material-icons md-32 mx-auto">zoom_out_map</i>
-		      </b-btn>
+                        <b-btn variant="primary" @click="galleryIndex = story.index" v-if="story['type'] == 'image'" class="btn-zoom d-flex justify-content-center align-items-center">
+                          <i class="material-icons md-32 mx-auto">zoom_out_map</i>
+                        </b-btn>
 
-		      <div class="card-img-overlay">
-			<div class="d-flex align-items-center">
-			  <input type="checkbox" :id="story.id" :value="story.id" v-model="checkedStories" class="checkbox" number>
-			  <label class="form-check-label" :for="story.id">Selecteer</label>
-			</div>
-		      </div>
-		    </b-card>
-		  </div>
+                        <div class="card-img-overlay">
+                          <div class="d-flex align-items-center">
+                            <input type="checkbox" :id="story.id" :value="story.id" v-model="checkedStories" class="checkbox" number>
+                            <label class="form-check-label" :for="story.id">Selecteer</label>
+                          </div>
+                        </div>
+                      </b-card>
+                    </div>
 
-		  <p v-if="story['type'] == 'image' ||
-			   story['type'] == 'youtube'"
-		     class="mt-3">{{ story['description'] }}</p>
+                    <p v-if="story['type'] == 'image' ||
+			   story['type'] == 'youtube'" class="mt-3">{{ story['description'] }}</p>
 
-		  <div class="card card_text"
-		       v-if="!story['type']">
-		    <div class="card-body">
-		      {{ story['description'] }}
-		    </div>
-		  </div>
+                    <div class="card card_text" v-if="!story['type']">
+                      <div class="card-body">
+                        {{ story['description'] }}
+                      </div>
+                    </div>
 
-		  <div class="row">
+                    <div class="row">
 
-		    <div class="col-12">
-		      <b-btn v-if="story['description'] && !story['source']"
-			     variant="outline-light" size="sm"
-			     class="btn-edit d-flex justify-content-center align-items-center mb-2"
-			     @click="showEditModal">
-			<i class="material-icons md-18 mr-2">add_photo_alternate</i> Voeg beeld toe <em>TODO</em>
-		      </b-btn>
-		    </div>
+                      <div class="col-12">
+                        <b-btn v-if="story['description'] && !story['source']" variant="outline-light" size="sm" class="btn-edit d-flex justify-content-center align-items-center mb-2"
+                          @click="showEditModal">
+                          <i class="material-icons md-18 mr-2">add_photo_alternate</i> Voeg beeld toe
+                          <em>TODO</em>
+                        </b-btn>
+                      </div>
 
-		    <div class="col-6">
-		      <b-btn v-if="story['description']"
-			     variant="outline-light" size="sm"
-			     class="btn-edit d-flex justify-content-center align-items-center"
-			     @click="showEditModal(index, story)">
-			<i class="material-icons md-18 mr-2">edit</i> Pas tekst aan
-		      </b-btn>
+                      <div class="col-6">
+                        <b-btn v-if="story['description']" variant="outline-light" size="sm" class="btn-edit d-flex justify-content-center align-items-center"
+                          @click="showEditModal(index, story)">
+                          <i class="material-icons md-18 mr-2">edit</i> Pas tekst aan
+                        </b-btn>
 
-		      <b-btn v-if="!story['description']"
-			     variant="outline-light" size="sm"
-			     class="btn-add d-flex justify-content-center align-items-center"
-			     @click="showEditModal">
-			<i class="material-icons md-18 mr-2">edit</i> Voeg tekst toe
-		      </b-btn>
-		    </div>
+                        <b-btn v-if="!story['description']" variant="outline-light" size="sm" class="btn-add d-flex justify-content-center align-items-center"
+                          @click="showEditModal">
+                          <i class="material-icons md-18 mr-2">edit</i> Voeg tekst toe
+                        </b-btn>
+                      </div>
 
-		    <div class="col-6">
-		      <b-btn variant="outline-danger" size="sm"
-			     class="d-none justify-content-center
-				    align-items-center"
-			     @click="showDeleteModal(index, story)">
-			<i class="material-icons md-18 mr-2">clear</i> Deleten
-		      </b-btn>
-		    </div>
-		  </div>
-		</div> <!-- ./v-for="(album, index) in albums" -->
-	      </div> <!-- ./row -->
-	    </div> <!-- ./story-category -->
-	  </div> <!-- ./story-container -->
-
-	  <div class="container d-flex text-muted">
-	    <div class="mr-auto d-flex align-items-center">
-	      <input type="checkbox" id="selectAllCheckbox" v-model="selectAll" class="mr-1">
-	      <span v-if="checkedStories.length == 0">
-		Selecteer de verhalen die je wilt printen
-	      </span>
-
-	      <span>
-		<b-badge v-if="checkedStories.length > 0" pill variant="primary">
-		  {{ checkedStories.length }}
-		</b-badge>
-
-		geselecteerd
-	      </span>
-	    </div>
-	    <a href="javascript:window.print()" class="btn btn-sm
-						       btn-primary d-flex align-items-center"
-	       :disabled="checkedStories.length > 0"><i class="material-icons mr-2">print</i> Print</a>
-	  </div>
-	</div>
-      </div>
-    </section>
-    </div>  <!-- ./container -->
-  </div>  <!-- ./container-resident -->
+                      <div class="col-6">
+                        <b-btn variant="outline-danger" size="sm" class="d-none justify-content-center
+				    align-items-center" @click="showDeleteModal(index, story)">
+                          <i class="material-icons md-18 mr-2">clear</i> Deleten
+                        </b-btn>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- ./v-for="(album, index) in albums" -->
+                </div>
+                <!-- ./row -->
+              </div>
+              <!-- ./story-category -->
+            </div>
+            <!-- ./story-container -->
+          </div>
+        </div>
+      </section>
+    </div>
+    <!-- ./container -->
+  </div>
+  <!-- ./container-resident -->
 </template>
 
 <script>
@@ -383,7 +349,7 @@ export default {
         .finally(() => (this.loadingStories = false));
     },
     getYouTubeThumb(url) {
-      videoUtils.getYouTubeThumb(url);
+      return videoUtils.getYouTubeThumb(url);
     },
     hideEditModal() {
       this.$refs.editModalRef.hide();

@@ -165,18 +165,23 @@ export default {
         .addStory(patientId, body)
         .then(response => {
           const storyId = response.data.response.id;
-
           let formData = new FormData();
-          formData.append("asset", this.image);
           if (this.image !== null) {
-            console.log("lol");
+            formData.append("asset", this.image);
+          } else if (this.form.youtubeUrl !== null) {
+            formData.append("asset", this.form.youtubeUrl);
+          }
+          // let formData = new FormData();
+          // formData.append("asset", this.image);
+          if (this.image !== null || this.form.youtubeUrl !== null) {
             storyService
               .addImageToStory(patientId, storyId, formData)
               .then(response => {
-                console.log("Image added");
+                console.log("Asset added");
               })
               .catch(err => {
-                console.log("image werkt niet");
+                console.log(err);
+                console.log(formData);
               });
           }
           this.$router.push("/resident");
