@@ -208,7 +208,6 @@ export default {
       stories: [],
       text: "",
       uploadFieldName: "photos",
-      videoAdded: false
     };
   },
   components: {
