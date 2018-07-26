@@ -158,8 +158,8 @@
                       </div>
 
                       <div class="col-6">
-                        <b-btn variant="outline-danger" size="sm" class="d-none justify-content-center
-				    align-items-center" @click="showDeleteModal(index, story)">
+                        <b-btn variant="outline-light" size="sm"
+			       class="btn-add d-flex justify-content-center align-items-center" @click="showDeleteModal(index, story)">
                           <i class="material-icons md-18 mr-2">clear</i> Deleten
                         </b-btn>
                       </div>
