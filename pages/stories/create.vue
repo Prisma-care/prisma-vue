@@ -19,10 +19,6 @@
                 </b-form-select>
               </b-form-group>
             </div>
-            <div class="col-6">
-              <a href="#" class="mt-2 small d-flex align-items-center">
-                <i class="material-icons md-18">chat</i> Vragen over {chosensubject}</a>
-            </div>
           </div>
 
 
@@ -46,9 +42,9 @@
           <b-tabs>
 
             <!-- Photo tab -->
-            <b-tab>
-              <template slot="title">
-                <i class="material-icons mr-2">camera_alt</i> Foto opladen
+            <b-tab class="d-flex align-items-center">
+              <template slot="title" >
+              <i class="material-icons mr-2 add-icon">camera_alt</i> Foto opladen
               </template>
               <div class="story-add-photopreview" v-if="image && seen == false">
                 <div class="card">
@@ -69,15 +65,19 @@
             </b-tab>
 
             <!-- Youtube tab -->
-            <b-tab title="Video van Youtube kiezen">
-
-	      <label>YouTube Link</label><br>
-	      <input v-model="form.youtubeUrl" v-validate="{ required: true, regex: '^(https?\:\/\/)?((www\.)?youtube\.com|youtu\.?be)\/.+$'}"
-		     name="regex" type="text"
-		     placeholder="https://www.youtube.com/watch?v=ffSnk4v3aeg">
-	      <div><br>
-		<img :src="getYouTubeThumb(this.form.youtubeUrl)" width="125" height="125">
-	      </div>
+            <b-tab>
+              <template slot="title" class="nav-link d-flex align-items-center active">
+                <i class="material-icons mr-2 add-icon">movie</i> Video van Youtube kiezen
+              </template>
+              <div class="form-group">
+                <input v-model="form.youtubeUrl" class="form-control" v-validate="{ required: true, regex: '^(https?\:\/\/)?((www\.)?youtube\.com|youtu\.?be)\/.+$'}"
+                  name="regex" type="text" placeholder="https://www.youtube.com/watch?v=ffSnk4v3aeg">
+                  <label for="youtube">Youtube link</label>
+              </div>
+              <div>
+                <br>
+                <img :src="getYouTubeThumb(this.form.youtubeUrl)"  v-if="form.youtubeUrl != null && form.youtubeUrl != ''" width="125" height="125">
+              </div>
 
             </b-tab>
 
