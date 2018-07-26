@@ -5,7 +5,7 @@
         <h1 class="col-lg-12">Login</h1>
         <b-form class="col-lg-12">
           <b-form-group label="Email" label-for="email">
-            <b-form-input type="email" v-model="email"></b-form-input>
+            <b-form-input name="email" type="email" v-model="email" placeholder="john.doe@gmail.com"></b-form-input>
           </b-form-group>
           <b-form-group label="Password" label-for="password">
             <b-form-input type="password" v-model="password"></b-form-input>
