@@ -55,7 +55,7 @@
                 </div>
               </div>
 
-              <div>
+              <div class="dropbox">
                 <input type="file" :name="uploadFieldName" @change="onFileChange" accept="image/*" class="input-file">
                 <p>
                   <i class="material-icons">arrow_upward</i>
@@ -83,8 +83,7 @@
 
           </b-tabs>
 
-
-          <button class="btn btn-primary mt-5" @click="addStory">Opslaan</button>
+          <button class="btn btn-save btn-primary mb-3 mt-3" @click="addStory">Opslaan</button>
         </b-form>
       </div>
 
