@@ -34,9 +34,10 @@
           </div> -->
 
 
-          <b-form-group label="Beschrijving" label-for="description">
+          <b-form-group>
             <b-form-textarea v-model="form.description" id="description" class="form-control" type="text" ref="storytext" placeholder="Vertel het verhaal beknopt"
-              rows="3" autofocus></b-form-textarea>
+			     rows="3" autofocus></b-form-textarea>
+	    <label for="description">Beschrijving</label>
           </b-form-group>
 
           <b-tabs>
