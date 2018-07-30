@@ -65,15 +65,15 @@
               </div>
             </b-tab>
 
-            <!-- Youtube tab -->
+            <!-- YouTube tab -->
             <b-tab>
               <template slot="title" class="nav-link d-flex align-items-center active">
-                <i class="material-icons mr-2 add-icon">movie</i> Video van Youtube kiezen
+                <i class="material-icons mr-2 add-icon">movie</i> Video van YouTube kiezen
               </template>
               <div class="form-group">
                 <input v-model="form.youtubeUrl" class="form-control" v-validate="{ required: true, regex: '^(https?\:\/\/)?((www\.)?youtube\.com|youtu\.?be)\/.+$'}"
                   name="regex" type="text" placeholder="https://www.youtube.com/watch?v=ffSnk4v3aeg">
-                  <label for="youtube">Youtube link</label>
+                  <label for="youtube">YouTube link</label>
               </div>
               <div>
                 <br>
