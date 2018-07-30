@@ -66,8 +66,12 @@
                 <i class="material-icons mr-2 add-icon">movie</i> Video van YouTube kiezen
               </template>
               <div class="form-group">
-                <input v-model="form.youtubeUrl" class="form-control" v-validate="{ required: true, regex: '^(https?\:\/\/)?((www\.)?youtube\.com|youtu\.?be)\/.+$'}"
-                  name="regex" type="text" placeholder="https://www.youtube.com/watch?v=ffSnk4v3aeg">
+                <input v-model="form.youtubeUrl" class="form-control"
+		       v-validate="{ required: true,
+				   regex:
+				   '^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$'}"
+                       name="regex" type="text"
+		       placeholder="https://www.youtube.com/watch?v=ffSnk4v3aeg">
                   <label for="youtube">YouTube link</label>
               </div>
               <div>
@@ -207,12 +211,10 @@ export default {
         });
     },
     getYouTubeID(url) {
-      const match = /v=(\w*)$/.exec(url);
-      if (match) {
-        return match[1];
-      } else {
-        return null;
-      }
+      var id = url.match(
+        /(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/
+      );
+      return id && id[1];
     },
     getYouTubeThumb(url) {
       const youtubeId = this.getYouTubeID(url);
