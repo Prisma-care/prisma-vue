@@ -2,7 +2,7 @@
 <p align="center">
 	<a href="https://vuejs.org/"><img src="https://img.shields.io/badge/Vue.js-2.5-41b883.svg?style=flat-square"/></a>
 </p>
-<p align="center"><a href="https://prisma.care/">Prisma</a> is digital solution that helps staff in care homes get to know the residents. The care home invistes families of the residents to share important info about the lives of their loved ones in care homes, and the staff can see these memories via printed material and digital screens in the care home.</p>
+<p align="center"><a href="https://prisma.care/">Prisma</a> is digital solution that helps staff in care homes get to know the residents. The care home invites families of the residents to share important info about the lives of their loved ones in care homes, and the staff can see these memories via printed material and digital screens in the care home.</p>
 
 ---
 
