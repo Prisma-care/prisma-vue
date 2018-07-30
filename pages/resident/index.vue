@@ -136,15 +136,6 @@
                     </div>
 
                     <div class="row">
-
-                      <div class="col-12">
-                        <b-btn v-if="story['description'] && !story['source']" variant="outline-light" size="sm" class="btn-edit d-flex justify-content-center align-items-center mb-2"
-                          @click="showEditModal">
-                          <i class="material-icons md-18 mr-2">add_photo_alternate</i> Voeg beeld toe
-                          <em>TODO</em>
-                        </b-btn>
-                      </div>
-
                       <div class="col-6">
                         <b-btn v-if="story['description']" variant="outline-light" size="sm" class="btn-edit d-flex justify-content-center align-items-center"
                           @click="showEditModal(index, story)">
