@@ -31,3 +31,11 @@
     </section> <!-- ./intro -->
   </div> <!-- ./container -->
 </template>
+<script>
+export default {
+  mounted() {
+    this.$router.push("/resident");
+  }
+};
+</script>
+

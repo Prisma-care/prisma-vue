@@ -1,0 +1,93 @@
+import axios from 'axios';
+import {
+  baseURL
+} from '~/config';
+
+/**
+ * Main URL for API access.
+ */
+const URL = `${baseURL}/patient`;
+
+/**
+ * Service for interaction with stories.
+ */
+const storyService = {
+
+  /**
+   * Adds an image to an existing story.
+   *
+   * @param {number} patientId
+   * @param {number} storyId
+   * @param {string} image
+   * @returns {number}
+   */
+  addImageToStory(patientId, storyId, image) {
+    return axios.post(
+      `${URL}/${patientId}/story/${storyId}/asset`,
+      image
+    );
+  },
+
+  /**
+   * Adds an image to an existing story.
+   *
+   * @param {number} patientId
+   * @param {number} storyId
+   * @param {string} url
+   * @returns {number}
+   */
+  addYoutubeToStory(patientId, storyId, url) {
+    return axios.post(
+      `${URL}/${patientId}/story/${storyId}/asset`, {
+	asset: url,
+        assetType: 'youtube'
+      }
+    );
+  },
+
+  /**
+   * Adds a story to the user's story list.
+   *
+   * @param {number} patientId
+   * @param {object} body
+   * @returns {object}
+   */
+  async addStory(patientId, body) {
+    return await axios.post(`${URL}/${patientId}/story`, body);
+  },
+
+  /**
+   * Deletes a story to the user's story list.
+   *
+   * @param {number} patientId
+   * @param {number} storyId
+   * @returns {object}
+   */
+  async deleteStory(patientId, storyId) {
+    return await axios.delete(`${URL}/${patientId}/story/${storyId}`);
+  },
+
+  /**
+   * Edits a story to the user's story list.
+   *
+   * @param {number} patientId
+   * @param {number} storyId
+   * @param {object} body
+   * @returns {object}
+   */
+  async editStory(patientId, storyId, body) {
+    return await axios.patch(`${URL}/${patientId}/story/${storyId}`, body);
+  },
+
+  /**
+   * Get stories from the user's story list.
+   *
+   * @param {number} patientId
+   * @returns {object}
+   */
+  async getStories(patientId) {
+    return await axios.get(`${URL}/${patientId}/album`);
+  },
+};
+
+export default storyService;
