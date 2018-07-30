@@ -112,7 +112,7 @@ export default {
       imagePreview: "",
       uploadFieldName: "photos",
       form: {
-        category: null,
+        category: 0,
         description: null,
         youtubeUrl: null
       }
@@ -142,11 +142,16 @@ export default {
       reader.readAsDataURL(file);
     },
     getAlbums() {
-      const patientId = this.$store.state.auth.user.response.patients[0]
-        .patient_id;
+      const patientId = this.$store.state.auth.user.response.patients[0].patient_id;
       albumService.getAlbums(patientId).then(albums => {
         this.albums = albums.data.response;
-        console.log(this.albums);
+        this.albums.splice(0, 0, {
+          id: 0,
+          title: 'Kies het onderwerp',
+          patientId: 1,
+          hasNew: false,
+          stories: Array(0),
+        });
       });
     },
     addStory(e) {
