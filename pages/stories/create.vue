@@ -55,14 +55,9 @@
                   </div>
                 </div>
               </div>
-
-              <div class="dropbox">
-                <input type="file" :name="uploadFieldName" @change="onFileChange" accept="image/*" class="input-file">
-                <p>
-                  <i class="material-icons">arrow_upward</i>
-                  <br> Sleep uw bestand hier of klik om te bladeren.
-                </p>
-              </div>
+	      <div class="dropbox img-fluid">
+		  <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions"></vue-dropzone>
+	      </div>
             </b-tab>
 
             <!-- YouTube tab -->
@@ -76,7 +71,6 @@
                   <label for="youtube">YouTube link</label>
               </div>
               <div>
-                <br>
                 <img :src="getYouTubeThumb(this.form.youtubeUrl)"  v-if="form.youtubeUrl != null && form.youtubeUrl != ''" width="125" height="125">
               </div>
 
@@ -98,9 +92,12 @@
   </div>
 </template>
 <script>
-import storyService from "@/services/story";
-import albumService from "@/services/album";
-import axios from "axios";
+import vue2Dropzone from 'vue2-dropzone';
+import 'vue2-dropzone/dist/vue2Dropzone.min.css';
+
+import storyService from '@/services/story';
+import albumService from '@/services/album';
+import axios from 'axios';
 export default {
   middleware: "notAuthenticated",
   data() {
@@ -114,9 +111,21 @@ export default {
       form: {
         category: 0,
         description: null,
-        youtubeUrl: null
-      }
+        youtubeUrl: null,
+      },
+      dropzoneOptions: {
+        url: 'https://httpbin.org/post',
+        dictDefaultMessage:
+          "<i class='material-icons md-64 text-muted'>cloud_upload</i><br> Klik, of sleep een foto naar hier om op te laden.",
+        addRemoveLinks: true,
+        maxFilesize: 0.5,
+        maxFiles: 1,
+        headers: { 'My-Awesome-Header': 'header value' },
+      },
     };
+  },
+  components: {
+    vueDropzone: vue2Dropzone,
   },
   mounted() {
     this.getAlbums();
