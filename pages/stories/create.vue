@@ -43,7 +43,7 @@
           <b-tabs>
 
             <!-- Photo tab -->
-            <b-tab class="d-flex align-items-center">
+            <b-tab class>
               <template slot="title" >
               <i class="material-icons mr-2 add-icon">camera_alt</i> Foto opladen
               </template>
@@ -62,10 +62,10 @@
 
             <!-- YouTube tab -->
             <b-tab>
-              <template slot="title" class="nav-link d-flex align-items-center active">
+              <template slot="title" class="nav-link active">
                 <i class="material-icons mr-2 add-icon">movie</i> Video van YouTube kiezen
               </template>
-              <div class="form-group">
+              <div class="form-group mt-4">
                 <input v-model="form.youtubeUrl" class="form-control"
 		       v-validate="{ required: true,
 				   regex:
