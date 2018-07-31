@@ -2,13 +2,15 @@
   <div class="login">
     <div class="container">
       <div class="row">
-        <h1 class="col-lg-12">Login</h1>
+        <h1 class="col-lg-12 mb-3">Meld je aan bij Prisma</h1>
         <b-form class="col-lg-12">
-          <b-form-group label="Email" label-for="email">
-            <b-form-input name="email" type="email" v-model="email" placeholder="Jouw email adres"></b-form-input>
+          <b-form-group>
+            <b-form-input id="email" name="email" type="email" v-model="email" placeholder="Jouw email adres"></b-form-input>
+            <label for="email">Email</label>
           </b-form-group>
-          <b-form-group label="Wachtwoord" label-for="password">
-            <b-form-input type="password" v-model="password" placeholder="Kies een wachtwoord"></b-form-input>
+          <b-form-group>
+            <b-form-input id="password" type="password" v-model="password" placeholder="Kies een wachtwoord"></b-form-input>
+            <label for="password">Wachtwoord</label>
           </b-form-group>
           <b-btn
             variant="primary"
@@ -26,7 +28,6 @@
 import Cookie from 'js-cookie';
 import axios from 'axios';
 import setAuthToken from '../../utils/setAuthentication';
-
 export default {
   middleware: 'authenticated',
   data() {
