@@ -26,8 +26,7 @@
               Help uw families {{ $route.params.slug }} te leren kennen door middel van verhalen over zijn leven.
             </p>
             <b-btn variant="primary" class="btn-circle d-flex justify-content-center
-					    align-items-center mb-1 d-print-none mx-auto" @click="showAddModal">
-              <i class="material-icons">add</i>Verhaal toevoegen
+					    align-items-center mb-1 d-print-none mx-auto" @click="showAddModal">Verhaal toevoegen
             </b-btn>
             <a href="https://prisma.care/levensverhaal-posters/">
               <b-img thumbnail src="https://prisma.care/wp-content/uploads/2018/05/prisma-poster-maken-pelgrims.jpg" alt="Poster maken"
@@ -89,7 +88,7 @@
 
             <nuxt-link v-if="this.albums.length > 0" id="addStoryBtn" class="btn btn-primary btn-sm d-flex justify-content-center align-items-center mb-1 d-print-none"
               to="/stories/create">
-              <i class="material-icons">add</i>Verhaal toevoegen
+              Verhaal toevoegen
             </nuxt-link>
 
             <div v-for="(album, albumIndex) in albums" v-bind:key="album.id + 'stories'" v-if="album.stories.length > 0">

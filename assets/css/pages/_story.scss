@@ -4,6 +4,10 @@
   right: 1rem;
   z-index: 1;
   background: $blue;
+  text-transform: uppercase;
+  padding: .5em 1.25em;
+  font-weight: bold;
+  letter-spacing: .025rem;
 }
 
 .story-actions {
