@@ -48,24 +48,18 @@
 		<template slot="title" >
 		  <i class="material-icons mr-2 add-icon">camera_alt</i> Foto opladen
 		</template>
-		<div class="story-add-photopreview" v-if="image && seen == false">
-                  <div class="card">
-                    <img :src="imagePreview" class="img-responsive" width="125" height="125">
-                    <div class="card-img-overlay text-right p-1">
-                      <a href="#" @click="hideMedia" class="close text-white">×</a>
-                    </div>
-                  </div>
-		</div>
-		<div class="dropbox img-fluid form-group">
+		<div class="row">
+		<div class="dropbox col-md-4 form-group">
 		  <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions"></vue-dropzone>
 		</div>
+  </div>
               </b-tab>
 
               <b-tab>
 		<template slot="title" class="nav-link active">
                   <i class="material-icons mr-2 add-icon">movie</i> Video van YouTube kiezen
 		</template>
-		<div class="form-group mt-2">
+		<div class="form-group mt-3 mb-3">
                   <input v-model="form.youtubeUrl" class="form-control"
 			 v-validate="{ required: true,
 				     regex:
@@ -74,9 +68,11 @@
 			 placeholder="https://www.youtube.com/watch?v=ffSnk4v3aeg">
                   <label for="youtube">YouTube link</label>
 		</div>
-		<div>
-                  <img class="mb-2" :src="getYouTubeThumb(this.form.youtubeUrl)" v-if="form.youtubeUrl != null && form.youtubeUrl != ''" width="125" height="125">
+    <div class="row">
+		<div class="col-md-4">
+                  <img class="mb-4 img-fluid" :src="getYouTubeThumb(this.form.youtubeUrl)" v-if="form.youtubeUrl != null && form.youtubeUrl != ''">
 		</div>
+    </div>
 
               </b-tab>
 
@@ -125,9 +121,9 @@ export default {
       dropzoneOptions: {
         url: 'https://httpbin.org/post',
         dictDefaultMessage:
-          "<i class='material-icons md-64 text-muted'>cloud_upload</i><br> Klik, of sleep een foto naar hier om op te laden.",
+          "Klik, of sleep een foto naar hier om op te laden.<br><i class='material-icons md-48 text-muted'>cloud_upload</i>",
         addRemoveLinks: true,
-        maxFilesize: 0.5,
+        maxFilesize: 2.5,
         maxFiles: 1,
         headers: { 'My-Awesome-Header': 'header value' },
       },
