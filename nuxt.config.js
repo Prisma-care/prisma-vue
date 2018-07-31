@@ -75,10 +75,10 @@ module.exports = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [{
-    src: '~plugins/vee-validate.js',
-    ssr: false
-  }, '~/api/init.js'],
+  plugins: [
+    { src: '~/plugins/vee-validate.js', ssr: true },
+    '~/api/init.js',
+  ],
 
   /*
    ** Nuxt.js modules
@@ -99,6 +99,7 @@ module.exports = {
    ** Build configuration
    */
   build: {
+    vendor: ['vee-validate'],
     /*
      ** You can extend webpack config here
      */
