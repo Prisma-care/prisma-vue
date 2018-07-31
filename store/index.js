@@ -2,7 +2,7 @@ import cookieparser from 'cookieparser';
 import {
   resolve
 } from 'uri-js';
-import authToken from '../utils/setAuthentication'
+import authToken from '../utils/setAuthentication';
 
 export const actions = {
   nuxtServerInit({
