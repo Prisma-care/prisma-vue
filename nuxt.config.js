@@ -64,6 +64,12 @@ module.exports = {
     {
       src: 'https://unpkg.com/blueimp-gallery@2.27.0/js/blueimp-gallery-video.js'
     },
+    {
+      src: 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js'
+    },
+    {
+      src: 'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js'
+    },
   ],
 
   /*

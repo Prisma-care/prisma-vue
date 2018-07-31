@@ -1,6 +1,6 @@
 nav.navbar {
   background: transparent;
-  padding: 1rem 1rem 0;
+  padding: 1rem 0;
   border-bottom: 1px solid $gray-200;
 
   #logo {
@@ -9,6 +9,13 @@ nav.navbar {
     width: 1rem;
     path {
       fill: $blue;
+    }
+  }
+
+  li:last-child { 
+    margin-right: 0 !important;
+    & a {
+      padding-right: 0 !important;
     }
   }
 
