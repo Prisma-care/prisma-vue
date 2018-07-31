@@ -1,5 +1,5 @@
 import api from '~/api';
-import authToken from '../utils/setAuthentication'
+import authToken from '../utils/setAuthentication';
 import cookies from 'js-cookie';
 
 export const state = () => ({
