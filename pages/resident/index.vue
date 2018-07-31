@@ -135,27 +135,30 @@
                         {{ story['description'] }}
                       </div>
                     </div>
-
-                    <div class="row">
-                      <div class="col-6">
-                        <b-btn v-if="story['description']" variant="outline-light" size="sm" class="btn-edit d-flex justify-content-center align-items-center"
+                      
+                        <b-button-group>
+                          <b-btn 
+                          v-if="story['description']" 
+                          variant="outline-light" 
+                          size="sm" 
+                          class="btn-edit d-flex justify-content-center align-items-center"
                           @click="showEditModal(index, story)">
-                          <i class="material-icons md-18 mr-2">edit</i> Pas tekst aan
+                          <i class="material-icons md-18 mr-2">edit</i> Pas aan
                         </b-btn>
+                        <b-btn 
+                          variant="outline-light"
+                          size="sm"
+                          class="btn-edit d-flex justify-content-center align-items-center" 
+                          @click="showDeleteModal(index, story)">
+                          <i class="material-icons md-18" style="width: 1.25rem;">delete_outline</i>
+                        </b-btn>
+                        </b-button-group>
 
                         <b-btn v-if="!story['description']" variant="outline-light" size="sm" class="btn-add d-flex justify-content-center align-items-center"
                           @click="showEditModal">
                           <i class="material-icons md-18 mr-2">edit</i> Voeg tekst toe
                         </b-btn>
-                      </div>
 
-                      <div class="col-6">
-                        <b-btn variant="outline-light" size="sm"
-			       class="btn-add d-flex justify-content-center align-items-center" @click="showDeleteModal(index, story)">
-                          <i class="material-icons md-18 mr-2">clear</i> Deleten
-                        </b-btn>
-                      </div>
-                    </div>
                   </div>
                   <!-- ./v-for="(album, index) in albums" -->
                 </div>
