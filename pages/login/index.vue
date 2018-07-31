@@ -17,7 +17,7 @@
           <b-form-group>
             <b-form-input name="password" type="password" v-model="form.password" v-validate="'required'"
 			  :state="errors.has('password') ? 'invalid' : null"
-			  data-vv-validate-on="none" placeholder="Kieseen wachtwoord">
+			  data-vv-validate-on="none" placeholder="Kies een wachtwoord">
 	    </b-form-input>
 	    <label for="password">Wachtwoord</label>
 	    <span class="invalid-feedback" v-show="errors.has('password')">{{ errors.first('password') }}</span>
