@@ -1,45 +1,47 @@
 <template>
-  <div class="container-resident">
+  <div class="main">
+    <Header />
+    <div class="container-resident">
 
-    <div class="resi-header d-print-none">
-      <img class="rounded-circle" :src="require(`@/assets/img/residents/avatar.png`)">
-      <h1 class="resi-header-displayname">Mr. {{this.$store.state.auth.user.response.patients[0].last_name}}</h1>
-      <h2>{{`${this.$store.state.auth.user.response.patients[0].first_name} ${this.$store.state.auth.user.response.patients[0].last_name}`}}</h2>
-    </div>
+      <div class="resi-header d-print-none">
+	<img class="rounded-circle" :src="require(`@/assets/img/residents/avatar.png`)">
+	<h1 class="resi-header-displayname">Mr. {{this.$store.state.auth.user.response.patients[0].last_name}}</h1>
+	<h2>{{`${this.$store.state.auth.user.response.patients[0].first_name} ${this.$store.state.auth.user.response.patients[0].last_name}`}}</h2>
+      </div>
 
-    <div class="resi-nav">
-      <nav id="navbar-albums" class="nav d-print-none justify-content-center">
-        <a v-for="album in albums" v-bind:key="album.id" :href="'#' + album.title" class="nav-link" v-if="album.stories.length > 0">
-          {{ album.title }}
-        </a>
-      </nav>
-    </div>
-
-    <div class="container">
-
-      <section v-if="errored || this.albums.length == 0" v-cloak class="text-center d-print-none row">
-        <div class="col-md-8 mx-auto">
-          <p class="lead lead-lg">Wie is {{ $route.params.slug }}?</p>
-          <p>
-            Help uw families {{ $route.params.slug }} te leren kennen door middel van verhalen over zijn leven.
-          </p>
-          <b-btn variant="primary" class="btn-circle d-flex justify-content-center
-					  align-items-center mb-1 d-print-none mx-auto" @click="showAddModal">
-            <i class="material-icons">add</i>Verhaal toevoegen
-          </b-btn>
-          <a href="https://prisma.care/levensverhaal-posters/">
-            <b-img thumbnail src="https://prisma.care/wp-content/uploads/2018/05/prisma-poster-maken-pelgrims.jpg" alt="Poster maken"
-            />
+      <div class="resi-nav">
+	<nav id="navbar-albums" class="nav d-print-none justify-content-center">
+          <a v-for="album in albums" v-bind:key="album.id" :href="'#' + album.title" class="nav-link" v-if="album.stories.length > 0">
+            {{ album.title }}
           </a>
-          <a href="https://prisma.care/levensverhaal-posters/">Hoe maak je een poster?</a>
-          <hr class="mt-4">
-          <h2 class="mb-3">Hulp van je familie</h2>
-          <p>Wie heeft er nog foto's van
-            <strong>{{ $route.params.slug }}
-            </strong>, en kan de verhalen aanvullen?</p>
-          <b-btn href="/invite" variant="outline-primary" class="btn-add">
-            <i class="material-icons md-18 mr-2">email</i>Nodig familie uit
-          </b-btn>
+	</nav>
+      </div>
+
+      <div class="container">
+
+	<section v-if="errored || this.albums.length == 0" v-cloak class="text-center d-print-none row">
+          <div class="col-md-8 mx-auto">
+            <p class="lead lead-lg">Wie is {{ $route.params.slug }}?</p>
+            <p>
+              Help uw families {{ $route.params.slug }} te leren kennen door middel van verhalen over zijn leven.
+            </p>
+            <b-btn variant="primary" class="btn-circle d-flex justify-content-center
+					    align-items-center mb-1 d-print-none mx-auto" @click="showAddModal">
+              <i class="material-icons">add</i>Verhaal toevoegen
+            </b-btn>
+            <a href="https://prisma.care/levensverhaal-posters/">
+              <b-img thumbnail src="https://prisma.care/wp-content/uploads/2018/05/prisma-poster-maken-pelgrims.jpg" alt="Poster maken"
+		     />
+            </a>
+            <a href="https://prisma.care/levensverhaal-posters/">Hoe maak je een poster?</a>
+            <hr class="mt-4">
+            <h2 class="mb-3">Hulp van je familie</h2>
+            <p>Wie heeft er nog foto's van
+              <strong>{{ $route.params.slug }}
+              </strong>, en kan de verhalen aanvullen?</p>
+            <b-btn href="/invite" variant="outline-primary" class="btn-add">
+              <i class="material-icons md-18 mr-2">email</i>Nodig familie uit
+            </b-btn>
         </div>
         <!-- ./col-md-8 -->
       </section>
@@ -170,23 +172,26 @@
     <!-- ./container -->
   </div>
   <!-- ./container-resident -->
+  </div>
 </template>
 
 <script>
-import storyService from "@/services/story";
-import axios from "axios";
+import Header from '@/components/Header.vue';
+
+import storyService from '@/services/story';
+import axios from 'axios';
 
 // import VueGallery from 'vue-gallery';
 
 export default {
-  middleware: "notAuthenticated",
+  middleware: 'notAuthenticated',
   data() {
     return {
       albums: [],
       checkedStories: [],
       formEdit: {
         category: null,
-        description: null
+        description: null,
       },
       errored: false,
       focusIndex: null,
@@ -197,11 +202,12 @@ export default {
       loadingStories: false,
       previewType: false,
       stories: [],
-      text: "",
-      uploadFieldName: "photos",
+      text: '',
+      uploadFieldName: 'photos',
     };
   },
   components: {
+    Header,
     // gallery: VueGallery
   },
   mounted() {
@@ -210,9 +216,7 @@ export default {
   computed: {
     selectAll: {
       get: function() {
-        return this.stories
-          ? this.checkedStories.length == this.albums.length
-          : false;
+        return this.stories ? this.checkedStories.length == this.albums.length : false;
       },
       set: function(value) {
         var checkedStories = [];
@@ -222,13 +226,12 @@ export default {
           });
         }
         this.checkedStories = checkedStories;
-      }
-    }
+      },
+    },
   },
   methods: {
     deleteStory() {
-      const patientId = this.$store.state.auth.user.response.patients[0]
-        .patient_id;
+      const patientId = this.$store.state.auth.user.response.patients[0].patient_id;
       storyService
         .deleteStory(patientId, this.focusStory)
         .then(response => {
@@ -244,11 +247,10 @@ export default {
       var body = {
         // category: this.formEdit.category,
         description: this.formEdit.description,
-        creatorId: this.$store.state.user
+        creatorId: this.$store.state.user,
       };
 
-      const patientId = this.$store.state.auth.user.response.patients[0]
-        .patient_id;
+      const patientId = this.$store.state.auth.user.response.patients[0].patient_id;
 
       storyService
         .editStory(patientId, this.focusStory, body)
@@ -262,8 +264,7 @@ export default {
       this.hideEditModal();
     },
     getStories() {
-      const patientId = this.$store.state.auth.user.response.patients[0]
-        .patient_id;
+      const patientId = this.$store.state.auth.user.response.patients[0].patient_id;
 
       storyService
         .getStories(patientId)
@@ -273,8 +274,7 @@ export default {
           this.albums.forEach(album => {
             album.stories.sort(
               (story1, story2) =>
-                Date.parse(story1.createdAt.date) >
-                Date.parse(story2.createdAt.date)
+                Date.parse(story1.createdAt.date) > Date.parse(story2.createdAt.date)
             );
           });
 
@@ -289,29 +289,29 @@ export default {
             album.stories.forEach(story => {
               if (story) {
                 const slide = {
-                  title: story.description
+                  title: story.description,
                 };
 
-                if (story.type === "youtube") {
+                if (story.type === 'youtube') {
                   const youtubeId = this.getYouTubeID(story.source);
                   slide.href = story.source;
                   if (youtubeId) {
                     slide.poster = this.getYouTubeThumb(story.source);
                     slide.youtube = youtubeId;
                   }
-                  slide.type = "text/html";
-                } else if (story.type === "image") {
+                  slide.type = 'text/html';
+                } else if (story.type === 'image') {
                   slide.href = story.source;
-                  slide.type = "image/jpeg";
+                  slide.type = 'image/jpeg';
 
                   let getImg = new Promise((resolve, reject) => {
                     var oReq = new XMLHttpRequest();
-                    oReq.open("GET", story.source, true);
+                    oReq.open('GET', story.source, true);
                     oReq.setRequestHeader(
-                      "Authorization",
-                      "Bearer " + this.$store.state.auth.user.response.token
+                      'Authorization',
+                      'Bearer ' + this.$store.state.auth.user.response.token
                     );
-                    oReq.responseType = "arraybuffer";
+                    oReq.responseType = 'arraybuffer';
                     oReq.onload = function(oEvent) {
                       var arrayBuffer = oReq.response;
                       resolve(oReq);
@@ -324,16 +324,17 @@ export default {
                       [].reduce.call(
                         new Uint8Array(buffer),
                         (p, c) => p + String.fromCharCode(c),
-                        ""
+                        ''
                       )
                     );
                     return `data:${type};base64,${base64}`;
                   }
                   getImg.then(response => {
-                    const type = response.getResponseHeader("content-type");
-                    document.querySelector(
-                      `#story-${story.id} > img`
-                    ).src = arrayBufferToDataUrl(response.response, type);
+                    const type = response.getResponseHeader('content-type');
+                    document.querySelector(`#story-${story.id} > img`).src = arrayBufferToDataUrl(
+                      response.response,
+                      type
+                    );
                   });
                 }
 
@@ -399,7 +400,7 @@ export default {
     },
     showMediaPreview(mediaType) {
       this.previewType = mediaType;
-    }
-  }
+    },
+  },
 };
 </script>

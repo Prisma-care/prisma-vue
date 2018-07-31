@@ -10,7 +10,7 @@
           <b-form-group label="Wachtwoord" label-for="password">
             <b-form-input type="password" v-model="password" placeholder="Kies een wachtwoord"></b-form-input>
           </b-form-group>
-          <b-btn 
+          <b-btn
             variant="primary"
             @click="submit"
             :disabled="isValid">
@@ -22,48 +22,40 @@
   </div>
 </template>
 
-
-<style>
-  header.main { display: none; }
-</style>
-
 <script>
-import Cookie from "js-cookie";
-import axios from "axios";
-import setAuthToken from "../../utils/setAuthentication";
+import Cookie from 'js-cookie';
+import axios from 'axios';
+import setAuthToken from '../../utils/setAuthentication';
 
 export default {
-  middleware: "authenticated",
+  middleware: 'authenticated',
   data() {
     return {
-      email: "",
-      password: "",
-      apiUrl: "https://api.prisma.care/v1"
+      email: '',
+      password: '',
+      apiUrl: 'https://api.prisma.care/v1',
     };
   },
   computed: {
     isValid() {
-      return (this.email !== "",
-          this.password !== "") ?
-        false :
-        "disabled";
-    }
+      return (this.email !== '', this.password !== '') ? false : 'disabled';
+    },
   },
   methods: {
     submit() {
       const user = {
         email: this.email,
-        password: this.password
+        password: this.password,
       };
       this.$store
-        .dispatch("auth/login", user)
+        .dispatch('auth/login', user)
         .then(result => {
-          this.$router.push("/resident");
+          this.$router.push('/resident');
         })
         .catch(err => {
           console.log(err);
         });
-    }
-  }
+    },
+  },
 };
 </script>
