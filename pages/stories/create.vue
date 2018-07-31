@@ -65,7 +65,7 @@
               <template slot="title" class="nav-link active">
                 <i class="material-icons mr-2 add-icon">movie</i> Video van YouTube kiezen
               </template>
-              <div class="form-group mt-4">
+              <div class="form-group mt-2">
                 <input v-model="form.youtubeUrl" class="form-control"
 		       v-validate="{ required: true,
 				   regex:
