@@ -55,7 +55,7 @@
                   </div>
                 </div>
               </div>
-	      <div class="dropbox img-fluid">
+	      <div class="dropbox img-fluid form-group">
 		  <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions"></vue-dropzone>
 	      </div>
             </b-tab>
@@ -82,7 +82,7 @@
 
           </b-tabs>
 
-          <button class="btn btn-save btn-primary mb-3 mt-3" @click="addStory">Opslaan</button>
+          <button class="btn btn-save btn-primary" @click="addStory">Opslaan</button>
         </b-form>
       </div>
 
