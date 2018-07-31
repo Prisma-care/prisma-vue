@@ -75,7 +75,7 @@
                   <label for="youtube">YouTube link</label>
               </div>
               <div>
-                <img :src="getYouTubeThumb(this.form.youtubeUrl)"  v-if="form.youtubeUrl != null && form.youtubeUrl != ''" width="125" height="125">
+                <img class="mb-2" :src="getYouTubeThumb(this.form.youtubeUrl)" v-if="form.youtubeUrl != null && form.youtubeUrl != ''" width="125" height="125">
               </div>
 
             </b-tab>
