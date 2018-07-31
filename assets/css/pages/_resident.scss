@@ -1,8 +1,16 @@
+.container-resident section {
+  padding-top: 0;
+}
+
 .resi-header {
   text-align: center;
-  margin-top: 2rem;
+  margin-top: -3rem;
 
-  img { height: 100px; }
+  img { 
+    height: 100px; 
+    position: relative;
+    z-index: 99;
+  }
 
   &-displayname { margin-top: .5rem; }
 
@@ -10,7 +18,6 @@
    margin: .5rem 0 2rem;
    font-weight: 300;
    color: $gray-500;
-   font-size: .8rem;
    font-family: $font-family-sans-serif;
   }
 

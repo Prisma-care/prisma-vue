@@ -6,7 +6,7 @@
       <div class="resi-header d-print-none">
 	<img class="rounded-circle" :src="require(`@/assets/img/residents/avatar.png`)">
 	<h1 class="resi-header-displayname">Mr. {{this.$store.state.auth.user.response.patients[0].last_name}}</h1>
-	<h2>{{`${this.$store.state.auth.user.response.patients[0].first_name} ${this.$store.state.auth.user.response.patients[0].last_name}`}}</h2>
+	<h2 class="resi-header-fullname">{{`${this.$store.state.auth.user.response.patients[0].first_name} ${this.$store.state.auth.user.response.patients[0].last_name}`}}</h2>
       </div>
 
       <div class="resi-nav">
