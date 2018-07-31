@@ -82,7 +82,9 @@
 
           </b-tabs>
 
-          <button class="btn btn-save btn-primary" @click="addStory">Opslaan</button>
+	  <b-btn variant="primary" class="btn-save" @click="addStory" :disabled="isValid">
+	    Opslaan
+          </b-btn>
         </b-form>
       </div>
 
@@ -103,15 +105,15 @@ import storyService from '@/services/story';
 import albumService from '@/services/album';
 import axios from 'axios';
 export default {
-  middleware: "notAuthenticated",
+  middleware: 'notAuthenticated',
   data() {
     return {
       albums: [],
       image: null,
       seen: true,
       previewType: false,
-      imagePreview: "",
-      uploadFieldName: "photos",
+      imagePreview: '',
+      uploadFieldName: 'photos',
       form: {
         category: 0,
         description: null,
@@ -130,6 +132,13 @@ export default {
   },
   components: {
     vueDropzone: vue2Dropzone,
+  },
+  computed: {
+    isValid() {
+      if (this.form.category == 0 || this.form.description === '') {
+        return 'disabled';
+      }
+    },
   },
   mounted() {
     this.getAlbums();
